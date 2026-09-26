@@ -122,3 +122,35 @@ are in [plans/ui-decisions.md](plans/ui-decisions.md). Meeting context: [MEETING
 5. User-chosen Google Fonts (see roadmap).
 
 Source: memory note `parking-lot` (summarised here, not copied), [MEETINGS.md](MEETINGS.md).
+
+## Phase 3, review and release decisions (2026-09-26)
+
+- **Ultra reviews are retired; a local multi-agent review replaces them** (the owner, 13:45: no credits). Read-only Opus
+  agents by area, cross-checked, then fix agents with disjoint file ownership, then a second review of the merged
+  diff. Every finding is fixed, minor ones included (the owner, 14:10 and 18:50). See [audits/](audits/).
+- **CI of record is GitHub Actions** (free on the public repo, runs `-race`); `scripts/ci-local.ps1` is the fast
+  pre-push check. Every change goes through a branch and PR, merged after CI is green.
+- **Deploys go to Host-A** (ssh alias `host-a`; committed docs use the generic Host-A). Deploy by checking out the tag,
+  building with `KIPPLE_VERSION`, `up -d kipple` only, then back to `main`; off-box database copy first; a migration
+  rehearsal on a copy of the live database; the owner's go-ahead every time.
+- **Releases:** GitHub Release for every tag (created for all ten), pre-release for alpha/beta/rc; changelog moves
+  under the version in a `chore(release)` PR; fuzz run before each tag.
+- **Feed network exceptions are per host:** a feed's "allow private network" and "allow insecure TLS" apply only to
+  the feed's own host (and its subdomains and bare/www twin), for full-text extraction, images and favicon lookups.
+- **ClientLogin never answers 429 and never refuses a password it did not check:** only failures count; after five
+  in ten minutes each attempt waits two seconds and is then verified; IPv6 clients are grouped by /64; chosen Reader
+  API passwords need 16 characters.
+- **`greader.subscribe_fetch_now` is an opt-in exception** to "clients never trigger fetches" (default off, 8 s per
+  request); `greader.ot_includes_user_changes` is built (default off) and needs migration 0007.
+- **Offline scope** (from the UI decisions): read what is on the device, queue star and read changes, nothing else;
+  only an explicit sign-out clears the queue and the cached data; an expired session keeps them.
+- **The favicon finder ships** as a background goroutine, one lookup at a time, off the fetch path, failures kept
+  apart from feed health.
+
+## Still with the owner (as of 2026-09-26 evening)
+
+1. Turn on GitHub private vulnerability reporting (repo setting); `SECURITY.md` points to it.
+2. Approve or reject [audits/claude-md-proposed-edits.md](audits/claude-md-proposed-edits.md).
+3. Say when to turn off debug logging on Host-A (`KIPPLE_LOG_LEVEL`, `KIPPLE_LOG_GREADER_FORMS`).
+4. The Host-A-side backup job that pushes to Proton Drive (outside the repo).
+5. Cloudflare changes; the go/no-go decision for each deploy; phase 4 UI decisions when that meeting happens.

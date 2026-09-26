@@ -16,6 +16,7 @@ Session totals from the transcripts, the owner's own typed messages (a pasted pr
 | Phase 1 implementation | 2026-09-24 23:36 to 09-25 07:29 | 17 |
 | Phase 2 and close-out | 2026-09-25 11:44 to 09-26 10:13 | 84 |
 | Four short review-launcher sessions | 2026-09-25 23:09 to 23:42 | 0 to 2 each |
+| Phase 3, review and alpha.3 | 2026-09-26 11:16 to about 19:00 | 11 typed, plus 4 delivered mid-turn |
 
 Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](plans/ui-decisions.md),
 [diary/](diary/).
@@ -188,6 +189,51 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
   repo is that request. The scrub of hostnames, IPs and names in the code repo is a separate step. Earlier
   decisions had said it waits for a final pre-public meeting.
 
+## 20. Phase 3 start (2026-09-26, 11:16)
+
+- Type: handoff. Messages: 1 (a pasted prompt). the owner: read the local handoff document, then build the queued items
+  (two reserved settings, auto-read including disabled feeds), then the phase 3 scope; never real name or personal
+  email; never Haiku; ask before any deploy; run the local CI before pushing; diaries and meeting notes go to the
+  private repo.
+
+## 21. Chrome for browser testing (2026-09-26, 11:49 to 11:58)
+
+- Type: tooling decision. Messages: 3. The agent said the built-in browser pane could not register a service worker
+  and offered Claude in Chrome for real verification; the owner: "I can easily do that, I don't use Chrome as my main
+  browser anyway", installed it, and asked for the PR to be opened and "what comes next in the steps".
+- Outcome: offline launch and queue replay verified in real Chrome. The agent proposed the order: fix the open-offline
+  read, `/code-review high`, phone check, merge, release alpha.2, deploy (after approval), then the backlog.
+
+## 22. Backlog and release run (2026-09-26, 12:06 to 13:07)
+
+- Type: approval. Messages: 3. the owner: "Let's follow your recommendations for this next run, including clearing out
+  the backlog before moving on." Asked for the web password reset command. Then: "All tests from my side passed.
+  Follow your recommendation for the rest. Deploy to host-a instead of 'host-a'."
+- Decisions: merge PR #8 and #10, release `v0.3.0-alpha.2`, deploy to Host-A (the ssh alias is `host-a`; committed
+  docs keep the generic name); leave the favicon PR for its own review. `client.*` keys were already built and the
+  lossless WebP item was stale.
+
+## 23. Ultra reviews replaced by a local review (2026-09-26, 13:45)
+
+- Type: constraint and decision. Messages: 1 (plus one mid-turn note that CI was already on). the owner: the ultra reviews
+  are not happening (no usage credits); "if there's some internal way to do it without using cloud credits that would
+  be fine". The agent ran eight read-only Opus agents by area in this session (plan usage, not cloud credits).
+
+## 24. Fix everything (2026-09-26, 14:10 and 18:50)
+
+- Type: standing instruction. Messages: 1 typed plus 2 mid-turn. the owner: "All findings must be fixed. Even the minor
+  ones. Spool up multiple agents to fix." Later, on the second-round findings: "Yep. Fix everything. The next time we
+  meet, everything should be ready to move to the next part of the process." the owner also asked mid-turn "What is taking
+  so long?" (answered: scale, second reviews, CI with `-race`) and for a debrief meeting.
+
+## 25. Deploy alpha.3, records, and phase 4 handoff (2026-09-26, 18:56)
+
+- Type: approval and housekeeping. Messages: 1. the owner: "Keep track of what's still mine. Deploy alpha.3, update the
+  kipple-history repo for any and all relevant documents (meetings, timeline, milestone, diary entry, etc etc). When
+  that's all complete, give me the info to start phase 4 in a new session."
+- Outcome: alpha.3 deployed; this repository updated; `plans/HANDOFF-PHASE4.md` written; the list of what remains
+  with the owner is kept in the handoff, the parking lot and the agent's memory.
+
 ## Message estimates
 
 | Meeting | the owner's messages (approx.) |
@@ -211,5 +257,11 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 | 17 Follow-up | 3 |
 | 18 Licence | 5 |
 | 19 Pre-public | 1 |
+| 20 Phase 3 start | 1 |
+| 21 Chrome for browser testing | 3 |
+| 22 Backlog and release run | 3 |
+| 23 Ultra reviews replaced | 2 |
+| 24 Fix everything | 3 |
+| 25 Deploy alpha.3 and records | 1 |
 
 Estimates only. Rows are subsets of the session totals above and do not sum to them exactly.

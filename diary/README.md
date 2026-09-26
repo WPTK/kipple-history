@@ -19,7 +19,8 @@ Entries:
 
 - [2026-09-24](2026-09-24.md): planning, research, phase 1 start; the model/effort lesson.
 - [2026-09-25](2026-09-25.md): phase 1 finish, phase 2 build, UI meeting, first deploys, overnight.
-- [2026-09-26](2026-09-26.md): testing feedback, docs audit, alpha.3, review prep.
+- [2026-09-26](2026-09-26.md): testing feedback, docs audit, `v0.2.0`, going public, phase 3 (PWA, offline),
+  alpha.2, the local deep review and its fixes, alpha.3 (deployed 18:57 ET).
 
 Update rule: add to the current day's entry at each milestone (decision, deploy, incident, review result).
 Each entry also records models used and token or plan usage where I can see it.

@@ -17,6 +17,9 @@ Tags in the Kipple repo (dates are the commit dates the tag points at; deploy ti
 | `v0.2.0-alpha.3` | 2026-09-26 06:27 | `59c7deb` | 323 |
 | `v0.2.0-alpha.4` | 2026-09-26 09:12 | `b7d0219` | 352 |
 | `v0.2.0` | 2026-09-26 09:27 | `55743ca` | 354 |
+| `v0.3.0-alpha.1` | 2026-09-26 11:03 | `7497c4c` | 362 |
+| `v0.3.0-alpha.2` | 2026-09-26 13:34 | `640fe2c` | 373 |
+| `v0.3.0-alpha.3` | 2026-09-26 18:13 | `42fd5c8` | 492 |
 
 ## 2026-09-24 (Thursday): planning and research
 
@@ -95,3 +98,39 @@ the model policy discussed; a start prompt for a fresh implementation session fo
 - About 10:07 ET the owner: GitHub Actions minutes are exhausted. Concurrency cancellation added earlier.
 - About 10:10 ET the owner: asks whether to go public now with a preliminary "first public publish" to clear
   secrets, hostnames, IPs and names, and asks for this repo, `kipple-history`. This repo is the result.
+
+## 2026-09-26 (Saturday), late morning to evening: public repo, phase 3, review, alpha.3
+
+- 10:15 to 11:03 The code repository goes public: history rewritten with `git filter-repo` on a scratch mirror, an
+  independent hostile audit found leaks the first pass missed, the original became the private `WPTK/kipple-archive`,
+  a fresh public `WPTK/Kipple` was published with 362 commits and 7 tags; `v0.3.0-alpha.1` at 11:03 (Blue Oak license,
+  notices, health check, hardened compose options, fuzz targets, restore fixes, local CI).
+- 11:16 New session (handoff prompt): phase 3. Branch `phase3-pwa`; the two reserved Reader API settings, a test for
+  auto-read on disabled feeds, then manifest and generated icons, root static files, `include=content`, star `at`,
+  the `X-Kipple-API` handshake, a hand-written service worker, an IndexedDB queue for offline star and read changes,
+  unread prefetch, an offline notice.
+- 11:49 to 11:58 The built-in browser pane cannot register a service worker; the owner installs Claude in Chrome. In real
+  Chrome the worker registers, the app launches offline, and an offline star reaches the server with its `at`.
+  PR #8 opened.
+- 12:06 "Follow your recommendations ... including clearing out the backlog": `/code-review high` on phase 3
+  (four Opus finders) finds 15 real bugs in the agent's own work, all fixed; GitHub Releases created for all seven
+  existing tags; favicon finder (PR #9) and lossless-WebP tests (PR #10) built by two agents (lossless WebP was already
+  supported, the backlog item was stale). 13:04 the owner asks for the web password reset command (only a hash is stored;
+  the CLI sets a new one).
+- 13:07 the owner: phone tests passed, "deploy to host-a instead of host-a". PRs #8 and #10 merged, `chore(release)` PR #11,
+  26-target fuzz run (23 at the time) clean, off-box database copy, a real read-only-filesystem container test,
+  hardened compose applied, `v0.3.0-alpha.2` tagged (13:34) and deployed to Host-A: healthy in under a minute.
+- 13:45 the owner: the ultra reviews cannot run (no credits); "if there's some internal way ... that would be fine". Eight
+  read-only Opus agents audit `main` by area (about 65 findings, no critical); report in
+  [audits/local-review-2026-09-26.md](audits/local-review-2026-09-26.md). the owner also notes CI can be turned back on
+  (it already was; PR #12 fixed the docs line).
+- 14:10 the owner: "All findings must be fixed. Even the minor ones. Spool up multiple agents." Eight fixer agents in
+  parallel worktrees (disjoint file ownership) merged into PR #13; a second review of the merged diff (three agents)
+  plus one on the favicon PR found regressions the fixes introduced; second fix round; GitHub CI (with `-race`) then
+  caught a data race in a test the fixers wrote. See [audits/local-review-round2-2026-09-26.md](audits/local-review-round2-2026-09-26.md).
+- Afternoon merges (ET): PR #8 phase 3 and #10 lossless WebP tests 13:07; #11 release alpha.2 13:34; #12 CI docs 14:11;
+  #13 review fixes 16:27; #14 test-race fix 17:04; #9 favicon finder (after its ten review findings) 17:14; #15 `ot`
+  unread/unstar with migration 0007 (reviewed first) 17:44; #16 release alpha.3 18:13, tagged and released on GitHub.
+- 18:45 Migration rehearsal on a copy of the live database on Host-A (0006 and 0007 in about 30 ms). 18:57 the owner's
+  go-ahead ("Deploy alpha.3"); off-box copy to Host-B; alpha.3 deployed: healthy, version `0.3.0-alpha.3`, no
+  warnings, 51 MiB. History repo updated; phase 4 handoff written.

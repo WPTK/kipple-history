@@ -45,5 +45,10 @@ repo. Nothing here starts without the owner asking. The phase plan itself is in 
 - Fix every review finding; no "won't fix" lists.
 - Never Haiku. Ask before any Host-A/Host-A deploy. One writer at a time on the server.
 - Multi-user is withdrawn, not parked. Per-device profiles are not multi-user.
-- GitHub Actions: was out of minutes before the repo went public; `scripts/ci-local.ps1` remains the pre-push check.
+- GitHub Actions: on and free since the repository went public; it is the CI of record. `scripts/ci-local.ps1` is the fast pre-push check.
 - Public repo goes through independent hostile review before any history rewrite or release that could leak details.
+- Ultra reviews: retired 2026-09-26 (no credits); the local multi-agent review replaced them.
+- Done since the last update: reserved settings built, auto-read on disabled feeds pinned by a test, favicon finder,
+  `ot` unread/unstar, lossless WebP (already supported), phase 3 (PWA, offline).
+- Still open: phase 4 (stats UI); Host-A-side Proton backup job; debug logging still on; private vulnerability reporting
+  switch; `claude-md-proposed-edits` decision.

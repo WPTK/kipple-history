@@ -87,8 +87,44 @@ See also: [TIMELINE.md](TIMELINE.md), [DECISIONS.md](DECISIONS.md), [CHALLENGES.
 
 These four branches were cut from `main` after `v0.2.0` and are open work at the time of writing.
 
+## Public release: `v0.3.0-alpha.1` (2026-09-26 11:03 ET, `7497c4c`)
+
+- What shipped: the code repository made public with rewritten history (hostnames, addresses, names removed; the
+  original kept private as `WPTK/kipple-archive`), Blue Oak Model License 1.0.0, generated third-party notices,
+  `kipple healthcheck` and a Docker HEALTHCHECK, hardened compose options, native fuzz targets, restore and snapshot
+  fixes, local CI. Size: 362 commits (fresh history). Deployed: not until alpha.2.
+
+## Phase 3: `v0.3.0-alpha.2` (2026-09-26 13:34 ET, deployed about 13:35, `640fe2c`)
+
+- What shipped: the two reserved Reader API settings (`greader.ot_includes_user_changes`,
+  `greader.subscribe_fetch_now`), installable app (manifest, generated icons), a hand-written service worker (offline
+  launch, cached reads, image cache), an IndexedDB queue for offline star and read changes with the server's `at`,
+  unread prefetch, an offline notice, `include=content`, the `X-Kipple-API` handshake, root static files. Plus a
+  phase 2 bug found in the console: fonts inlined as `data:` URIs were blocked by the page's own CSP.
+- Size: 373 commits; about 4,000 lines net over alpha.1 (three feature commits and review fixes).
+- Deployed with hardened compose options (read-only root, dropped capabilities) after a real read-only test in a
+  scratch container; version now reported correctly via a build argument.
+- Verified in real Chrome: worker registered, offline launch, offline star replayed with its timestamp.
+
+## Review fixes: `v0.3.0-alpha.3` (2026-09-26 18:13 ET, deployed 18:57, `42fd5c8`)
+
+- What shipped: about 65 findings from a local eight-agent deep review fixed (credentials no longer carried across
+  redirect migrations, private-network exceptions scoped to a feed's own host, ClientLogin brute-force budget,
+  atomic feed delete, batched trim and delete, filter preview/apply correctness, regex cost limits with visible
+  disabled reasons, image proxy failure handling, offline queue races, sign-in-expired handling, ops and docs), the
+  favicon finder (migration 0006), and unread/unstar in the Reader API `ot` filter (migration 0007).
+- Size: 492 commits; `v0.2.0` to `v0.3.0-alpha.3`: 274 files, 19,184 lines added, 969 removed. At alpha.3 the repository
+  has 615 tracked files, 75,394 lines of Go (38,830 of them in test files) and 30,461 lines under `web/src`.
+- Process: 8 fixers in parallel worktrees, a second review of the merged diff (found ClientLogin locking out correct
+  passwords, subdomain redirects dropping Basic auth, stored filters no longer compiling, a partial feed delete),
+  a second fix round, 26 fuzz targets clean, GitHub CI with `-race` green, a migration rehearsal on a copy of the
+  live database. Two migrations, so a rollback goes through the pre-migration snapshot.
+
 ## Not built yet
 
-Phase 3 (PWA: manifest, service worker, install, offline) and phase 4 (stats), then release steps 8 onward per the Kipple `CLAUDE.md` Process section; the first phase 3 tasks are in the handoff, the setup app and single pull-and-run image (roadmap 1.5.0 or 2.0.0),
-user-chosen Google Fonts (2.0.0), Cloudflare Access JWT validation, passwordless login. See
-[plans/HANDOFF-PHASE3.md](plans/HANDOFF-PHASE3.md) and the parking lot in [DECISIONS.md](DECISIONS.md).
+Phase 4 (stats UI: sender, summary and CSV endpoints, screens) then release steps 8 onward per the Kipple `CLAUDE.md`
+Process section (the full audit was done as the local review; changelog review, documentation run, first-time Docker
+setup walkthrough, backup and settings retention, final go/no-go meeting remain); the setup app and single
+pull-and-run image (roadmap 1.5.0 or 2.0.0), user-chosen Google Fonts (2.0.0), Cloudflare Access JWT validation,
+passwordless login. See [plans/HANDOFF-PHASE4.md](plans/HANDOFF-PHASE4.md) and the parking lot in
+[DECISIONS.md](DECISIONS.md).

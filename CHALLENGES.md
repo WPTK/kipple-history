@@ -129,7 +129,8 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   plus 14 review PRs that each triggered CI. The agent had not said before opening the review PRs that this would
   spend minutes.
 - Fix: a concurrency setting so a newer push cancels an older run; push sparingly and batch commits. At 10:07 the owner
-  reported the minutes exhausted. Open at the time of writing.
+  reported the minutes exhausted. Resolved: once the repository was public, Actions were free again and run on every
+  PR; GitHub CI became the CI of record (2026-09-26 afternoon).
 - Lesson: name a change's side costs before making it.
 
 ## 13. Flaky tests and timing (2026-09-25)
@@ -161,6 +162,58 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
 - Not a bug, but a decision: the reserved settings (`greader.ot_includes_user_changes`,
   `greader.subscribe_fetch_now`) and auto-read on disabled feeds were kept out of v0.2.0 so the tag matches what
   the owner was testing, and moved to the first commits of phase 3. See [plans/HANDOFF-PHASE3.md](plans/HANDOFF-PHASE3.md).
+
+## 18. The browser pane cannot run service workers (2026-09-26)
+
+- Cause: the in-app browser refused to register `/sw.js` ("unknown error occurred when fetching the script"), so the
+  offline behaviour could not be checked there. The agent reported the limit instead of claiming the worker worked.
+- Fix: the owner installed Claude in Chrome; the worker, offline launch and queue replay were verified in real Chrome
+  against a throwaway local instance (stop the server to simulate offline).
+- Lesson: name what a tool cannot verify, and get the right tool before calling something verified.
+
+## 19. Fixes introduced regressions (2026-09-26)
+
+- Cause: eight fixer agents each fixed their findings correctly in isolation; the merged result had new defects:
+  the ClientLogin budget counted correct passwords (the owner could be told his password was wrong), Basic auth was
+  dropped on `example.com` to `www.example.com` redirects, the tighter regex limits made stored filters uncompilable
+  (one old rule broke every filter edit), and a feed delete in committed batches could leave a subscribed feed with
+  its history gone.
+- Fix: a second review of the merged diff (three agents plus one on the favicon PR) and a second fix round.
+- Lesson: review the merged diff, not just each branch; a fix that tightens a limit needs a plan for data stored
+  under the old limit.
+
+## 20. CI-only failures: `-race` and timing (2026-09-26)
+
+- Cause: the dev box has no gcc, so `go test -race` runs only in GitHub CI. Two test-only defects reached CI: a
+  hung-stage fake wrote a variable the test read (data race), and an image test ended the fake upstream body itself,
+  racing the client's departure, which a new (correct) failure-recording rule then counted. gofmt also failed once on
+  a file the agent had rewritten.
+- Fix: atomics in the test fakes; the upstream stays open until the proxy releases it; gofmt on an LF copy.
+- Lesson: local CI is a fast check, not the CI of record; each CI run is about five minutes, so batch fixes.
+
+## 21. Ultra reviews unaffordable (2026-09-26)
+
+- Cause: no usage credits left for `/code-review ultra`. the owner: an internal way would be fine.
+- Fix: eight read-only Opus agents, one per area, each told to trace code and list what it found sound; findings
+  cross-checked by the lead on the top items (two confirmed by re-reading the cited lines). Roughly 65 findings, none
+  critical, no auth bypass or XSS. See [audits/local-review-2026-09-26.md](audits/local-review-2026-09-26.md).
+- Lesson: parallel finders by area scale well; the cost is plan usage and wall-clock time (about 40 minutes of agent
+  time per round), and fixing is the larger part.
+
+## 22. The agent's own doc edits and tests (2026-09-26)
+
+- Cause: an edit replaced the Filters heading in `design.md` and left two `7.8` sections (caught by the docs
+  reviewer); a test titled "stops on 401" never sent a 401, which hid a bug where any 401 wiped the offline queue.
+- Fix: heading restored and the section renumbered; the 401 behaviour changed and tested for real.
+- Lesson: read a test for what it asserts, not its name; re-read a doc after a scripted replace.
+
+## 23. Tool friction (2026-09-26)
+
+- Bash heredocs containing apostrophes failed intermittently in this harness (item 15 again); the fix that held was
+  writing a script file with the Write tool and running it. Long foreground `sleep` is blocked, so waits use short
+  polling loops. Subagents sometimes report "still running" interim results that look like completion; the final
+  branch on the remote is the source of truth. Agent commit trailers said Opus 5.5 rather than the requested Sonnet 5
+  (the model that did the work); left as is to avoid force-pushing shared branches.
 
 ## Not yet sourced
 

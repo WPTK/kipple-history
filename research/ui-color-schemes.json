@@ -1,0 +1,226 @@
+{
+ "Paper": {
+  "tokens": {
+   "bg": "#ffffff",
+   "surface": "#f6f6f4",
+   "text": "#1b1b1a",
+   "text2": "#5c5c58",
+   "border": "#dcdcd8",
+   "accent": "#1a5fb4",
+   "link": "#1a5fb4",
+   "unread": "#1a5fb4",
+   "star": "#b25e00",
+   "danger": "#b3261e",
+   "sel": "#cfe0f7",
+   "meta": "#ffffff"
+  },
+  "contrast": {
+   "text": 17.24,
+   "text2": 6.72,
+   "accent": 6.29,
+   "link": 6.29,
+   "text/surface": 15.93,
+   "text2/surface": 6.21,
+   "link/surface": 5.81,
+   "star": 4.67,
+   "danger": 6.54,
+   "text/sel": 12.85
+  }
+ },
+ "Linen": {
+  "tokens": {
+   "bg": "#faf8f3",
+   "surface": "#f2efe7",
+   "text": "#26241f",
+   "text2": "#5f5b52",
+   "border": "#e0dbcf",
+   "accent": "#0f5c8c",
+   "link": "#0f5c8c",
+   "unread": "#0f5c8c",
+   "star": "#a85a00",
+   "danger": "#b3261e",
+   "sel": "#d6e6ee",
+   "meta": "#faf8f3"
+  },
+  "contrast": {
+   "text": 14.61,
+   "text2": 6.37,
+   "accent": 6.75,
+   "link": 6.75,
+   "text/surface": 13.49,
+   "text2/surface": 5.89,
+   "link/surface": 6.24,
+   "star": 4.79,
+   "danger": 6.16,
+   "text/sel": 12.12
+  }
+ },
+ "Parchment": {
+  "tokens": {
+   "bg": "#f4ecd8",
+   "surface": "#ece2c8",
+   "text": "#4a3b28",
+   "text2": "#6b5a42",
+   "border": "#d9cba8",
+   "accent": "#8a4b14",
+   "link": "#7a4310",
+   "unread": "#8a4b14",
+   "star": "#9a5200",
+   "danger": "#a8321f",
+   "sel": "#e6d4a6",
+   "meta": "#f4ecd8"
+  },
+  "contrast": {
+   "text": 9.16,
+   "text2": 5.63,
+   "accent": 5.76,
+   "link": 6.76,
+   "text/surface": 8.36,
+   "text2/surface": 5.14,
+   "link/surface": 6.17,
+   "star": 4.98,
+   "danger": 5.68,
+   "text/sel": 7.36
+  }
+ },
+ "Fern": {
+  "tokens": {
+   "bg": "#d8e8d2",
+   "surface": "#cbdfc4",
+   "text": "#1f2d1b",
+   "text2": "#3e5237",
+   "border": "#b3ccaa",
+   "accent": "#1f6b3a",
+   "link": "#17603a",
+   "unread": "#1f6b3a",
+   "star": "#8a5a00",
+   "danger": "#a52a1f",
+   "sel": "#b4d6a8",
+   "meta": "#d8e8d2"
+  },
+  "contrast": {
+   "text": 11.31,
+   "text2": 6.65,
+   "accent": 5.09,
+   "link": 5.92,
+   "text/surface": 10.27,
+   "text2/surface": 6.04,
+   "link/surface": 5.37,
+   "star": 4.63,
+   "danger": 5.56,
+   "text/sel": 9.06
+  }
+ },
+ "Cocoa": {
+  "tokens": {
+   "bg": "#3b2f27",
+   "surface": "#463930",
+   "text": "#eadfd2",
+   "text2": "#c4b5a3",
+   "border": "#5a4a3e",
+   "accent": "#e8a75c",
+   "link": "#f0b878",
+   "unread": "#e8a75c",
+   "star": "#f2c14e",
+   "danger": "#ff8a80",
+   "sel": "#6b5443",
+   "meta": "#3b2f27"
+  },
+  "contrast": {
+   "text": 9.86,
+   "text2": 6.47,
+   "accent": 6.24,
+   "link": 7.3,
+   "text/surface": 8.46,
+   "text2/surface": 5.55,
+   "link/surface": 6.27,
+   "star": 7.72,
+   "danger": 5.67,
+   "text/sel": 5.37
+  }
+ },
+ "Graphite": {
+  "tokens": {
+   "bg": "#121212",
+   "surface": "#1c1c1e",
+   "text": "#e8e8e6",
+   "text2": "#a3a3a0",
+   "border": "#2c2c2e",
+   "accent": "#7cb7ff",
+   "link": "#8ec1ff",
+   "unread": "#7cb7ff",
+   "star": "#f2c14e",
+   "danger": "#ff8a80",
+   "sel": "#2b4a6f",
+   "meta": "#121212"
+  },
+  "contrast": {
+   "text": 15.27,
+   "text2": 7.41,
+   "accent": 8.99,
+   "link": 10.01,
+   "text/surface": 13.87,
+   "text2/surface": 6.73,
+   "link/surface": 9.09,
+   "star": 11.16,
+   "danger": 8.21,
+   "text/sel": 7.4
+  }
+ },
+ "Midnight": {
+  "tokens": {
+   "bg": "#000000",
+   "surface": "#0b0b0c",
+   "text": "#e0e0e0",
+   "text2": "#9a9a9a",
+   "border": "#232325",
+   "accent": "#6db0ff",
+   "link": "#7db9ff",
+   "unread": "#6db0ff",
+   "star": "#f2c14e",
+   "danger": "#ff8a80",
+   "sel": "#1f3b5c",
+   "meta": "#000000"
+  },
+  "contrast": {
+   "text": 15.91,
+   "text2": 7.46,
+   "accent": 9.3,
+   "link": 10.26,
+   "text/surface": 14.9,
+   "text2/surface": 6.99,
+   "link/surface": 9.61,
+   "star": 12.51,
+   "danger": 9.2,
+   "text/sel": 8.65
+  }
+ },
+ "Signal": {
+  "tokens": {
+   "bg": "#ffffff",
+   "surface": "#ffffff",
+   "text": "#000000",
+   "text2": "#2b2b2b",
+   "border": "#000000",
+   "accent": "#0033cc",
+   "link": "#0033cc",
+   "unread": "#0033cc",
+   "star": "#7a4a00",
+   "danger": "#a00000",
+   "sel": "#ffe066",
+   "meta": "#ffffff"
+  },
+  "contrast": {
+   "text": 21.0,
+   "text2": 14.16,
+   "accent": 8.95,
+   "link": 8.95,
+   "text/surface": 21.0,
+   "text2/surface": 14.16,
+   "link/surface": 8.95,
+   "star": 7.48,
+   "danger": 8.42,
+   "text/sel": 16.11
+  }
+ }
+}

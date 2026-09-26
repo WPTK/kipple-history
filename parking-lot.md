@@ -52,3 +52,6 @@ repo. Nothing here starts without the owner asking. The phase plan itself is in 
   `ot` unread/unstar, lossless WebP (already supported), phase 3 (PWA, offline).
 - Still open: phase 4 (stats UI); Host-A-side Proton backup job; debug logging still on; private vulnerability reporting
   switch; `claude-md-proposed-edits` decision.
+
+- Stats for Reeder and other RSS clients (API read inference); reading pace (words per minute); period comparison;
+  per-feed drill-down; monthly charts; read rate per feed (published vs opened). Added 2026-09-26.

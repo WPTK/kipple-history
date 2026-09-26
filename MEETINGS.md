@@ -234,6 +234,11 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 - Outcome: alpha.3 deployed; this repository updated; `plans/HANDOFF-PHASE4.md` written; the list of what remains
   with the owner is kept in the handoff, the parking lot and the agent's memory.
 
+## 26. Phase 4 stats pre-meeting (2026-09-26 to 27)
+
+- Type: design meeting, nine topics, one at a time with a recommendation each. No code, branch or agents.
+- Outcome: the decisions in DECISIONS.md, "Phase 4 stats decisions". Status: decisions recorded; waiting for the owner
+  to say the meeting is done before phase 4 starts.
 ## Message estimates
 
 | Meeting | the owner's messages (approx.) |
@@ -263,5 +268,6 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 | 23 Ultra reviews replaced | 2 |
 | 24 Fix everything | 3 |
 | 25 Deploy alpha.3 and records | 1 |
+| 26 Phase 4 stats pre-meeting | 12 |
 
 Estimates only. Rows are subsets of the session totals above and do not sum to them exactly.

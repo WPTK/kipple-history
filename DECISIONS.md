@@ -147,6 +147,54 @@ Source: memory note `parking-lot` (summarised here, not copied), [MEETINGS.md](M
 - **The favicon finder ships** as a background goroutine, one lookup at a time, off the fetch path, failures kept
   apart from feed health.
 
+## Phase 4 stats decisions (pre-meeting, 2026-09-26)
+
+**Purpose.** Sources and pruning are the focus (most read, time per source, never opened); habits sit at the top of the
+page (streaks, heatmap, behavior facts: busiest day and hour, longest read). Success after a week of real reading: the
+numbers match memory, a backgrounded tab adds no time, the never-opened list is credible. Wrapped is in: a simple
+yearly summary (totals, top sources, popular days and times, longest streak) with an opt-in share sheet; share cards
+carry aggregates only unless the owner opts in each time. Not wanted: goals, targets, badges, comparisons with other
+people, directives ("unfollow X"). CLAUDE.md non-goals need a clarifying edit for Wrapped (sharing is not social).
+
+**What counts.** Every open is recorded; views count an item as read at 10 s active time or 25% scroll (threshold can
+change later, raw events kept). List-preview opens count. Bulk and mark-read-on-scroll never count (unchanged).
+Offline: sender events are queued and flushed on reconnect; anything the server caps reject is accepted as lost.
+Web app is the intended client for stats. Reeder and any other RSS app stats tracking: parking lot;
+`stats.api_single_read_is_open` stays off. CLAUDE.md calls Reeder the primary client: propose an edit.
+
+**Screens.** One Stats entry in the main nav (phone first). Range: Week, Month, Year, All (default Month). Order:
+summary strip (items read, active time, days with reading); daily activity chart; streaks (all time); heatmap
+(weekday by hour, reading time); behavior facts; most read and time per source as one Items/Minutes toggle with folder
+rollup, plus average read length, quick-bounce rate (opens under 10 s active), open-original rate and most-starred
+feeds; never opened (with subscribed-on date, archived excluded). Low-data message under a week. Deferred:
+per-feed drill-down, period comparison, monthly charts, read rate per feed (published vs opened). Wrapped ships after
+the main screen. Export button under the range selector.
+
+**Time and units.** Local time zone stored at write time, no DST handling. First day of week is a setting, Sunday or
+Monday, default Sunday (display only). Minutes rounded, "<1 min", "1h 20m", hours in Wrapped.
+
+**Data and privacy.** Events kept forever. Export: CSV and JSON (array or JSON Lines), raw events or summary, range
+(week/month/year/all/custom), toggle to omit item titles and URLs, data dictionary included; behind login and the
+same-origin guard. Delete a range (confirmation shows the count) and Delete all stats (typed confirmation), stats only.
+Stats "off" stops recording (server-enforced) and the sender, hides the Stats entry and Wrapped, keeps existing data.
+Separate switch to disable Wrapped.
+
+**Performance.** Summaries computed on the fly; no cache or rollup. Indexes only after measuring on a seeded million-row
+database; budget under 200 ms for the summary endpoint; export streams without memory growth. Container stays 256 MB
+unless measurement says otherwise; 512 MB is acceptable to the owner.
+
+**Sender.** Session per open (server session_key); timer runs while visible, focused and on the article route; 2 minute
+idle cutoff (scroll, touch, key, pointer count as activity); flush every 15 s and on visibilitychange (primary), pagehide
+(backup) and route change via sendBeacon with client in the body; at most 60 s per read_time event; one scroll value per
+session; open_original and share events; per-session sequence number on batches for server-side dedup; offline queue
+without breaking its rules; checks the stats setting. Two devices make separate sessions. Fake-timer unit tests.
+Research basis: Chartbeat/GA4 engaged-time methods, MDN/Chrome page lifecycle guidance.
+
+**Delivery.** alpha.4 sender, sequence number, stats on/off and first-day-of-week settings (no screen); alpha.5 stats
+screen; alpha.6 export and data controls; alpha.7 Wrapped. Each: branch, ci-local, /code-review high, PR, CI green,
+ask before deploy. Acceptance: a week of real reading on the web app.
+
+**Decided no.** Per-device (web vs PWA) stats view, import from other readers, goals/targets/badges.
 ## Still with the owner (as of 2026-09-26 evening)
 
 1. Turn on GitHub private vulnerability reporting (repo setting); `SECURITY.md` points to it.

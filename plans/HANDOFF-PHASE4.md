@@ -18,6 +18,51 @@ Written 2026-09-26 evening, after `v0.3.0-alpha.3` shipped. Read this, `CLAUDE.m
 - Off-box database copies before each deploy go to `P:\ServerBackups\kipple\pre-<release>-<stamp>\` on Host-B
   (this machine): live `kipple.db` + `-wal` + `-shm` (via a busybox container reading the volume) and the nightly snapshot.
 
+## FIRST STEP: pre-meeting on stats (expectations and design), before any code
+
+The owner asked for a pre-meeting to review and discuss expectations and design around stats. Do this first, in the
+first session, as a conversation (like UI round 1 and 2 in `docs/ui-decisions.md`), and record its decisions in
+`docs/ui-decisions.md` and the private `WPTK/kipple-history` (MEETINGS.md, DECISIONS.md, diary) before building.
+No branch, no code, no agents until the owner says the meeting is done.
+
+How to run it: read this handoff, design section 8 (stats model), `internal/stats`, `internal/store/stats.go` and
+`docs/plan.md` phase 4 first (short, so the meeting is about decisions, not discovery); then walk the agenda below
+one topic at a time, offer a recommendation with each question (the owner prefers a recommendation to a survey),
+and keep a running list of decisions and open questions. Use mockups or small HTML sketches only if he asks.
+
+Suggested agenda (each item: what exists, options, recommendation, decision):
+
+1. **Purpose and expectations.** What should the stats answer for one reader: habits (when, how much), sources
+   (what he reads versus subscribes to), pruning (never-opened and rarely-read feeds), or a "wrapped"-style summary?
+   What would make phase 4 a success after "a week of real reading"? What is explicitly NOT wanted (non-goals in
+   CLAUDE.md: no AI, no notifications, no social, no monitoring, no multi-user)?
+2. **What counts as reading.** Confirm the standing rules: bulk mark-as-read and mark-read-on-scroll are not reads;
+   active reading time = tab visible and focused and the article route active; `open`, `read_time`, `scroll`,
+   `star`/`unstar`, `open_original`, `share`. Questions: minimum time or scroll for "read"? Does opening from the
+   list preview count? Reader API reads (Reeder) are invisible to stats today (`stats.api_single_read_is_open`
+   stays off): keep that, or look at real Reeder traffic first? Offline reading: count it, and how (events queued)?
+3. **The views.** From the plan: most-read sources, hour/weekday heatmap, time per source, never-opened feeds,
+   streaks. For each: the question it answers, the chart or table, the time range and grouping (day/week/month), the
+   feed versus folder rollup, and empty/low-data states. Propose a first cut of two or three screens plus what is
+   deferred. Where does it live: its own tab, under Settings, or a section of Feeds? Phone layout (iOS PWA) first.
+4. **Time and units.** Local time zone (`tz` setting, default America/New_York) and DST in the heatmap; week
+   start; reading time in minutes versus articles; how to treat sessions left open in a background tab (the focus
+   rule already handles it).
+5. **Data, privacy and retention.** Events are kept forever and never trimmed (standing decision). Should the owner be
+   able to export (CSV is planned), delete a range, or reset stats? Anything in stats that should never be exported or
+   shown (item titles and URLs are snapshotted)? Backup and restore already carry the table.
+6. **Performance and scale.** The table grows with reading; expected sizes; whether summaries are computed on the
+   fly, cached, or rolled up nightly; the size and speed budget on Host-A (256 MB container, single writer).
+7. **Sender design.** How events are batched and flushed (15 s timer, `pagehide` beacon), interaction with the offline
+   queue, what happens with the reader open on two devices, and how the sender is tested (fake timers, visibility).
+8. **Delivery plan and acceptance.** Order of work (sender first so real data accumulates while screens are built),
+   how many alphas, what the owner will test and how ("a week of real reading shown"), and the deploy cadence.
+9. **Anything else he wants from stats** (goals, targets, comparisons, sharing, badges): each is a yes, no, or
+   parking-lot decision.
+
+After the meeting: write the decisions down, update this handoff's scope section, then proceed with the process
+below (branch, agents, review, PR, CI, ask before deploy).
+
 ## Phase 4 scope (stats UI)
 
 From `docs/plan.md`: views from the `stats_events` table: most-read sources, hour/weekday heatmap, time per source,
@@ -49,8 +94,8 @@ features (non-goals). Per-device appearance profiles are not multi-user.
 
 ## Process for this phase
 
-- Phases: the owner uses each phase for a day before the next starts. UI meeting first (like round 1 and 2): the
-  stats screens are a product decision, so propose layouts and ask before building the frontend (see
+- Phases: the owner uses each phase for a day before the next starts. The pre-meeting above comes first; then, for
+  the screens, propose layouts and ask before building the frontend (see
   `docs/ui-decisions.md` for how earlier rounds were run). Verify iOS layout in the browser pane at the mobile
   preset before calling a UI phase done; the pane cannot run service workers, use Claude in Chrome (installed) for
   anything that needs one.

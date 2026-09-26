@@ -1,23 +1,24 @@
-# Handoff: phase 2 close-out and phase 3
+# Handoff: phase 3 (local, private notes; git-ignored, copy kept in WPTK/kipple-history)
 
 Written 2026-09-26 at the end of the phase 2 session. Read this, `CLAUDE.md`, and the memory index
 (`C:\Users\user\.claude\projects\C--kipple\memory\MEMORY.md`) before doing anything.
 
-## State (updated 2026-09-26, after the merge)
+## State (updated 2026-09-26, after going public)
 
-- **Phase 2 is closed.** `phase-2` was merged into `main` with a merge commit (`2059af9`) and tagged `v0.2.0`
-  (`55743ca`, the release commit: CHANGELOG moved, CLAUDE.md wording). Host-A runs `v0.2.0-alpha.4`
-  (`b7d0219`), which has the same code as `v0.2.0`; the only difference is docs and the CHANGELOG, so no
-  redeploy is needed for the tag.
-- All 13 phase 2 ultra reviews were read and every real finding fixed (see `docs/diary/2026-09-26.md`). The
-  14 review-only PRs (#24 to #37) are closed and their branches deleted. Remote branches: `main`, `phase-2`
-  (kept until the owner says to delete it). Start phase 3 on a new branch off `main`.
-- Off-box copies of the Host-A database before each deploy: `P:\HostBBackups\kipple\`. The alpha.4 copy is
-  `kipple-20260926-092622.db`. Debug logging (`KIPPLE_LOG_LEVEL`, `KIPPLE_LOG_GREADER_FORMS` in
-  `/home/user/stack/.env`) is still on; turn it off after the owner's testing.
-- the owner will test alpha.4 hard on his own; a fix found there ships as a new tag (alpha.5, or 0.2.1 if final).
-- GitHub Actions minutes are running low. CI now cancels superseded runs on the same ref. Push sparingly and
-  batch commits.
+- The repository is public at `WPTK/Kipple`. Its history was rewritten to remove personal and deployment details
+  (hostnames, addresses, names, the diary, research and kickoff documents, which live in the private
+  `WPTK/kipple-history`). All commit hashes changed; tags `v0.1.0` to `v0.2.0` and `v0.2.0-alpha.1` to `-alpha.4`
+  were recreated on the rewritten commits. The unrewritten original is the private `WPTK/kipple-archive`
+  (read-only reference, never push there).
+- Latest tag: `v0.3.0-alpha.1`. Host-A runs `v0.2.0-alpha.4` until the owner approves the deploy of `v0.3.0-alpha.1`.
+  Deploying it needs `git fetch --tags --force` on Host-A (the old tags point at different commits), the hardened
+  compose diff in `docs/deploy.md`, and a real read-only-filesystem test with thumbnails first.
+- Off-box copies of the Host-A database before each deploy go to `P:\ServerBackups\kipple\` on Host-B.
+  Debug logging (`KIPPLE_LOG_LEVEL`, `KIPPLE_LOG_GREADER_FORMS` in `/home/user/stack/.env`) is still on; turn it off
+  after the owner's testing.
+- GitHub Actions is free again now that the repository is public. Keep `scripts/ci-local.ps1` for a fast local
+  check before pushing.
+- Never put the owner's real name, surname or personal email anywhere. Start phase 3 on a new branch off `main`.
 
 ## Decided, not yet built (do these first in phase 3)
 
@@ -29,6 +30,32 @@ Written 2026-09-26 at the end of the phase 2 session. Read this, `CLAUDE.md`, an
 - **Refresh-all:** no exception. The Reader API has no such call and CLAUDE.md now says clients never trigger
   fetches.
 - **Follow-up meeting** planned with the owner after this close-out.
+
+## Release readiness backlog (added 2026-09-26)
+
+Done and public (`v0.3.0-alpha.1`): Blue Oak Model License 1.0.0 (`LICENSE`), generated
+`THIRD_PARTY_NOTICES.md` (`scripts/gen-notices.mjs`, shipped in the image under `/licenses/`), `kipple
+healthcheck` plus a `HEALTHCHECK` and hardened compose options, native fuzz targets (`scripts/fuzz.ps1`),
+`docs/RELEASING.md`, three restore/snapshot fixes from a real restore and rollback rehearsal, `scripts/ci-local.ps1`,
+and the public repository itself (scrubbed history).
+
+Still to do, in rough order:
+
+1. **Deploy `v0.3.0-alpha.1` to Host-A** once the owner approves. At that deploy: apply the hardened compose diff
+   in `docs/deploy.md`, test the read-only root filesystem with real image-cache writes and thumbnails first (only
+   code inspection covers that today), and pass a `VERSION` build arg so `kipple version` and backup manifests stop
+   saying `dev`. Version plan: `0.3.0-alpha.1`, then `0.3.1` and later for follow-ups.
+2. **Host-A backup of its own.** Host-B's nightly jobs now pull Kipple's newest snapshot, `docker-compose.yml` and
+   `.env` from Host-A to `P:\ServerBackups\Kipple` (14 dated copies) and into the Proton archive (up to about 24 h
+   behind: Kipple writes its snapshot around 04:10 Eastern). The owner wants a Host-A-side job that pushes to Proton
+   Drive too; that is outside this repo.
+3. **GitHub Releases.** None exist yet. Create them from the tags, with the CHANGELOG section as the notes
+   (`docs/RELEASING.md`).
+4. **Public-repo housekeeping:** confirm Actions runs on the public repository, turn on secret scanning and
+   Dependabot alerts, and run `scripts/fuzz.ps1` before each release.
+5. **Not doing (the owner's decisions):** accessibility testing beyond the automated checks; a scale test (Host-A
+   already runs the real feeds). Diaries and meeting notes live in the private `WPTK/kipple-history`; add to them at
+   each milestone.
 
 ## Rules that bite
 

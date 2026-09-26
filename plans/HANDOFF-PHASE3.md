@@ -1,3 +1,6 @@
+> STATUS 2026-09-26 evening: everything below is DONE and released (v0.3.0-alpha.2 and alpha.3, deployed). Superseded by
+> docs/HANDOFF-PHASE4.md. Kept for history.
+
 # Handoff: phase 3 (local, private notes; git-ignored, copy kept in WPTK/kipple-history)
 
 Written 2026-09-26 at the end of the phase 2 session. Read this, `CLAUDE.md`, and the memory index

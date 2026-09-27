@@ -302,3 +302,44 @@ Recorded in full in `docs/RELEASING.md`. Three topics, one at a time with a reco
   private vulnerability reporting on, the docs run and Docker walkthrough proven end-to-end, then the go/no-go
   meeting's approval.
 - A soak-period regression resets that soak's clock rather than being patched in place mid-count.
+
+## GitHub project hygiene: labels, milestones, issues (2026-09-27)
+
+PR #26 merged. The owner asked for GitHub PR metadata to actually be used (it had been sitting blank —
+reviewers/assignees/labels/milestone all empty) and for a real label taxonomy, then confirmed backfilling every
+existing PR with the same treatment, plus turning the phase 5 audit's open items and select parking-lot items
+into tracked Issues.
+
+**Label taxonomy created:** type (`security`, `chore`, `test` new; `bug`, `enhancement`, `documentation` already
+existed), area (`area:backend`, `area:web`, `area:reader-api`, `area:stats`, `area:infra`, all new), plus
+`roadmap` for anything deliberately deferred past 1.0. Kept the existing Dependabot-created labels
+(`dependencies`, `docker`, `github_actions`, `javascript`) and defaults (`accessibility`, `question`,
+`duplicate`, `invalid`, `wontfix`, `good first issue`, `help wanted`) rather than duplicating them.
+
+**Milestones created**, one per phase plus two forward-looking ones: Phase 1-4 (closed, with ship dates in the
+description — no phase 1/2 PRs exist in the public repo's rewritten history, so those milestones have none
+attached and that's expected, not a gap), Phase 5 - Release readiness (open, current), Roadmap (post-1.0) (open,
+for deferred parking-lot items).
+
+**Assignee note:** GitHub won't let a PR's author request review from themselves, so the "Reviewers" field
+stays empty by design — not a bug, not fixable without a second collaborator account, which nobody asked for.
+Assignee (the owner, `WPTK`) works fine and is set everywhere.
+
+**Backfilled:** all 25 pre-existing PRs (#1-25) got an assignee, milestone (by merge date relative to phase
+boundaries — dependency-bump PRs land in whichever phase's window they merged in), and labels matching content
+(dependency bumps, phase feature PRs, release-chore PRs, docs, review-fix PRs, etc).
+
+**Issues created**, all assigned to the owner:
+- Under Phase 5 (open items from the phase 5 audit, `docs/risk-register.md` R1/R2, and one phase 5 outline item):
+  #27-29 (regression tests still needed for three timing-race fixes in #26, no test hooks exist yet), #30 (R1,
+  iOS `document.hasFocus()` verification), #31 (R2, large-feed-delete timeout), #32 (auto-night theme).
+- Under Roadmap (post-1.0): #33 (setup app + single pull-and-run image), #34 (user-chosen Google Fonts), #35
+  (design system/demo site/brand identity), #36 (Reader API client stats/read inference), #37 (Stats screen:
+  reading pace, period comparison, per-feed drill-down, monthly charts), #38 (filters: only-show-matching,
+  reading-time UI, per-feed view/order), #39 (additional reading layouts: Columns, Reader list, Expanded
+  stream).
+- Deliberately NOT turned into issues: already-completed parking-lot items (inline extraction, the UI review
+  meeting, favicon finder, `ot` fix, lossless WebP — all shipped), explicitly-decided-against items (multi-user
+  withdrawn, quiet hours rejected, Reader "refresh all" has no exception), and release steps 8+ itself (that's
+  the whole of phase 5, already tracked as outline items, not a discrete issue).
+- `docs/risk-register.md` updated to link R1→#30 and R2→#31.

@@ -264,3 +264,28 @@ each. Full text in `docs/ui-decisions.md` (working copy, `C:\kipple`); summarize
 **Phase 5 outline:** (A) full code audit + changelog review, (B) Cloudflare Access JWT + passwordless in
 parallel with A, (C) auto-night theme, (D) documentation run + Docker walkthrough + backup/restore-settings
 guide, (E) final go/no-go meeting.
+
+## Phase 5 additions: UAT plan, SQA plan, and release-process gaps (2026-09-27)
+
+The owner asked to evaluate a third-party Claude Code UAT skill (`mecabots/webapp-uat`); declined (unverified
+npm scope mismatched from its GitHub repo owner, and its i18n checks don't apply to Kipple) in favor of an
+in-repo Playwright + axe-core script — auditable, no mystery dependency. He then asked for a full UAT plan
+studied from general methodology (entry/exit criteria, traceable test cases, severity-triaged defects, formal
+sign-off) and adapted to a single-maintainer/single-user project: `docs/uat-plan.md`. Roles collapse (the owner
+is both end user and product owner; Claude is QA/dev); defect tracking goes to `kipple-history/audits/` instead
+of a ticketing tool; sign-off is the existing go/no-go meeting. Suites: scripted (Playwright+axe), agent-driven
+scenario walkthroughs, an owner-only minimal list (real-device swipe gestures, PWA install, Web Share, the
+`document.hasFocus()` question), migration rehearsal, an actual restore drill, and the Docker walkthrough
+doubling as literal UAT.
+
+He also asked for an SQA plan and what could be learned from industry standards: `docs/sqa-plan.md`, mapped to
+the IEEE 730 SQA plan outline, documenting existing practice (CI's static analysis suite, `/code-review high`
+gates, CHANGELOG/SemVer/tag discipline, dependency-vetting practice) rather than inventing new process. It
+flags four candidate additions for his decision, not yet built: a living risk register, code-coverage
+visibility in CI (reporting only, not a gate), a docs index page, and a stated (low-commitment) issue-triage
+expectation now that the repo is public.
+
+Phase 5 outline, current: (A) code audit + changelog review — DONE, PR #26; (B) Cloudflare Access JWT +
+passwordless, in parallel — in progress; (C) auto-night theme; (D) documentation run + Docker walkthrough
+(doubles as UAT Suite 5) + backup/restore-settings guide; (F) UAT plan execution; (G) SQA plan gaps, if
+accepted; (E) final go/no-go, fed by D, F and G.

@@ -289,3 +289,16 @@ Phase 5 outline, current: (A) code audit + changelog review — DONE, PR #26; (B
 passwordless, in parallel — in progress; (C) auto-night theme; (D) documentation run + Docker walkthrough
 (doubles as UAT Suite 5) + backup/restore-settings guide; (F) UAT plan execution; (G) SQA plan gaps, if
 accepted; (E) final go/no-go, fed by D, F and G.
+
+## Alpha → beta → rc → 1.0.0 promotion criteria (2026-09-27)
+
+Recorded in full in `docs/RELEASING.md`. Three topics, one at a time with a recommendation each, all accepted:
+
+- **Alpha → beta.1** only once phase 5 fully closes (audit fixes merged, Access JWT/passwordless shipped,
+  auto-night theme, docs run, UAT Suites 1-4 clean of P0/P1) — feature-complete verified, not declared.
+- **Beta → rc.1** needs every UAT suite run at least once (including the owner-only device checks) with
+  sign-off, plus a **1-week soak** of real daily use on the beta build with zero new P0/P1s.
+- **RC → 1.0.0** needs a second, shorter soak (a few days) on the final rc with zero regressions, GitHub
+  private vulnerability reporting on, the docs run and Docker walkthrough proven end-to-end, then the go/no-go
+  meeting's approval.
+- A soak-period regression resets that soak's clock rather than being patched in place mid-count.

@@ -73,3 +73,13 @@ database, deleted after), and known risks.
 - 00:30 hygiene pass done (audits/git-hygiene-2026-09-27.md); dependency assessment done (5 Actions bumps safe, Node 26
   image and TypeScript 7 not yet); Actions PRs being merged one at a time (rebase, green CI, merge). Alpha.6 review
   fixes in progress (server and web agents).
+- 01:00-01:25 alpha.6: second review of the fixes found 8 web + 3 server items (dialog state persisting past close was
+  the standout: closing after arming a delete confirmation, or typing DELETE ALL then cancelling, could leave a
+  one-click delete armed on reopen); all fixed, dialogs now mount fresh on every open. GitHub CI's -race run then
+  caught a real gap: 5 new tests timed out (a test helper did 25k+ single-row inserts inside one 10s write
+  transaction, too slow under -race); fixed by chunking into several transactions (test-only, no production change).
+  Five Dependabot Actions PRs merged one at a time (rebase, green CI, merge): checkout, setup-node, setup-go,
+  setup-buildx, build-push. Node 26 image and TypeScript 7 left open for the owner (see the dependency assessment).
+- 01:25 alpha.7 (Wrapped) built: yearly summary derived from the existing summary endpoint (no new endpoint), opt-in
+  share sheet (aggregates only by default, two toggles for sources/longest-read), stats.wrapped_enabled setting.
+  Local CI green on the stack. Not yet reviewed or checked visually.

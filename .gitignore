@@ -1,0 +1,8 @@
+# Local Claude Code permission grants (per-machine)
+.claude/settings.local.json
+
+# OS and editor droppings
+.DS_Store
+Thumbs.db
+*.log
+~$*

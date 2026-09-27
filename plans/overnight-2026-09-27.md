@@ -97,3 +97,12 @@ database, deleted after), and known risks.
   stays open until 2026-10-28 LTS. Release PR #25 (0.3.0-alpha.7) opened, catching the same CHANGELOG auto-merge fold
   seen with alpha.6 before it was pushed.
 - Nothing tagged, nothing deployed. Host-A verified untouched at alpha.4, healthy.
+
+## Final status, 02:35 ET
+
+All four PRs for tonight's dependency/hygiene follow-ups merged: #24 (Dependabot config), #25 (alpha.7 release).
+Phase 4 complete on main (00510e3): alpha.4 sender, alpha.5 screen, alpha.6 export/delete, alpha.7 Wrapped — all
+merged, none tagged, none deployed (Host-A verified untouched at alpha.4, healthy). Zero open PRs. Local branches
+cleaned (worktree-locked fix-ops/fix2-auth left for the owner). Full local CI (13 steps) green on merged main,
+confirmed twice after one flaky rerun of the already-known review3search.test.tsx timing issue (spawned as a
+follow-up task, not blocking). Ready for morning review and a deploy decision.

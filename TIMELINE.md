@@ -134,3 +134,9 @@ the model policy discussed; a start prompt for a fresh implementation session fo
 - 18:45 Migration rehearsal on a copy of the live database on Host-A (0006 and 0007 in about 30 ms). 18:57 the owner's
   go-ahead ("Deploy alpha.3"); off-box copy to Host-B; alpha.3 deployed: healthy, version `0.3.0-alpha.3`, no
   warnings, 51 MiB. History repo updated; phase 4 handoff written.
+
+## 2026-09-26 to 27: phase 4 begins
+
+- Evening: stats pre-meeting (nine topics), decisions recorded. the owner approves two CLAUDE.md edits (web app is the intended
+  client; a simple opt-in Wrapped is allowed under "no social").
+- Alpha.4 built and reviewed twice (see diary/2026-09-27.md); PR #17 opened. Not deployed.

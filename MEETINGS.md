@@ -237,8 +237,8 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 ## 26. Phase 4 stats pre-meeting (2026-09-26 to 27)
 
 - Type: design meeting, nine topics, one at a time with a recommendation each. No code, branch or agents.
-- Outcome: the decisions in DECISIONS.md, "Phase 4 stats decisions". Status: decisions recorded; waiting for the owner
-  to say the meeting is done before phase 4 starts.
+- Outcome: the decisions in DECISIONS.md, "Phase 4 stats decisions". Status: closed by the owner; phase 4 alpha.4 built
+  and opened as PR #17.
 ## Message estimates
 
 | Meeting | the owner's messages (approx.) |

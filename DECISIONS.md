@@ -453,3 +453,18 @@ a release blocker.
 
 Also decided: once phase 5 fully closes, the next release is a beta or rc (the "go" product), and other
 phases/steps continue after that — not a full stop-and-wait for 1.0 before further work.
+
+## PR #46 merged with 2 open CodeQL findings; follow-up PR #51 (2026-09-27, later)
+
+The owner merged #46 while a CodeQL fix for it was still in progress on the same branch — the fix commit landed
+on a now-closed branch and never reached `main`. Cherry-picked it onto a fresh branch and opened #51 instead:
+fixes `web/uat/run.mjs`'s `decodeSnippet` (single-pass tag stripping, CodeQL: incomplete multi-character
+sanitization — now loops to a fixed point) and its link-selector builder (didn't escape backslashes before
+quotes, CodeQL: incomplete string escaping). Neither was actually exploitable in context (test-tool-only code,
+no attacker-controlled input reaches either path), but both were cheap to fix properly rather than argue as
+false positives, unlike the two earlier CodeQL alerts in production code (SSRF guard, item-id bitcast) that
+needed a dismissal with reasoning instead. Replied to and resolved both inline review threads on #46 per the
+auto-fix protocol, pointing at #51 as where the fix actually landed.
+
+Lesson: when a background agent is mid-fix on a branch, a merge from the owner can land before the fix does —
+watch for this when a PR merges unexpectedly quickly after review comments come in.

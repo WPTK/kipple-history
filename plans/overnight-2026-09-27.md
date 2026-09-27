@@ -106,3 +106,27 @@ merged, none tagged, none deployed (Host-A verified untouched at alpha.4, health
 cleaned (worktree-locked fix-ops/fix2-auth left for the owner). Full local CI (13 steps) green on merged main,
 confirmed twice after one flaky rerun of the already-known review3search.test.tsx timing issue (spawned as a
 follow-up task, not blocking). Ready for morning review and a deploy decision.
+
+## Morning meeting, 2026-09-27 (~08:30-09:30 ET)
+
+- Approved: private vulnerability reporting on Kipple (enabled, 204); HTTPS on kipple-website deferred (needs
+  Cloudflare CNAME for kipple.cc first, owner's task); scratch-directory deletion (7 of 8 removed, ~700MB; kipple-review
+  blocked by a harness path guard, owner to remove by hand); the combined alpha.5-7 deploy; kipple-history may be
+  scrubbed of personal data (not yet done, queued as its own careful pass); website's dead link to the private history
+  repo left as is (repo will eventually go public).
+- Found and resolved: the two locked agent worktrees (fix-ops, fix2-auth) were held by a stuck claude.exe process
+  (PID 41456) idle ~19 hours with no new commits since 2026-09-26 15:56 ET; killed on the owner's go-ahead, worktrees
+  and merged branches cleaned up.
+- Merge permission: the classifier's block turned out to be `autoMode` policy, not a plain Bash rule; gave the owner
+  the exact settings.local.json snippet. Then hit a second, harder classifier block (Self-Modification) when asked to
+  edit that file directly, even on the owner's explicit instruction — a harness-level boundary I did not route around.
+  Also proposed a soft-deny classifier rule (or a PreToolUse hook) against local Docker test runs on Host-B, given
+  the overnight incident.
+- **Deployed v0.3.0-alpha.7 to Host-A** (all of phase 4: sender, screen, export/delete, Wrapped), combining alpha.5,
+  6 and 7 into one push per the recommendation: tag v0.3.0-alpha.7 on main (00510e3), off-box copy of the live database
+  first (P:\ServerBackups\kipple\pre-0.3.0-alpha.7-20260927-085606, schema 8, integrity ok, 6,718 items), image built
+  on Host-A from the tag, migration 0009 rehearsed on a scratch copy (clean), fuzz clean (26/26 targets), deployed
+  `up -d kipple` only: healthy, version 0.3.0-alpha.7, 41.6 MiB, zero warnings. GitHub Release published.
+- Still open: kipple-history personal-data scrub (owner authorized, not started); the iPhone hasFocus() check now that
+  the sender is live in a screen the owner can actually use; kipple-website HTTPS once DNS is set; kipple-review
+  directory deletion by hand; the classifier/hook suggestions above, pending the owner's decision.

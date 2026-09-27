@@ -195,6 +195,30 @@ screen; alpha.6 export and data controls; alpha.7 Wrapped. Each: branch, ci-loca
 ask before deploy. Acceptance: a week of real reading on the web app.
 
 **Decided no.** Per-device (web vs PWA) stats view, import from other readers, goals/targets/badges.
+## Phase 4 build decisions after the meeting (2026-09-26 to 27)
+
+- **Per-event id replaces the sequence number.** Every sender event carries a random `event_id`; a unique index drops any
+  replay (all kinds), before the reading-time cap is evaluated. Reason: a per-session `seq` only protected `read_time`,
+  and two tabs flushing one queue or a lost response would double-count `share` and `open_original`. Migration 0008 was
+  undeployed when this changed, so it was edited in place.
+- **Stats queue design.** One localStorage key per batch (no read-modify-write races), a cross-tab flush lock, age caps
+  (12 h session-bound, 24 h others), wiped on sign-out, events dropped rather than queued while signed out, sent through
+  the shared `api()` helper so a 401 signs out like everywhere else.
+- **Scroll depth** is measured only from real scroll events (one read per animation frame) or a settled
+  fits-on-screen check after 3 active seconds; never at session start or stop; the first 500 ms of a session are ignored.
+- **Timer** runs only while it can count and re-arms on activity, visibility and focus (checked again 1 s and 3 s after
+  becoming visible). `document.hasFocus()` in an installed iPhone web app is still unverified.
+- **Summary endpoint** (alpha.5): a read is an open with at least 10 s of read time or 25% scroll; opens from before the
+  sender existed count as reads; streak day = a day with a read; never-opened is bounded by the range and by the
+  subscription date. Migration 0009 adds three partial covering indexes (about 60 MB and 2 s per million events).
+  Week and month meet the 200 ms budget at a million events; year and all-time take about 0.5 s (a rollup table is the
+  next step only if it matters). One summary computation runs at a time, at most 3 concurrent queries, one id snapshot
+  per request. A free-space check now precedes the pre-migration snapshot.
+- **Heatmap** shading is neutral (text colour into the surface) because the accent tint cannot keep 1.5:1 between steps
+  in every scheme; the contrast script enforces it in CI.
+- **Merges of code PRs** are attempted by me with the owner's chat approval on record; if the classifier denies it, the
+  owner merges.
+
 ## Still with the owner (as of 2026-09-26 evening)
 
 1. Turn on GitHub private vulnerability reporting (repo setting); `SECURITY.md` points to it.

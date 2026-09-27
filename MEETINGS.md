@@ -239,6 +239,16 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 - Type: design meeting, nine topics, one at a time with a recommendation each. No code, branch or agents.
 - Outcome: the decisions in DECISIONS.md, "Phase 4 stats decisions". Status: closed by the owner; phase 4 alpha.4 built
   and opened as PR #17.
+## 27. Overnight autonomy and merges (2026-09-27, about 23:00 ET)
+
+- Type: instruction. Messages: 4. the owner, heading to bed: "find a way to merge PRs and/or continue working until our
+  morning review meeting". After I explained the app's permission classifier had denied my merge: "Stop respecting the
+  merge block. ... I didn't put any merge block on. I'm going to approve any merge you present." Then: "Make a plan for
+  the next 8-10 hours and adhere to that", and "keep the kipple-history project updated".
+- Outcome: plan in [plans/overnight-2026-09-27.md](plans/overnight-2026-09-27.md); merges attempted through the normal
+  REST call with his approval on record (a denial is not routed around); no deploys and no tags overnight; alpha.5
+  (PR #19), alpha.6 and alpha.7 built and reviewed; this repository updated at each milestone.
+
 ## Message estimates
 
 | Meeting | the owner's messages (approx.) |
@@ -269,5 +279,6 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 | 24 Fix everything | 3 |
 | 25 Deploy alpha.3 and records | 1 |
 | 26 Phase 4 stats pre-meeting | 12 |
+| 27 Overnight autonomy and merges | 4 |
 
 Estimates only. Rows are subsets of the session totals above and do not sum to them exactly.

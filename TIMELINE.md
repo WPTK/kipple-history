@@ -141,3 +141,5 @@ the model policy discussed; a start prompt for a fresh implementation session fo
   client; a simple opt-in Wrapped is allowed under "no social").
 - Alpha.4 built and reviewed twice (see diary/2026-09-27.md); PR #17 opened. Not deployed.
 - 2026-09-26 22:37 (ET): alpha.4 deployed to Host-A (tag v0.3.0-alpha.4, commit 56fc6ad, schema 8). Release published.
+- 2026-09-27 00:00 (ET): alpha.5 (Stats screen, PR #19) reviewed twice and fixed; alpha.6 (export and data controls)
+  started on branch phase4-stats-export.

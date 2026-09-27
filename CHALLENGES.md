@@ -215,6 +215,21 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   branch on the remote is the source of truth. Agent commit trailers said Opus 5.5 rather than the requested Sonnet 5
   (the model that did the work); left as is to avoid force-pushing shared branches.
 
+## 24. Phase 4 build (2026-09-26 to 27)
+
+- A second `useQuery` observer on the bootstrap key with `queryFn: skipToken` replaced the query's fetch function, so
+  later bootstrap refetches broke once an article had mounted. Existing tests caught it; the fix reads the cache without
+  an observer. Lesson: a hook that only wants to read a query must not register an observer with different options.
+- Two review rounds found real defects each time (double-counted replays, scroll depth read against the wrong article,
+  a malformed `@supports` condition that was always true in current browsers). Fixers introduced two of the second-round
+  findings. Reviewers converging on the same defect from different angles was better evidence than one verifier.
+- A test that failed on `main` about two runs in three (row collapse) was a test-only timing race; make timing tests
+  deterministic instead of raising timeouts.
+- The app's permission classifier denied my merge of a code PR ("merge without review") even after a general
+  go-ahead. I did not route around it. The owner then said in chat that he approves any merge I present; from then on
+  I attempt the normal merge call and stop if it is denied.
+- Unquoted shell heredocs run backticks as commands: a PR description lost a phrase. Use a quoted heredoc.
+
 ## Not yet sourced
 
 - Exact token totals per session. The harness does not expose a per-session counter; the diary's numbers come from

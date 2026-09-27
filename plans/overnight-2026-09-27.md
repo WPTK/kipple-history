@@ -55,3 +55,5 @@ database, deleted after), and known risks.
 ## Status log
 
 - 23:15 alpha.5 committed and pushed (461cfbf); three Opus reviews running.
+- 23:50 first Opus reviews (SQL, web, migration/docs) done; about 25 findings fixed by two agents; local CI green;
+  fixes committed (9b05fc1). PR #19 (alpha.5) opened; second review of the fixes running; GitHub CI running.

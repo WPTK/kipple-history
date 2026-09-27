@@ -83,3 +83,10 @@ database, deleted after), and known risks.
 - 01:25 alpha.7 (Wrapped) built: yearly summary derived from the existing summary endpoint (no new endpoint), opt-in
   share sheet (aggregates only by default, two toggles for sources/longest-read), stats.wrapped_enabled setting.
   Local CI green on the stack. Not yet reviewed or checked visually.
+- 01:30-02:00 alpha.6 fully shipped: PR #21 (feature) and PR #22 (release, CHANGELOG under 0.3.0-alpha.6) both merged,
+  main at 5bcba69. Alpha.7 (Wrapped) rebased clean, local CI green, checked visually at phone width incl. the share
+  dialog (privacy toggles default off, no overflow). Three Opus reviews found ~22 items, none a privacy leak (every
+  reviewer independently confirmed default share output has no feed names/titles); standout bug: switching years
+  while a request is in flight could label the previous year's numbers under the new year, with Share still enabled.
+  Three fix agents dispatched on disjoint files (model/year-switch, share mechanics, docs); docs and share-mechanics
+  done (974/974 tests); model/year-switch fix still running.

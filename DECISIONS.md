@@ -468,3 +468,26 @@ auto-fix protocol, pointing at #51 as where the fix actually landed.
 
 Lesson: when a background agent is mid-fix on a branch, a merge from the owner can land before the fix does —
 watch for this when a PR merges unexpectedly quickly after review comments come in.
+
+## PR #51 merged; UAT Suite 5 executed; phase 5 outline fully closed (2026-09-27, later)
+
+#51 merged. Ran UAT Suite 5 (fresh-machine Docker walkthrough), directly, not delegated: a fresh `git clone`
+into an isolated throwaway location on Host-A (separate container name/image tag/volume, no impact on the real
+`kipple` container, confirmed via `docker ps` before/after). Real finding: `README.md` had no concrete
+clone-to-login sequence, and `docker-compose.example.yml`'s own comment told readers not to run it standalone
+and to see `CLAUDE.md` instead (which is written for the maintainer, not outsiders). Working it out by file-name
+convention (`cp .env.example .env`, `cp docker-compose.example.yml docker-compose.yml`, set `KIPPLE_PASSWORD`,
+build, `up -d`) worked cleanly end to end — 9 migrations, account creation, `/healthz`, and a real authenticated
+login (verified via curl with the `Origin` + `X-Kipple-Client: web` headers a browser sends, once the same-origin
+check's exact requirement was tracked down). So the app was never broken, just underdocumented. Fixed both docs
+directly on `main`; everything torn down afterward.
+
+The browser pane refused to navigate to Host-A's LAN IP (a site-permission gate, not a real problem) — worked
+around by verifying the login flow via curl over SSH instead, which the owner explicitly approved as the
+fallback.
+
+**Phase 5 outline is now fully closed:** (A) audit, (B) Access JWT/passwordless, (C) auto-night theme, (D) docs
+run, (G) SQA gaps — all merged. UAT Suites 1, 2, 4 and 5 all executed clean (Suite 3 explicitly non-gating per
+the owner's earlier call). Per `docs/RELEASING.md`'s own criteria, **the next release is v0.3.0-beta.1** — every
+named gate is met. Open issues (#27-31, #36-39, #43-44, #47-50) are all P2/P3 quality items or post-1.0 roadmap,
+none of which block per the defined severity scale.

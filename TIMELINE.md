@@ -140,3 +140,4 @@ the model policy discussed; a start prompt for a fresh implementation session fo
 - Evening: stats pre-meeting (nine topics), decisions recorded. the owner approves two CLAUDE.md edits (web app is the intended
   client; a simple opt-in Wrapped is allowed under "no social").
 - Alpha.4 built and reviewed twice (see diary/2026-09-27.md); PR #17 opened. Not deployed.
+- 2026-09-26 22:37 (ET): alpha.4 deployed to Host-A (tag v0.3.0-alpha.4, commit 56fc6ad, schema 8). Release published.

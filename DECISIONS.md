@@ -397,3 +397,17 @@ Moved to (D) documentation run and (F) UAT plan execution. Split three ways:
 
 Suite 3 (owner-only device checks: PWA install, swipe gestures, Web Share, the iOS `document.hasFocus()`
 question) still needs the owner directly — nothing to delegate there.
+
+## PR #42 review notes (2026-09-27)
+
+- **kipple.cc is not sensitive** — the owner corrected an over-redaction in the docs-run PR: the agent had
+  replaced "kipple.cc" with "the repository" while fixing the genuine Host-A/Host-B hostname leaks. kipple.cc is
+  the product's own public domain, meant to be shared; only the owner's actual server hostnames (Host-A, Host-B)
+  are the standing-rule redaction. Fixed directly in the PR branch (one line, `docs/ui-decisions.md`).
+- **Single-host vs. two-host framing.** The owner pointed out that `docs/deploy.md`'s Host-A/Host-B split
+  (ssh-based admin workflow) reflects only his own convenience setup — most self-hosters will run Kipple and
+  manage Docker on one machine, no SSH step at all. Added a callout at the top of `docs/deploy.md` explaining
+  Host-A/Host-B collapse to the same box for a single-host setup, and updated UAT Suite 5 in `docs/uat-plan.md`
+  to explicitly simulate a single-host self-hoster (not the owner's own two-host setup) when it actually runs —
+  if the two-host framing trips up a one-host walkthrough, that's a real UAT finding. Both changes pushed as
+  additional commits to the still-open PR #42.

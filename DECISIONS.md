@@ -352,5 +352,15 @@ itself in `internal/api/api.go`/`login.go` auto-merged cleanly), resolved by reb
 both `[Unreleased]` sections, verified with a full `go test` run post-rebase, then merged.
 
 Phase 5 outline status: (A) code audit — done, #26 merged. (B) Access JWT + passwordless — done, #40 merged.
-(C) auto-night theme — started, tracked as issue #32, branch `phase5-auto-night-theme`. (D) documentation run,
-(F) UAT execution, (E) go/no-go — not started. (G) SQA plan gaps — done, merged directly to `main` earlier.
+(C) auto-night theme — PR #41 open (closes #32), CI running, mergeable. (D) documentation run, (F) UAT
+execution, (E) go/no-go — not started. (G) SQA plan gaps — done, merged directly to `main` earlier.
+
+Auto-night theme took six `/code-review high` rounds and about 90 minutes (versus 0 extra rounds for the audit
+and 3 for the auth work) — the owner flagged the runtime as unusually long partway through; checked the
+worktree directly rather than guessing, confirmed steady real progress (not a stuck loop), and told the agent
+to stop iterating and open the PR after finishing only substantive fixes. Notable design change from the brief:
+"schedule" is a hidden per-device flag (`ui.theme_schedule` + two time settings) rather than a third value of
+`ui.theme`, because a third value would make a stale/older client misread it as follow-system and write that
+back — review found this, not the brief. Two known-acceptable edge cases documented in code rather than fixed:
+a narrow server race between reading and writing the schedule flag, and a cached-fixed-theme-without-flag case
+that follows the same policy as picking a fixed theme.

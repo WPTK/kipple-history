@@ -103,14 +103,24 @@ are in [plans/ui-decisions.md](plans/ui-decisions.md). Meeting context: [MEETING
   recognisable open-source-style text, which was the owner's requirement.
 - **No real name anywhere, no exceptions.** Never the owner's surname, full real name or personal email in the code repo:
   LICENSE, notices, package metadata, docs, commit trailers, examples. Copyright holder wording is "Kipple
-  contributors". Git author stays `WPTK <...@users.noreply.github.com>`. the owner rejected an earlier suggestion that used
-  his real name in a copyright line. In this private history repo the first name "the owner" is allowed and the
-  surname is not.
+  contributors". Git author is `WPTK <...@users.noreply.github.com>` in the code repo; this history repo's own commits
+  originally used the owner's initials as the author name and were scrubbed to match on 2026-09-27 (see the
+  addendum below). the owner rejected an earlier suggestion that used his real name in a copyright line.
 - **Pre-public scrub (planned, not done at the time of writing):** before going public, remove or generalise
   hostnames, IP addresses and personal names from committed docs; one family of hostnames contains the surname. the owner
   asked at 10:10 whether to do a preliminary first public publish now to get secrets, hostnames, IPs and names out
   (see [MEETINGS.md](MEETINGS.md) item 19). This repo, `kipple-history`, exists so the diaries and working notes
   can stay private while the code repo goes public.
+- **Addendum, 2026-09-27: this repo's own pre-public scrub, done.** The owner authorized scrubbing this
+  repo (`kipple-history` itself, not just the code repo) and publishing it. Rewrote the full history with
+  `git-filter-repo`: the owner's first name, both hostnames (already generalised to
+  Host-B/Host-A per the code repo's own convention), the Tailscale tailnet name, real LAN IPs, the
+  personal domain, another home service's hostname, and the Windows login path, all replaced with
+  generic equivalents across every commit's content and messages; the author identity was mapped to
+  `WPTK` to match the code repo. No surname or personal email was ever present (checked, 0 hits). Verified
+  with gitleaks and an exhaustive full-history grep for every pattern before publishing. The pre-scrub
+  private history was kept, privately, as `kipple-history-private-archive`, never made public, so the
+  raw data was never reachable by any public URL, including a transient one.
 - **Third-party notices and font licences** are generated and shipped in the image (`517bd2e`).
 
 ## Parking lot (deferred on purpose, do not raise until the end)

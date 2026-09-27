@@ -364,3 +364,36 @@ to stop iterating and open the PR after finishing only substantive fixes. Notabl
 back — review found this, not the brief. Two known-acceptable edge cases documented in code rather than fixed:
 a narrow server race between reading and writing the schedule flag, and a cached-fixed-theme-without-flag case
 that follows the same policy as picking a fixed theme.
+
+PR #41 merged. Phase 5 (A)-(C) and (G) are now done.
+
+## Phase 5: documentation run and UAT execution started (2026-09-27, later)
+
+Moved to (D) documentation run and (F) UAT plan execution. Split three ways:
+
+- **Restore drill + migration rehearsal (UAT Suite 4), done directly, not delegated.** SSH to Host-A works from
+  this box. Copied the live nightly snapshot (`kipple-snapshot.db`, 04:10 that day, schema 8, 138 feeds, 6594
+  items) off the running container with `docker cp` — never touching `kipple.db` — restored it onto a
+  brand-new throwaway volume with the currently-deployed image (`kipple:local`, v0.3.0-alpha.7): passed its
+  integrity checks. Starting a throwaway container against that volume also exercised the 8→9 migration for
+  real (the snapshot was one migration behind live), confirmed by the log line and a healthy `/healthz`. The
+  live `kipple` container was verified untouched throughout (`docker ps` before/after); all throwaway
+  artifacts (container, volume, copied file) were removed after. Documented in `docs/uat-plan.md` under Suite
+  4. Noted in passing: a stray orphan volume `host-a_kipple-data` (hyphen, not the real `host-a_kipple_data`)
+  exists on Host-A — not touched, just flagged for the owner's awareness.
+- **Documentation run, delegated to a background agent.** Full staleness audit against current code and
+  CHANGELOG.md — the known stale spot (README.md's status line still says phase 4 is "next") plus a search for
+  more, and documentation of the two new phase 5 features (Access JWT/passwordless, auto-night theme) that
+  landed without their own doc updates in some places.
+- **UAT Suite 1 (scripted Playwright + axe-core), delegated to a background agent.** Building the in-repo
+  script `docs/uat-plan.md` specifies (not the declined third-party `webapp-uat` skill), running it once
+  against a local seeded dev instance, and reporting real findings without fixing unrelated bugs itself.
+- **UAT Suite 2 (agent-driven scenario walkthroughs), delegated to a background agent.** Working through the
+  full test-case list in `docs/uat-plan.md` against its own local dev seed instance (a different port than
+  Suite 1's, to avoid collision), skipping only what genuinely needs the owner's own devices (Reeder
+  Classic/NetNewsWire, the real Cloudflare Access positive case). Told to fix small unambiguous bugs itself on
+  a branch/PR, and file a GitHub Issue (using the established label taxonomy) for anything needing a product
+  decision or bigger than a quick fix.
+
+Suite 3 (owner-only device checks: PWA install, swipe gestures, Web Share, the iOS `document.hasFocus()`
+question) still needs the owner directly — nothing to delegate there.

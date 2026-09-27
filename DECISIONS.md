@@ -431,3 +431,25 @@ guessed at. `docs/uat-plan.md` gained per-test-case "Executed" notes in PR #45, 
 for the owner: delete a leftover downloaded Wrapped-share PNG at
 `C:\Users\owner\Downloads\c46fc622-e890-4d08-8408-f3050e03b858.tmp` that the agent's browser-pane download
 intercept missed.
+
+## UAT Suite 1 built; Suite 3 stops being a promotion gate (2026-09-27, later)
+
+**Suite 1 (scripted Playwright + axe-core)** built and opened as PR #46 (`web/uat/run.mjs`, `npm run uat`,
+`@playwright/test` Apache-2.0 + `axe-core` MPL-2.0 — corrected from the original "MIT-only" premise). One full
+run against the seeded dev instance (90 checks across 15 screens x 2 themes x 3 widths) found 4 real
+accessibility issues, left unfixed for triage: a critical missing `aria-label` on the Manage Feeds "Select"
+button below 400px, a secondary-text contrast failure on selection backgrounds in Midnight that the existing
+`contrast.mjs` doesn't check, a keyboard-unreachable scroll region on Wrapped (possibly only its empty state),
+and a target-size warning on list rows that's likely a false positive (axe can't see the full-row click
+overlay). PR hit an expected merge conflict with the two PRs merged since the branch was created (#42, #45);
+rebased cleanly, all Go tests re-verified green, pushed, CI green, mergeable.
+
+**Suite 3 is no longer a promotion gate**, per the owner: "keep Suite 3 open, it seems to be working as
+intended so far on my end." Recorded in `docs/RELEASING.md` and `docs/uat-plan.md`: the owner-only device
+checks (PWA install, swipe gestures, Web Share, `document.hasFocus()`) are checked informally on his own
+devices on an ongoing basis, not closed off as a one-time checklist gating beta or rc. Alpha→beta and
+beta→rc now require Suites 1, 2 and 4 only. A real Suite 3 finding still becomes its own tracked fix, just not
+a release blocker.
+
+Also decided: once phase 5 fully closes, the next release is a beta or rc (the "go" product), and other
+phases/steps continue after that — not a full stop-and-wait for 1.0 before further work.

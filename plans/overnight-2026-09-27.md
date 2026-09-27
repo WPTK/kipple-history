@@ -64,3 +64,12 @@ database, deleted after), and known risks.
 - 00:40 new tasks from the owner: resolve the open dependency PRs (7 Dependabot PRs on Kipple, none elsewhere) and a git
   hygiene pass over Kipple, kipple-history and kipple-website; both assigned to Opus agents, results go in the
   morning report.
+- Times above are approximate (the log was written from memory of the order of events; the real clock at the
+  alpha.5 release merge was about 00:15 ET). Actual events, in order, from about 00:20:
+- 00:26 INCIDENT: a dependency-testing agent ran the web test suite inside a Docker Desktop container on Host-B; the
+  engine health probe failed under load and the `DockerCleanStart` task restarted Docker Desktop. All 21 containers
+  and the tunnel were back by 00:26:52; public services were down about 20 to 50 s. Verified healthy at 00:28. A
+  memory note now forbids heavy jobs in Docker on Host-B.
+- 00:30 hygiene pass done (audits/git-hygiene-2026-09-27.md); dependency assessment done (5 Actions bumps safe, Node 26
+  image and TypeScript 7 not yet); Actions PRs being merged one at a time (rebase, green CI, merge). Alpha.6 review
+  fixes in progress (server and web agents).

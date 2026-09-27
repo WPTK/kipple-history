@@ -230,6 +230,14 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   I attempt the normal merge call and stop if it is denied.
 - Unquoted shell heredocs run backticks as commands: a PR description lost a phrase. Use a quoted heredoc.
 
+## 25. Docker restarted by a test run (2026-09-27, 00:26)
+
+- A dependency-testing agent ran a jsdom test suite inside a Node container on the Docker Desktop host that serves the
+  family's public services. The engine health probe failed under the load and the self-heal task restarted Docker
+  Desktop; everything was back within a minute (about 20 to 50 s of public downtime). Cause: I delegated a test of
+  the Node 26 base image without saying where not to run it. Fix: tests run on GitHub CI or with host tools in a temp
+  worktree; any subagent prompt that touches dependencies or Docker now says so; memory note added.
+
 ## Not yet sourced
 
 - Exact token totals per session. The harness does not expose a per-session counter; the diary's numbers come from

@@ -55,3 +55,18 @@ repo. Nothing here starts without the owner asking. The phase plan itself is in 
 
 - Stats for Reeder and other RSS clients (API read inference); reading pace (words per minute); period comparison;
   per-feed drill-down; monthly charts; read rate per feed (published vs opened). Added 2026-09-26.
+
+## Phase 6 candidates (added 2026-09-27)
+
+- **Systematic root-cause debugging protocol in `CLAUDE.md`.** The owner asked whether Kipple's dev process was
+  missing anything a "software dev pipeline/agents" checklist would cover: framework/boilerplate blueprint,
+  linter/type-check enforcement, test-driven generation, systematic debugging, refactoring/clean-code patterns.
+  Assessment: the first, second and fifth are already covered, and more robustly than an installed Skill would
+  do it (`CLAUDE.md`'s Decisions/Layout sections, CI's gofmt/vet/staticcheck/ESLint/tsc gates, and the fixed
+  package layout plus `/code-review`/`/simplify`). Test-driven generation is substantially covered in outcome
+  (high real coverage, ~91% on web, tests shipped alongside every phase 5 feature) even though tests aren't
+  written strictly test-first. The one real gap: no documented "inspect traceback → isolate → check state/types
+  → minimal targeted patch" debugging protocol for Kipple itself, unlike the Host-B-level `CLAUDE.md` which has
+  good root-causing patterns for known ops failure modes. Recommendation given and accepted: don't install a
+  third-party debugging Skill (same reasoning as declining `webapp-uat`); instead add a short, Kipple-specific
+  debugging-protocol section directly to `CLAUDE.md` when phase 6 starts.

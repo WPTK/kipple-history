@@ -491,3 +491,34 @@ run, (G) SQA gaps — all merged. UAT Suites 1, 2, 4 and 5 all executed clean (S
 the owner's earlier call). Per `docs/RELEASING.md`'s own criteria, **the next release is v0.3.0-beta.1** — every
 named gate is met. Open issues (#27-31, #36-39, #43-44, #47-50) are all P2/P3 quality items or post-1.0 roadmap,
 none of which block per the defined severity scale.
+
+## Pre-tag `/code-review high` on the full alpha.7..main diff (2026-09-27, later)
+
+Before actually tagging beta.1, ran the release-checklist step: `/code-review high` on the entire diff since the
+last deployed tag (7000+ lines across all of phase 5), per `docs/RELEASING.md`. 8 finder agents (3 correctness
+angles, 3 cleanup angles, altitude, conventions), then 8 verifier agents against the deduped candidates. Result:
+6 CONFIRMED, 3 REFUTED (a documented Access-policy tradeoff already covered in 3 docs; a fulltext-hold leak that
+turned out already-cleared via defer or test-only-reachable; a maintenance-retry duplicate-write concern where
+no handler actually has a post-commit failure path).
+
+**The headline finding: a real SSRF-guard escape**, independently found by 5 of the 8 finder angles before
+verification even started — `fetch.SameSite`'s bare-hostname rule treats "nas" as the same site as any host
+starting with "nas.", so a feed's private-network/insecure-TLS grant could follow a redirect to an
+attacker-controlled domain, defeating the exact guard PR #26's audit added. Confirmed exploitable by a dedicated
+verifier.
+
+Other 5 confirmed: Reader API subscription/edit lost per-feed atomicity when editing titles in a batch; a
+Reader-API-only folder-merge rename silently widens a filter's scope onto pre-existing feeds in the target
+folder; the deleting-feed placeholder (`kipple:deleting:<id>`) leaks into unread counts and OPML
+export/backups because `notDeletingSQL` was only wired into 3 of ~8 relevant queries; editing just a LAN feed's
+URL silently drops its network exception because the web editor only sends that field when the checkbox itself
+changes; and the auto-night-theme "fixed theme clears the schedule flag" rule is only enforced in `patchDevice`,
+not in the account-level settings PATCH or `makeDeviceDefault`.
+
+Also fixed directly, found by the conventions angle: the new README Quickstart said `localhost` instead of
+`127.0.0.1`, violating the box's own standing rule (and contradicting `web/README.md`'s own copy of the same
+rule) — this would have made the very first URL a new user is told to open occasionally hang for 5-10s.
+
+All 6 confirmed findings assigned to a fix agent (branch `phase5-beta-review-fixes`) before the beta.1 tag goes
+out — this blocks the tag, per the standing "fix everything a review finds" rule. Full fuzz suite
+(`scripts/fuzz.ps1`, 26 targets, 60s each) also run in parallel as the other pre-tag release-checklist step.

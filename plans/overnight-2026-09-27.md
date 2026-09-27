@@ -57,3 +57,10 @@ database, deleted after), and known risks.
 - 23:15 alpha.5 committed and pushed (461cfbf); three Opus reviews running.
 - 23:50 first Opus reviews (SQL, web, migration/docs) done; about 25 findings fixed by two agents; local CI green;
   fixes committed (9b05fc1). PR #19 (alpha.5) opened; second review of the fixes running; GitHub CI running.
+- 00:40 alpha.5 merged (PR #19, main 85b07bf); release PR #20 merged (main c7b3c10, CHANGELOG under 0.3.0-alpha.5);
+  alpha.5 is ready to tag and deploy on the owner's go-ahead (nothing tagged, nothing deployed).
+- 00:40 alpha.6 (export and data controls) built and rebased on main (e58459c); local CI green; end-to-end check of
+  export, dictionary and delete dry run against a seeded dev instance passed; three Opus reviews running.
+- 00:40 new tasks from the owner: resolve the open dependency PRs (7 Dependabot PRs on Kipple, none elsewhere) and a git
+  hygiene pass over Kipple, kipple-history and kipple-website; both assigned to Opus agents, results go in the
+  morning report.

@@ -249,6 +249,19 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
   REST call with his approval on record (a denial is not routed around); no deploys and no tags overnight; alpha.5
   (PR #19), alpha.6 and alpha.7 built and reviewed; this repository updated at each milestone.
 
+## 28. Phase 5 planning meeting (2026-09-27)
+
+- Type: design/scope meeting, six topics, one at a time with a recommendation each, same format as the phase 4
+  pre-meeting. No code, branch or agents until the meeting closed. Messages: 6 (five topic answers plus a
+  clarifying note on scope).
+- Outcome: decisions in DECISIONS.md, "Phase 5 planning decisions". Phase 5 interleaves release-readiness (steps
+  8+: full code audit, changelog review, documentation run, Docker walkthrough, backup/restore-settings guide,
+  final go/no-go) with the two parking-lot items gated on "planned work finished" (Cloudflare Access JWT
+  validation, passwordless login), run in parallel with the audit. Scope boundary: only work directly related to
+  Kipple and its Docker image — auto-night theme is in, the 1.5.0/2.0.0 roadmap (design system, demo site,
+  Google Fonts) stays parked. The owner wants minimal involvement in phase 5: interrupt him only for deploys,
+  Cloudflare changes, and the final go/no-go, not routine build decisions.
+
 ## Message estimates
 
 | Meeting | the owner's messages (approx.) |

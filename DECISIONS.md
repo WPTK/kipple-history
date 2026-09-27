@@ -236,3 +236,31 @@ ask before deploy. Acceptance: a week of real reading on the web app.
 3. Say when to turn off debug logging on Host-A (`KIPPLE_LOG_LEVEL`, `KIPPLE_LOG_GREADER_FORMS`).
 4. The Host-A-side backup job that pushes to Proton Drive (outside the repo).
 5. Cloudflare changes; the go/no-go decision for each deploy; phase 4 UI decisions when that meeting happens.
+
+## Phase 5 planning decisions (2026-09-27)
+
+Phases 1-4 complete (v0.3.0-alpha.7 deployed, kipple.cc public). Six topics, one at a time with a recommendation
+each. Full text in `docs/ui-decisions.md` (working copy, `C:\kipple`); summarized here.
+
+- **Scope: interleaved, not sequential.** Phase 5 combines release-readiness (CLAUDE.md's "release steps 8+":
+  full code audit, changelog review, documentation run, first-time Docker setup walkthrough, backup/
+  restore-settings guide, final go/no-go) with the two parking-lot items that were gated on "planned work
+  finished" — Cloudflare Access JWT validation and passwordless login. Not parking-lot-only, not
+  release-steps-only.
+- **Sequencing: fully parallel.** The code audit/changelog review and the Access JWT/passwordless branch run at
+  the same time on separate branches, rather than auditing first or building auth first. Accepted risk: the
+  audit could flag something in the auth path and cause rework.
+- **Stale phase-3 owner checklist resolved.** Item 3 (Host-A debug logging) the owner is doing himself. Item 4
+  (Host-A→Proton backup job for Kipple's own data, separate from Host-B's `Host-BProtonBackup`) is explicitly
+  **not** being built in phase 5 — local `docker cp` snapshots remain the only backup path. Items 1 and 2
+  (GitHub vuln reporting toggle, `claude-md-proposed-edits.md` approval) are still his to close and stayed
+  unaddressed by this meeting.
+- **Scope boundary: Kipple and its Docker image only.** In: auto-night theme (small, self-contained). Out (stay
+  parked, unchanged timing): the 1.5.0/2.0.0 setup-app/single-image roadmap, a design system, a static demo
+  site, user-chosen Google Fonts.
+- **Owner involvement: minimal.** He wants to be interrupted only for what CLAUDE.md already reserves for him —
+  deploys, Cloudflare changes, the final go/no-go — not for routine build decisions during phase 5.
+
+**Phase 5 outline:** (A) full code audit + changelog review, (B) Cloudflare Access JWT + passwordless in
+parallel with A, (C) auto-night theme, (D) documentation run + Docker walkthrough + backup/restore-settings
+guide, (E) final go/no-go meeting.

@@ -90,3 +90,10 @@ database, deleted after), and known risks.
   while a request is in flight could label the previous year's numbers under the new year, with Share still enabled.
   Three fix agents dispatched on disjoint files (model/year-switch, share mechanics, docs); docs and share-mechanics
   done (974/974 tests); model/year-switch fix still running.
+- 02:00-02:20 alpha.7 fixes: model/year-switch, share mechanics and docs all done in parallel (disjoint files); local
+  CI green; PR #23 opened, GitHub CI green including -race, merged (main f865cbc). All three phase-4 alphas (sender,
+  screen, export/data controls, Wrapped) are now on main. Release PR #24 (Dependabot config tidy: ignore TS>=7, ignore
+  Node major for the image, group Actions majors) opened; PR #7 (TypeScript 7) closed with explanation; PR #1 (Node 26)
+  stays open until 2026-10-28 LTS. Release PR #25 (0.3.0-alpha.7) opened, catching the same CHANGELOG auto-merge fold
+  seen with alpha.6 before it was pushed.
+- Nothing tagged, nothing deployed. Host-A verified untouched at alpha.4, healthy.

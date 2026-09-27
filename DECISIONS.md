@@ -343,3 +343,14 @@ boundaries — dependency-bump PRs land in whichever phase's window they merged 
   withdrawn, quiet hours rejected, Reader "refresh all" has no exception), and release steps 8+ itself (that's
   the whole of phase 5, already tracked as outline items, not a discrete issue).
 - `docs/risk-register.md` updated to link R1→#30 and R2→#31.
+
+## Phase 5 progress (2026-09-27, later)
+
+PR #26 (code audit) merged. PR #40 (Cloudflare Access JWT validation + optional Access-gated web password)
+opened, hit a merge conflict with #26 on `CHANGELOG.md` (exactly the R4 risk-register entry predicted; the code
+itself in `internal/api/api.go`/`login.go` auto-merged cleanly), resolved by rebasing onto `main` and keeping
+both `[Unreleased]` sections, verified with a full `go test` run post-rebase, then merged.
+
+Phase 5 outline status: (A) code audit — done, #26 merged. (B) Access JWT + passwordless — done, #40 merged.
+(C) auto-night theme — started, tracked as issue #32, branch `phase5-auto-night-theme`. (D) documentation run,
+(F) UAT execution, (E) go/no-go — not started. (G) SQA plan gaps — done, merged directly to `main` earlier.

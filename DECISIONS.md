@@ -579,3 +579,8 @@ owner's go-ahead; all 4 tunnel connections re-registered cleanly, verified exter
 both answering normally again). Root cause of the WSL2 network hiccup itself wasn't nailed down — plausibly the
 heavy sustained background load this session was running (parallel review/fix agents, long fuzz suite,
 image builds), but that's a hypothesis, not confirmed.
+
+**Issue #52 closed (2026-09-28):** the owner confirms feed fetching is back to normal after the beta.1 deploy.
+Not independently proven with logs (routine fetch activity still isn't logged — the debug-logging follow-up is
+still queued), but the timing matches the theory: PR #26's scheduler-starvation fix was in `main` but not yet
+deployed when the owner first saw the problem (Host-A was on alpha.7 at the time); beta.1 includes it.

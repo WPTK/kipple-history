@@ -585,3 +585,41 @@ long fuzz suite, image builds), but that's a hypothesis, not confirmed.
 Not independently proven with logs (routine fetch activity still isn't logged — the debug-logging follow-up is
 still queued), but the timing matches the theory: PR #26's scheduler-starvation fix was in `main` but not yet
 deployed when the owner first saw the problem (Host-A was on alpha.7 at the time); beta.1 includes it.
+
+## Overnight: beta.1 feedback triage (2026-09-28)
+
+The owner attached a running feedback file (`0.3.0B1 feedback.md`, ten items from his own phone testing) and
+asked for triage (work now / work later / parking lot), a plan, and anything the feedback pointed at beyond
+its own list. Ten items sorted: two quick fixes (#56 the "N new articles" pill firing on background polls
+not just manual refresh; #62 a mobile tab-bar seam), two feature gaps found to be code-confirmed not just
+perception (#58 folders can't collapse on the only feed-browsing surface mobile actually has; #59 the drag
+handle and edit pencil showing on every Manage Feeds row with no way to hide them), two new small features
+(#60 "Manage this feed" from an article's menu; #61 Feed Health bulk select), and two that needed a design
+pass rather than a code fix (#55 settings reorganization; #57 list-layout differentiation — confirmed by
+direct comparison that Editorial and Cards converge to near-identical at narrow widths). One item (#10,
+"Suite 3 all passes") closed out risk-register R1 and issue #30 directly. PRs #63-#66 shipped same night,
+all reviewed against the live seeded app in the browser pane, not just the test suite.
+
+**A live-app bug turned up during that work, outside the feedback list**: tapping a feed or folder row in
+Manage Feeds appeared not to navigate on either mobile or desktop width, in the browser pane. Root-caused as
+far as: a plain `<a>`.click() via JavaScript worked fine, so the router itself was not broken; real pointer
+clicks at the same coordinates repeatedly did not register on the right element, and a `computer` click
+even mis-hit by over 100px on one unrelated test earlier the same session. Concluded the browser pane's
+click-coordinate mapping was unreliable that session, not a real product bug, and did not file it — a
+genuine finding would need confirming on a real device, which the owner does routinely anyway (see the
+Suite 3 item above).
+
+## Morning meeting, mockups approved, kipple-history follow-through (2026-09-28)
+
+The owner reviewed the settings/layout mockups artifact (5 artboards, `#55`/`#57`) and approved both
+directions as shown: master-detail for settings (a persistent group rail on desktop, tap-a-group-then-back
+on mobile — the same idiom the app's own shell already uses elsewhere), and the layout redesigns (Cards
+gets real card chrome so it stops reading as Editorial at narrow widths; Compact keeps its favicon always,
+Headlines drops it always). Told to implement both.
+
+Also settled, same meeting: `kipple-history`'s public exposure (see CHALLENGES.md #26) gets the full
+destructive fix — git history rewritten, not just the current file content — and the repo stays public
+regardless. Separately: `kipple-history-private-archive` (fully
+redundant, superseded by this repo one minute after its last commit) is being deleted; `kipple-archive`
+(a full pre-history-rewrite snapshot of the *code* repo, not docs — different purpose, a real backup) is
+being kept.

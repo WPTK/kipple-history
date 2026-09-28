@@ -143,3 +143,23 @@ the model policy discussed; a start prompt for a fresh implementation session fo
 - 2026-09-26 22:37 (ET): alpha.4 deployed to Host-A (tag v0.3.0-alpha.4, commit 56fc6ad, schema 8). Release published.
 - 2026-09-27 00:00 (ET): alpha.5 (Stats screen, PR #19) reviewed twice and fixed; alpha.6 (export and data controls)
   started on branch phase4-stats-export.
+
+## 2026-09-27 to 28: phase 5, beta.1, and the beta feedback round
+
+- Phase 5 (release readiness: code audit, Cloudflare Access JWT + passwordless, auto-night theme, docs run,
+  UAT suites) run mostly in parallel, closing through the day; see DECISIONS.md for the individual PRs.
+  `v0.3.0-beta.1` tagged and deployed to Host-A 2026-09-28 (commit `12121c7`, schema 9 — no migration).
+  A real incident (Cloudflare error 1033, a stuck QUIC dial on `cloudflared`) interrupted deploy prep and was
+  fixed with a plain restart; unrelated to any of this project's own changes.
+- 2026-09-27 evening: the owner brought a phone-testing feedback file for v0.3.0-beta.1 (ten items). Triaged
+  to issues #55-#62, four PRs shipped same session (#63-#66). See diary/2026-09-28.md.
+- Overnight (the owner's fixed task list, not open-ended): settings/layout mockups for #55/#57, a git
+  hygiene pass (ten stale worktrees removed), a README revamp attempt (PR #67 — the owner's read the next
+  morning was that it needed redoing properly, not accepted as-is), a kipple.cc visual check (one staleness
+  found and fixed, kipple-website#1), and keeping this repository current — which is how this repository's
+  own public exposure was found and fixed the same night. See CHALLENGES.md #26 for that account in full.
+- 2026-09-28 morning meeting: mockups approved (master-detail settings, redesigned Cards/Compact/Headlines
+  layouts — implementation follows); this repository's git history rewritten (not just the current-file
+  fix from the night before) with the owner's explicit go-ahead, force-pushed, verified clean; the
+  now-redundant `kipple-history-private-archive` repository slated for deletion (blocked on a missing GitHub
+  token scope), `kipple-archive` kept as a genuine backup of the pre-rewrite code history.

@@ -232,7 +232,8 @@ ask before deploy. Acceptance: a week of real reading on the web app.
 ## Still with the owner (as of 2026-09-26 evening)
 
 1. Turn on GitHub private vulnerability reporting (repo setting); `SECURITY.md` points to it.
-2. Approve or reject [audits/claude-md-proposed-edits.md](audits/claude-md-proposed-edits.md).
+2. ~~Approve or reject audits/claude-md-proposed-edits.md.~~ Dropped (2026-09-28): the owner had the file removed
+   rather than acted on, given how much has shipped since it was written.
 3. Say when to turn off debug logging on Host-A (`KIPPLE_LOG_LEVEL`, `KIPPLE_LOG_GREADER_FORMS`).
 4. The Host-A-side backup job that pushes to Proton Drive (outside the repo).
 5. Cloudflare changes; the go/no-go decision for each deploy; phase 4 UI decisions when that meeting happens.

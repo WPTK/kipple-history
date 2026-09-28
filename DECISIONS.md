@@ -521,4 +521,39 @@ rule) — this would have made the very first URL a new user is told to open occ
 
 All 6 confirmed findings assigned to a fix agent (branch `phase5-beta-review-fixes`) before the beta.1 tag goes
 out — this blocks the tag, per the standing "fix everything a review finds" rule. Full fuzz suite
-(`scripts/fuzz.ps1`, 26 targets, 60s each) also run in parallel as the other pre-tag release-checklist step.
+(`scripts/fuzz.ps1`, 26 targets, 60s each) also run in parallel as the other pre-tag release-checklist step. All
+26 fuzz targets clean.
+
+Also, mid-review, the owner reported a live issue on the actual deployed instance (alpha.7 on Host-A): the
+Unread list dominated by one feed category, other known-active feeds showing 3+ day old items. Investigated
+(inconclusive — log silence at debug level isn't proof of a stuck scheduler, since routine fetches aren't
+logged at all by design) and filed as issue #52 with a theory: the phase 5 audit's scheduler-starvation fix
+(one held/rate-limited host no longer blocking every other feed) is in `main`/PR #26 but not yet deployed to
+Host-A, so this may already be resolved once beta.1 deploys. The owner separately proposed a "verbose" log
+level to help diagnose issues like this; decided instead to add targeted debug-level scheduler-tick/fetch
+logging (Go's four `log/slog` levels are enough; the gap is that the code never logs routine activity, not that
+debug is disabled) — queued as a post-beta.1 follow-up on issue #52 rather than started immediately, to avoid
+colliding with the two fix agents already deep in `internal/fetch`/`internal/sched`.
+
+**PR #53** (regression tests + UAT accessibility fixes: #27-29, #47-50) opened, hit an expected merge conflict
+with #43/#44's direct-push fix (same CHANGELOG region), resolved by rebasing, Go/web tests and the contrast
+script re-verified green, pushed. Two judgment calls made directly rather than kicked back to the owner (given
+his "take it from here"): accepted the #50 target-size waiver (the agent's own investigation concretely verified
+the full-row click overlay), and left the Cocoa Mid contrast gap as a documented known-gap rather than force a
+color fix that would either wash out secondary text or make the selected row nearly invisible.
+
+**PR #54** (the 6 confirmed pre-beta findings, including the critical SSRF fix) opened after ~2.5 hours and 11
+total `/code-review high` rounds across two passes — legitimately large scope (28+ files across fetch/hosts,
+greader, store, api/devices+settings, web FeedEditor), not stuck; checked in on it once via SendMessage after 2
+hours with no commits, confirmed real steady progress, let it continue. Its own review rounds found real
+follow-ups beyond the original 6: a *second* SSRF hole in the same class (a bare LAN name that's also a real
+public TLD, e.g. "news" vs "evil.news", was still getting the grant via subdomain matching — fixed by making
+single-label hosts match only themselves), deleting-feed leaks in more places than the original review found
+(UnreadTotal, muted counts, article lists, search, both mark-all-read paths, Reader API streams), and a folder
+merge that had a filter-count limit gap. One deliberate deviation from the fix instructions, with good reasoning
+recorded in the CHANGELOG: always sending the current allow_private_net/allow_insecure_tls on a URL edit (as
+originally asked) would have undone the SSRF fix itself for a feed redirected to an attacker's held domain — so
+FeedEditor instead added an explicit "Keep for the new address" opt-in when the host changes while a grant is
+on. One thing deliberately left out: the reviewers' suggestion to consolidate deleting-feed exclusion into one
+view/indexed column instead of a per-query condition — needs a schema migration, and this release has none, so
+it's written up in the PR body as a future item instead of forced into a "no migration" release.

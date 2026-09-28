@@ -252,7 +252,7 @@ each. Full text in `docs/ui-decisions.md` (working copy, `C:\kipple`); summarize
   the same time on separate branches, rather than auditing first or building auth first. Accepted risk: the
   audit could flag something in the auth path and cause rework.
 - **Stale phase-3 owner checklist resolved.** Item 3 (Host-A debug logging) the owner is doing himself. Item 4
-  (Host-A→Proton backup job for Kipple's own data, separate from Host-B's `Host-BProtonBackup`) is explicitly
+  (Host-A→Proton backup job for Kipple's own data, separate from Host-B's own Proton backup job) is explicitly
   **not** being built in phase 5 — local `docker cp` snapshots remain the only backup path. Items 1 and 2
   (GitHub vuln reporting toggle, `claude-md-proposed-edits.md` approval) are still his to close and stayed
   unaddressed by this meeting.
@@ -380,7 +380,7 @@ Moved to (D) documentation run and (F) UAT plan execution. Split three ways:
   real (the snapshot was one migration behind live), confirmed by the log line and a healthy `/healthz`. The
   live `kipple` container was verified untouched throughout (`docker ps` before/after); all throwaway
   artifacts (container, volume, copied file) were removed after. Documented in `docs/uat-plan.md` under Suite
-  4. Noted in passing: a stray orphan volume `host-a_kipple-data` (hyphen, not the real `host-a_kipple_data`)
+  4. Noted in passing: a stray orphan volume (a hyphen where the real one it resembles uses an underscore)
   exists on Host-A — not touched, just flagged for the owner's awareness.
 - **Documentation run, delegated to a background agent.** Full staleness audit against current code and
   CHANGELOG.md — the known stale spot (README.md's status line still says phase 4 is "next") plus a search for
@@ -403,8 +403,9 @@ question) still needs the owner directly — nothing to delegate there.
 
 - **kipple.cc is not sensitive** — the owner corrected an over-redaction in the docs-run PR: the agent had
   replaced "kipple.cc" with "the repository" while fixing the genuine Host-A/Host-B hostname leaks. kipple.cc is
-  the product's own public domain, meant to be shared; only the owner's actual server hostnames (Host-A, Host-B)
-  are the standing-rule redaction. Fixed directly in the PR branch (one line, `docs/ui-decisions.md`).
+  the product's own public domain, meant to be shared; only the owner's actual server hostnames (aliased
+  Host-A/Host-B everywhere in the public docs) are the standing-rule redaction. Fixed directly in the PR
+  branch (one line, `docs/ui-decisions.md`).
 - **Single-host vs. two-host framing.** The owner pointed out that `docs/deploy.md`'s Host-A/Host-B split
   (ssh-based admin workflow) reflects only his own convenience setup — most self-hosters will run Kipple and
   manage Docker on one machine, no SSH step at all. Added a callout at the top of `docs/deploy.md` explaining
@@ -429,9 +430,8 @@ need the owner's Reeder/NetNewsWire), 3 small bugs found and fixed in PR #45 (`/
 element in Search, highlight-filter status text claiming it never matched when the server doesn't track that,
 OPML-import summary grammar), 2 wording questions filed as issues #43/#44 for the owner's call rather than
 guessed at. `docs/uat-plan.md` gained per-test-case "Executed" notes in PR #45, same style as Suite 4's. Left
-for the owner: delete a leftover downloaded Wrapped-share PNG at
-`C:\Users\owner\Downloads\c46fc622-e890-4d08-8408-f3050e03b858.tmp` that the agent's browser-pane download
-intercept missed.
+for the owner: delete a leftover downloaded Wrapped-share PNG (a `.tmp` file in his Downloads folder) that
+the agent's browser-pane download intercept missed.
 
 ## UAT Suite 1 built; Suite 3 stops being a promotion gate (2026-09-27, later)
 
@@ -562,8 +562,8 @@ it's written up in the PR body as a future item instead of forced into a "no mig
 ## v0.3.0-beta.1 shipped (2026-09-28)
 
 PRs #53 and #54 merged, closing every phase 5 gate. Full release checklist run: CI green on the exact commit
-(`12121c7`), 26/26 fuzz targets clean, off-box DB copy (`P:\Host-B-backups\kipple\pre-beta1-2026-09-27.db`, the
-nightly snapshot — no live-export credentials on hand, which `docs/deploy.md` lists as the sanctioned
+(`12121c7`), 26/26 fuzz targets clean, off-box DB copy (a copy of the nightly snapshot kept on the owner's
+own backup drive — no live-export credentials on hand, which `docs/deploy.md` lists as the sanctioned
 fallback), CHANGELOG moved to `## [0.3.0-beta.1]` with a note that beta/rc from here changes only fixes, tagged
 `v0.3.0-beta.1` on that commit, deployed to Host-A (no schema migration, still schema 9), verified (healthy,
 correct version string, `/healthz` ok, greader endpoint reachable, memory 18MiB/256MiB idle), GitHub Release
@@ -576,10 +576,10 @@ owner reported Cloudflare error 1033 on every site behind Host-B's tunnel — ch
 edge over QUIC/UDP while the host's own DNS and TCP connectivity were fine — a Docker/WSL2 network-layer
 problem, not the token-rotation risk the standing "never recreate cloudflared" rule is about. Fixed with a
 plain `docker restart cloudflared` (restart, not recreate, so that specific risk didn't apply) after getting the
-owner's go-ahead; all 4 tunnel connections re-registered cleanly, verified externally (example.com and rss.example.com
-both answering normally again). Root cause of the WSL2 network hiccup itself wasn't nailed down — plausibly the
-heavy sustained background load this session was running (parallel review/fix agents, long fuzz suite,
-image builds), but that's a hypothesis, not confirmed.
+owner's go-ahead; all 4 tunnel connections re-registered cleanly, verified externally (every site behind the
+tunnel, Kipple included, answering normally again). Root cause of the WSL2 network hiccup itself wasn't nailed
+down — plausibly the heavy sustained background load this session was running (parallel review/fix agents,
+long fuzz suite, image builds), but that's a hypothesis, not confirmed.
 
 **Issue #52 closed (2026-09-28):** the owner confirms feed fetching is back to normal after the beta.1 deploy.
 Not independently proven with logs (routine fetch activity still isn't logged — the debug-logging follow-up is

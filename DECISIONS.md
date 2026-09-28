@@ -557,3 +557,25 @@ FeedEditor instead added an explicit "Keep for the new address" opt-in when the 
 on. One thing deliberately left out: the reviewers' suggestion to consolidate deleting-feed exclusion into one
 view/indexed column instead of a per-query condition — needs a schema migration, and this release has none, so
 it's written up in the PR body as a future item instead of forced into a "no migration" release.
+
+## v0.3.0-beta.1 shipped (2026-09-28)
+
+PRs #53 and #54 merged, closing every phase 5 gate. Full release checklist run: CI green on the exact commit
+(`12121c7`), 26/26 fuzz targets clean, off-box DB copy (`P:\Host-B-backups\kipple\pre-beta1-2026-09-27.db`, the
+nightly snapshot — no live-export credentials on hand, which `docs/deploy.md` lists as the sanctioned
+fallback), CHANGELOG moved to `## [0.3.0-beta.1]` with a note that beta/rc from here changes only fixes, tagged
+`v0.3.0-beta.1` on that commit, deployed to Host-A (no schema migration, still schema 9), verified (healthy,
+correct version string, `/healthz` ok, greader endpoint reachable, memory 18MiB/256MiB idle), GitHub Release
+published as a pre-release with the CHANGELOG section as notes.
+
+**A real incident interrupted the deploy prep, unrelated to any of this session's own actions on the box.** The
+owner reported Cloudflare error 1033 on every site behind Host-B's tunnel — checked both Docker stacks
+(Host-B and Host-A) first, both fully healthy, ruling out anything actually being "pulled down." Root cause:
+`cloudflared` (same container, up 21h, created 2 weeks ago — never recreated) was failing to dial Cloudflare's
+edge over QUIC/UDP while the host's own DNS and TCP connectivity were fine — a Docker/WSL2 network-layer
+problem, not the token-rotation risk the standing "never recreate cloudflared" rule is about. Fixed with a
+plain `docker restart cloudflared` (restart, not recreate, so that specific risk didn't apply) after getting the
+owner's go-ahead; all 4 tunnel connections re-registered cleanly, verified externally (example.com and rss.example.com
+both answering normally again). Root cause of the WSL2 network hiccup itself wasn't nailed down — plausibly the
+heavy sustained background load this session was running (parallel review/fix agents, long fuzz suite,
+image builds), but that's a hypothesis, not confirmed.

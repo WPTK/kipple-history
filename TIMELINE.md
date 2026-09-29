@@ -235,3 +235,6 @@ Sources: diary/2026-09-29.md, CHALLENGES.md #27. Times ET.
 - 13:18 to 13:49 beta.2 preparation: fuzz clean, UAT Suite 1 clean, final review clean, release commit `585e961` (PR #88, merged 14:01). 14:08 PR #89 (the daily-history rule) merged.
 - 13:53 The owner asks for a full check of this repository ("I don't see any entries from Sunday"); four writers fill
   the gaps. Beta.2 tag, off-box copy, deploy and GitHub Release not yet done at the time of writing.
+- 15:21 `v0.3.0-beta.2` tagged on `0fa8450`; 15:22 deployed to Host-A (recreated only `kipple`, healthy, no migration);
+  15:24 GitHub pre-release published and the website PR (version text, screenshots, social preview) merged. PR #90 (the
+  screenshot tool and release step 12) opened during the afternoon.

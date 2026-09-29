@@ -209,7 +209,7 @@ These four branches were cut from `main` after `v0.2.0` and are open work at the
   `CHANGELOG.md` by `scripts/changelog.mjs` at release time). See CHALLENGES items 30 to 35.
 - Size so far: 46 commits, 2,605 lines added and 432 removed in 84 files since beta.1 (release PR #88 itself: 20 files,
   34 added, 20 removed). Fuzz clean, UAT Suite 1 clean, review clean; waiting on CI for the release commit at the time of
-  writing. #88 merged 14:01 ET and #89 (the daily-history rule) 14:08. Not tagged, not deployed yet.
+  writing. #88 merged 14:01 ET and #89 (the daily-history rule) 14:08. Tagged 15:21 on `0fa8450`, deployed to Host-A 15:22 and released on GitHub 15:24 (see diary/2026-09-29.md).
 - The owner decided beta.2 is next, not rc.1: the changes since beta.1 are feature-sized, and per `docs/RELEASING.md` an
   rc needs Suites 1, 2 and 4 re-verified plus a soak week.
 

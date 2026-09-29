@@ -752,3 +752,12 @@ merge them" and the "Merges of code PRs" line under "Phase 4 build decisions aft
   off-box copy, deploy, GitHub Release). The owner's phone pass and the closing of #57 and #62 remain his. #88 merged at 14:01 ET; no tag exists yet.
 - **kipple-history is updated at least daily** and after every release, meeting or incident (13:53: "should be part
   of your workflow, at the very least daily"). Saved to memory; PR #89 adds it to `CLAUDE.md`.
+
+### Website update on every release (2026-09-29, mid-turn)
+
+- The owner asked that each release also update the kipple.cc website: new screenshots and anything that mentions a
+  version. It is release step 12 in `docs/RELEASING.md` (the version text is never skipped; screenshots may be kept for a
+  release with no visible UI change), done through a PR in the site repository whose merge publishes. Tooling:
+  `web/scripts/site-shots.mjs` and `KIPPLE_SEED_SET=site`.
+- Deploy and tag were asked for and given explicitly for beta.2 ("Tag, deploy and release"); the standing rule stays that
+  a tag, an off-box copy and a deploy each need the owner's go-ahead.

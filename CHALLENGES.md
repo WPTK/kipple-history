@@ -278,6 +278,17 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   rewrite has the old blobs. GitHub itself may have cached the old commits for some period. This closes the
   hole for anyone visiting from here on; it is not a guarantee that the original text was never seen.
 
+## 27. A failed assertion that looked like a 15-minute hang (2026-09-29)
+
+- `go test` on `internal/imgproxy` timed out at exactly 900 s on two PRs and then on `main`. The first two
+  were re-run and passed, which hid the pattern; the third gave a goroutine dump.
+- The dump showed a test goroutine inside FailNow/Goexit, not a race. A timing assertion had failed on a
+  loaded runner while the test still held the whole decode budget; cleanup then blocked forever waiting for
+  a worker stuck on that budget, so the assertion message was never printed.
+- Fixed in PR #73. **Lesson: any test that holds a shared resource a background worker needs must release it
+  in `t.Cleanup`, and a "timeout" should be diagnosed from the goroutine dump before assuming a race or
+  re-running.** Re-running a flake twice was the wrong response; the evidence was already in the log.
+
 ## Not yet sourced
 
 - Exact token totals per session. The harness does not expose a per-session counter; the diary's numbers come from

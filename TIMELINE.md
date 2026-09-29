@@ -163,3 +163,6 @@ the model policy discussed; a start prompt for a fresh implementation session fo
   fix from the night before) with the owner's explicit go-ahead, force-pushed, verified clean; the
   now-redundant `kipple-history-private-archive` repository slated for deletion (blocked on a missing GitHub
   token scope), `kipple-archive` kept as a genuine backup of the pre-rewrite code history.
+- 2026-09-29: PRs #65, #68, #69, #70 merged (beta.1 feedback fully implemented); issues #71 and #72 filed;
+  the imgproxy CI 900 s "hang" root-caused and fixed in PR #73; morning-meeting brief prepared. See
+  diary/2026-09-29.md and CHALLENGES.md #27.

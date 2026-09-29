@@ -238,3 +238,5 @@ Sources: diary/2026-09-29.md, CHALLENGES.md #27. Times ET.
 - 15:21 `v0.3.0-beta.2` tagged on `0fa8450`; 15:22 deployed to Host-A (recreated only `kipple`, healthy, no migration);
   15:24 GitHub pre-release published and the website PR (version text, screenshots, social preview) merged. PR #90 (the
   screenshot tool and release step 12) opened during the afternoon.
+- 2026-09-29 late afternoon: the owner's phone pass done; #57 and #62 closed as fixed; the beta.2 soak started (one week,
+  earliest rc.1 on 2026-10-06 if no P0/P1 turns up).

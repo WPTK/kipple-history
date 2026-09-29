@@ -761,3 +761,9 @@ merge them" and the "Merges of code PRs" line under "Phase 4 build decisions aft
   `web/scripts/site-shots.mjs` and `KIPPLE_SEED_SET=site`.
 - Deploy and tag were asked for and given explicitly for beta.2 ("Tag, deploy and release"); the standing rule stays that
   a tag, an off-box copy and a deploy each need the owner's go-ahead.
+
+### Beta.2 soak begins (2026-09-29)
+
+- The owner started the soak on beta.2 after his phone pass and closed #57 and #62 as fixed. Rules as set on 2026-09-27:
+  one week of real use, zero new P0/P1 defects, a regression resets the clock, Suites 1, 2 and 4 re-verified before rc.1,
+  Suite 3 stays informal.

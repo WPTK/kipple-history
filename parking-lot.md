@@ -99,3 +99,20 @@ in the public repo. Nothing here starts without the owner asking. Roadmap items 
   good root-causing patterns for known ops failure modes. Recommendation given and accepted: don't install a
   third-party debugging Skill (same reasoning as declining `webapp-uat`); instead add a short, Kipple-specific
   debugging-protocol section directly to `CLAUDE.md` when phase 6 starts.
+
+## Added 2026-09-29: setup wizard and pull-and-run image (roadmap #33, now scheduled)
+
+Scheduled, no longer parked: first-run setup wizard plus one-command Docker install, as a beta (0.5.0-beta.1, or 0.4.1
+if the numbering changes; an exception to "beta adds no features", soak clock restarts on it).
+
+- Default port **1919** (IANA: IBM Tivoli only, no common app); fallback 1138. Ceres keeps 7080 by override.
+- Account creation (username, optional password) moves into the wizard. No password required, with a notice to keep it
+  behind Tailscale or localhost only; passwordless mode needs Host/Origin validation. Setup claim protected by a
+  one-time token in the container log.
+- Wizard steps: account, theme, OPML import (skippable), recommended feeds (skippable, from a separate editable data
+  file; the owner supplies the list). Later steps: custom domain, Cloudflare OTP, other config that is env-only today.
+- Build info: OCI labels, richer `kipple version`, About screen with copy-debug-info, service-worker vs server version
+  banner, downgrade guard (refuse a database newer than the binary), image digest, what's-new after upgrade. No
+  update-check (no phoning home).
+- GHCR is the first registry (multi-arch, cosign, SBOM). **Where else to host is parked until 1.0**: Docker Hub, Quay,
+  Unraid Community Apps, CasaOS/Umbrel/Runtipi, awesome-selfhosted, selfh.st, Portainer/TrueNAS templates.

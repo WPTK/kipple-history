@@ -418,3 +418,20 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
 
 - Exact token totals per session. The harness does not expose a per-session counter; the diary's numbers come from
   the plan meter and are marked approximate there.
+
+## 36. A wide row made the Cards list scroll sideways on a phone (2026-09-29)
+
+- Found by UAT Suite 1 (S4) after the beta.3 fixes, not by the earlier Suite 1 run that morning. One article in the
+  seeded feeds had a wide unbreakable piece of content; the Cards list on a phone scrolled sideways by 24 px.
+- Cause: every list row sits in `.kp-row`, a grid that defined only a row template, so its implicit column was `auto`
+  and took the widest item's min-content. It was latent and data-dependent, not caused by the day's fixes.
+- Fix: one column of `minmax(0, 1fr)` and `min-width: 0` on the child (PR #115). jsdom cannot lay out CSS, so the UAT
+  run is the regression test. Lesson: a passing Suite 1 depends on the feed data of the day; re-run it whenever list
+  code moves.
+
+## 37. The import announcement (#93) could not be reproduced from the description (2026-09-29)
+
+- The UAT tester reported the "N new articles" pill after an OPML import. The fix agent found the announcement came
+  from the run-finished event and fixed that, but could not see how the pill could show. Before closing, I imported an
+  OPML with one new feed into a seeded instance with All articles open and watched the page: no pill, no announcement.
+  Lesson: when a fix addresses a nearby cause, verify the reported symptom in a running app before calling it fixed.

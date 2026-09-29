@@ -95,3 +95,11 @@ convenience. Everything torn down afterwards.
 The Reader API regression replay (recorded Reeder Classic and NetNewsWire request sequences against a deployed
 build) and TC-A1 to A3 remain with the owner's client testing. There is no separate `uat-findings` file; this record
 and the plan's executed sections are the findings record.
+
+## Update 2026-09-29: rc.1 re-verification on v0.3.0-beta.2
+
+Suites 2, 4 and 5 were re-run and Suite 1 twice (once on beta.2, once on the beta.3 candidate). Suite 2: 21 of 26 cases
+pass, 1 fails, 4 skipped or blocked; nine defects (B2-1 to B2-9) filed as #92 to #100, none P0 or P1, all fixed in beta.3;
+the one follow-up is the offline-reads issue #108. Suites 4 and 5 passed (Suite 5 with a P3 note, #102). Suite 1 on the
+beta.3 candidate found a latent wide-row overflow (fixed in #115) and then exited 0. The full records are in
+`docs/uat-plan.md` of the code repository.

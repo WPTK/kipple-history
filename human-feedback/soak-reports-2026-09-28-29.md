@@ -84,3 +84,11 @@ for the main folder list. The sidebar chevron became one shared `CollapseToggle`
   (after noticing there were no entries from Sunday). It is now a rule in the Kipple `CLAUDE.md`.
 - Changelog (2026-09-29 morning meeting, and again at 11:57 ET): the recurring `CHANGELOG.md` merge conflicts had to
   stop; "begin the changelog retooling. Take that all the way through please." Delivered as PR #85.
+
+## 2026-09-29 evening
+
+- Owner's confirmation after his phone pass of beta.2: #57 and #62 fixed and closed.
+- Owner's direction after the UAT re-run: "Fix all defects", as the next beta or an X.X.1 release; and on the archive feed:
+  "If someone unsubscribed from a feed, it shouldn't show up anywhere." (issue #100, fixed in beta.3). Not yet
+  confirmed on his devices: how Reeder and NetNewsWire treat archived starred items after the Reader API stopped listing
+  the archive feed.

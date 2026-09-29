@@ -419,6 +419,17 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
   agent audited the repository, found the gaps (no Sunday daytime or evening diary, milestones stopping at 09-26,
   stale plan snapshots), started four writers to fill them, saved the rule to memory and opened PR #89 to add it to `CLAUDE.md`.
 
+## 42. The beta.2 UAT round and beta.3 (2026-09-29, 15:30 to 18:45)
+
+- Type: instructions and decisions during the soak. Messages: about 6. Start the soak and close #57 and #62 (both
+  fixed); run Suites 2 and 3 (Suite 3 is his own devices, so the agent explained it cannot and offered Suite 4);
+  then "Yes, suite 4 and any other suites we haven't run yet for this round", with a note that another session was
+  planning the setup wizard and the published image, which the agent coordinated with by message (nothing from it
+  touches the release). After the Suite 2 findings: "Fix all defects. It can be the next beta or a X.X.1 release".
+  On the archive feed of an unsubscribed feed: "If someone unsubscribed from a feed, it shouldn't show up anywhere."
+  At the end, through the question dialog: tag, deploy and release beta.3, and keep the beta.2 soak clock (earliest
+  rc.1 stays 2026-10-06).
+
 ## Message estimates
 
 | Meeting | the owner's messages (approx.) |
@@ -464,5 +475,6 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 | 39 Review gate and fixes | 3 |
 | 40 Fragments, favorited folders, beta.2 | 3 |
 | 41 kipple-history rule | 1 |
+| 42 UAT round and beta.3 | 6 |
 
 Estimates only. Rows are subsets of the session totals above and do not sum to them exactly.

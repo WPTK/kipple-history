@@ -240,3 +240,6 @@ Sources: diary/2026-09-29.md, CHALLENGES.md #27. Times ET.
   screenshot tool and release step 12) opened during the afternoon.
 - 2026-09-29 late afternoon: the owner's phone pass done; #57 and #62 closed as fixed; the beta.2 soak started (one week,
   earliest rc.1 on 2026-10-06 if no P0/P1 turns up).
+- 15:30 to 17:00 UAT Suites 2, 4 and 5 re-run on beta.2; nine defects filed (#92 to #100) and the Quickstart version note (#102).
+- 17:09 to 17:13 eight fix PRs merged after a combined test run; 17:40 #115 (Cards row width); 17:53 release PR #116.
+- 18:43 `v0.3.0-beta.3` tagged on `46da6a6`; 18:44 deployed to Host-A and released on GitHub; the website updated.

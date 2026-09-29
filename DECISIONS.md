@@ -767,3 +767,19 @@ merge them" and the "Merges of code PRs" line under "Phase 4 build decisions aft
 - The owner started the soak on beta.2 after his phone pass and closed #57 and #62 as fixed. Rules as set on 2026-09-27:
   one week of real use, zero new P0/P1 defects, a regression resets the clock, Suites 1, 2 and 4 re-verified before rc.1,
   Suite 3 stays informal.
+
+### The beta.2 UAT round and beta.3 (2026-09-29, afternoon and evening)
+
+- **Fix every defect the re-run found** (the owner: "Fix all defects"), shipped as the next beta (`v0.3.0-beta.3`), not
+  waiting for rc.1. Nine defects: #92 to #99 fixed; #100 was first filed as a question and became a fix.
+- **An unsubscribed feed shows up nowhere.** The internal archive pseudo-feed that holds starred articles of an
+  unsubscribed feed is hidden from the sidebar, every picker, search, and the Reader API subscription list (one
+  shared rule on the server and one on the web). Its starred articles stay in Starred, All, Unread and search. Risk
+  recorded: NetNewsWire or Reeder may no longer show those archived starred items; it needs a device check.
+  Stats rows for deleted feeds (five code paths) were deliberately left as they are; the owner has not decided.
+- **The soak keeps the beta.2 clock** (chosen at the beta.3 go-ahead): fixes only, so earliest rc.1 stays 2026-10-06 after
+  15:22 ET; a regression still resets it. Suites 1, 2, 4 and 5 were all re-run this round; Suite 3 stays informal.
+- **Work is split into one fix per issue per agent** (each in its own worktree, tests first, PR opened by the agent,
+  merges by the coordinator after a combined test run and review), because the nine fixes were independent.
+- Deferred: the offline-reads problem (every query except the article detail pauses offline) is issue #108, not part of
+  beta.3.

@@ -210,6 +210,14 @@ These four branches were cut from `main` after `v0.2.0` and are open work at the
 - Size so far: 46 commits, 2,605 lines added and 432 removed in 84 files since beta.1 (release PR #88 itself: 20 files,
   34 added, 20 removed). Fuzz clean, UAT Suite 1 clean, review clean; waiting on CI for the release commit at the time of
   writing. #88 merged 14:01 ET and #89 (the daily-history rule) 14:08. Tagged 15:21 on `0fa8450`, deployed to Host-A 15:22 and released on GitHub 15:24 (see diary/2026-09-29.md).
+
+## v0.3.0-beta.3 (2026-09-29, evening)
+
+- Fixes only, from the beta.2 UAT re-run (Suites 1, 2, 4, 5): 13 commits, 48 files, 992 lines added and 111 removed since
+  beta.2. Backup dialog date, OPML import announcement, list gaps and position on return, offline article screen,
+  Feed Health select mode, Manage this feed in the reader menu, list header width, empty-state copy, the wide-row sideways
+  scroll, and the archive feed hidden everywhere. Tagged 18:43 on `46da6a6`, deployed 18:44, no schema migration.
+  Soak clock kept from beta.2 (earliest rc.1 2026-10-06).
 - The owner decided beta.2 is next, not rc.1: the changes since beta.1 are feature-sized, and per `docs/RELEASING.md` an
   rc needs Suites 1, 2 and 4 re-verified plus a soak week.
 

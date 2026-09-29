@@ -6,6 +6,106 @@ All notable changes to Kipple are documented here. The format follows
 
 ## [Unreleased]
 
+Changes not yet in a release are one file each in [`changes/`](changes/); they are folded into this file when a release is cut.
+
+## [0.3.0-beta.1] - 2026-09-27
+
+Phase 5, release readiness: the full code audit and its follow-up review round, optional Cloudflare Access token
+validation with an optional web password, the scheduled auto-night theme, a documentation accuracy pass, and the
+UAT plan's scripted and scenario suites. No schema migration. Feature-complete for 1.0: this and any further
+`-beta.N`/`-rc.N` builds change only fixes, not features (see `docs/RELEASING.md`).
+
+### Added
+
+- Optional Cloudflare Access token validation: with `KIPPLE_ACCESS_TEAM_DOMAIN` and `KIPPLE_ACCESS_AUD` both set, Kipple verifies the `Cf-Access-Jwt-Assertion` header (RS256 signature against the team's cached key set, issuer, audience, expiry and not-before). It is off when both are unset, and setting only one stops startup. A verified token never replaces the session cookie. `GET /api/auth/me` gains `password_set`, `access_enabled` and `access_email` (the verified token's email, or null) and the bootstrap `user` object gains the first two; Settings shows the Access email. The team's key set is cached for an hour and refreshed in the background, so a slow Cloudflare never stalls a request.
+- Optional web password, only with Access validation on: Settings > Remove web password (offered only through a verified Access sign-in, and asking for the current password) leaves an account that signs in with an empty password, and only on requests that carry a verified Access token; a LAN request without one is refused, and a refused token counts toward the login lockout (a missing token does not, and a key set Cloudflare cannot serve answers `503 access_unavailable`). A password sent to such an account is checked against a decoy hash, so it looks exactly like a wrong password. A new account still always gets `KIPPLE_PASSWORD`. An account with a password always needs it. Set a password again from Settings (the Access sign-in stands in for the current one) or with `kipple password`. Startup warns when an account has no password while Access validation is off. The Reader API password is unchanged.
+- Scheduled auto-night theme (#32): "On a schedule", next to "Follow system" in Settings > Appearance and in the reading menu's theme select. It uses the same Day and Night theme picks but switches at two times of day set on the device ("Night starts", default 21:00; "Day starts", default 07:00), on the device's own clock and whatever the OS's light or dark setting says. The night window may cross midnight; equal times keep the day theme. The switch happens live (no reload) and is already right at first paint. Per device like the rest of the appearance: new hidden device-scoped settings `ui.theme_schedule` (with `ui.theme` `system`) and `ui.theme_night_start`/`ui.theme_day_start` (24-hour `HH:MM`). An older client or tab reads the schedule as Follow system and leaves it in place; picking a fixed theme (from any client: `PATCH /api/device` or, for the account defaults, `PATCH /api/settings` with a theme id and no `ui.theme_schedule` turns it off, and so does Make default copying a device's fixed theme into the account defaults, which never takes a fixed theme together with a schedule flag that is on) ends the schedule. When an account write leaves a fixed theme with the schedule off (by that rule, or sent that way as the web app and Make default do), a device with its own "Follow system" theme that was showing the account's schedule keeps it: the flag is copied to that device in the same transaction. No schema migration.
+
+- Developer tooling: `npm run uat` (`web/uat/run.mjs`), UAT Suite 1 from `docs/uat-plan.md`. Playwright and axe-core walk every screen (the five list layouts, article, search, feeds, health, settings, stats, Wrapped) in Paper and Midnight at desktop, 768 px and 390 px, and check for console errors, failed `/api/*` requests, WCAG 2.2 AA violations, sideways scroll or content past the right edge, and rendered `undefined`/`NaN`/`[object Object]`/`Invalid Date`, then runs the theme contrast check over all 20 schemes. It writes `report.md` and `report.json` under `web/uat/results/`, takes waivers (each with a reason) from `web/uat/waivers.json`, and refuses anything but a loopback address with the seed's credentials unless `--allow-remote` is given (it opens an article and uses a device of its own, reused across runs). Run by hand before a release (`docs/RELEASING.md` step 2), not in CI. New dev dependency `@playwright/test` (Apache-2.0).
+
+### Changed
+
+- The sign-in form no longer requires the password field, so an account without a web password can sign in through Cloudflare Access. An empty password on an account that has one is still refused, and is no longer counted toward the login lockout.
+- Documentation brought up to date with phases 4 and 5: `docs/deploy.md` gains a Cloudflare Access section (and how to get a password back after turning Access off), `docker-compose.example.yml` lists the Access variables, and the README status, design notes (scheduler, Reader API, web API errors, package layout), release, UAT, SQA and risk documents no longer describe shipped work as upcoming or cite files that are not in the repository.
+
+### Security
+
+- Images: a feed's "allow insecure TLS" now applies, like "allow private network", only to images on the feed's own host (its subdomains and bare/www twin included); third-party images in that feed are fetched with TLS verified. The image proxy checks every redirect hop against the image's host, so a feed-host image that redirects to another private address or host is fetched through the guarded transport.
+- Feed fetches: "allow private network" and "allow insecure TLS" apply to redirect hops on the feed's own site only; a redirect to another host (loopback, another LAN address, a metadata address) is refused by the address guard.
+- Editing a feed's URL to another site resets "allow private network" and "allow insecure TLS" unless the same edit sets them, as a redirect migration does and as the held-redirect note says. Editing the address of a feed with either of them on no longer loses it silently while the switches still look on: the feed editor says so next to the new address and offers "Keep for the new address", which sends both as shown (so a LAN feed moved to another LAN name or address keeps its grant, instead of the save failing or quietly dropping it), and when the server did turn them off, or removed a saved login because the host changed, the confirmation says so. The held-redirect note says they are cleared unless the edit keeps them on.
+- Feed fetches: a bare LAN name and a longer name that merely starts with it are no longer the same site. A feed on `http://nas/` with "allow private network" that redirects to `nas.attacker.example` (a public name whose DNS can point at a private address) now has that hop checked by the address guard. A single-label name and its qualified form still count as one site for local suffixes no public registrant can hold only (`nas` and `nas.lan`, `.local`, `.home.arpa`, `.internal`, `.localdomain`, `.home` or `.corp`); the same rule decides whether a permanent redirect or a URL edit moves a feed to another site. Nor do a single-label feed host's subdomains or `www.` twin share its exceptions (redirect hops, full-text extraction, image proxying, favicons) or its HTTP credentials: a LAN name such as `news` or `app` is also a public TLD, so `evil.news` is anyone's. A LAN feed whose search domain is a real domain (`nas` to `nas.home.example.com`) now has that redirect held or refused: edit its address to the full name and choose "Keep for the new address".
+
+### Fixed
+
+- A failed session lookup (a busy database) answers a server error instead of 401, which signed the web app out although the session was valid. Signing in during a search-index rebuild answers 503 maintenance instead of 500.
+- The web app retries a change the server refused with 503 maintenance (a search-index rebuild) after its Retry-After, for up to a minute, instead of reverting it; if it still fails, the message says the server is busy rebuilding its search index.
+- Deleting a filter no longer stops with the rule disabled but still listed when one round restores nothing without finishing.
+- A feed being deleted no longer appears in the feed list, the Reader API subscription list or unread counts (with a `kipple:deleting:` address) while its items are purged, nor in the folder unread counts, the unread total (the badge and the status poll alike), the muted counts (total and per filter), the live per-feed counts, the article lists, search, Mark all read and the Reader API streams (except Starred ones: its starred articles are kept and move to the archive) or an OPML export (including the OPML in a backup), which wrote its placeholder address as the feed URL. The health page still lists it, so an interrupted delete can be finished from there.
+- A Reader API folder rename that merges into an existing folder keeps the old folder's filters at the scope they had instead of deleting them: each becomes a feed filter for each feed that was in the old folder (the archive feed aside), so it never starts matching the feeds already in the target folder. The rule itself becomes the first feed's filter with its match count; the copies for the other feeds start with none, and each keeps its feed's muted articles and any reason Kipple switched the rule off for; a merge whose copies would not all run as the rule runs now (past 200 filters, or another set-wide filter limit) is refused with nothing changed (answered `OK`, as a refused folder name is, and logged), and an empty folder's filters go with it. Merging the default folder away no longer moves the archive feed out of it, and an open Filters screen reloads after a merge. `subscription/edit` with one title for several feeds renames none of them instead of giving them all that title, and with one title per feed it applies the whole batch in one transaction, so a failure part-way changes nothing instead of leaving the first feeds edited behind a 500 (titles pair with the `s` values as sent, so an unusable `s` no longer shifts its title onto the next feed, and titles that do not pair one to one with the `s` values rename nothing); an `ot`/`nt` beyond year 2100 (a millisecond value) is logged.
+- Scheduler: a second import or retention run no longer hides the first from the status, its progress or the busy signal (the favicon finder could resume mid-run); 500 or more due feeds on one held host (a 429 with a long Retry-After) no longer starve every other feed; a recovered panic in a trim job, or after a fetch committed, no longer backs off a healthy feed.
+- Statistics: switching statistics off and back on no longer stops the web app from sending reading statistics until a reload; statistics are kept on the device, not sent and lost, while the access-proxy sign-in has expired; the summary no longer fails with 500 when a statistics delete removes the longest read while it is computed; the data dictionary describes `enabled` correctly for summary exports; the hidden `stats.api_single_read_is_open` setting says it is reserved.
+- Web: Escape that closes a menu or dialog no longer also goes back (leaving the article or Search); after the selected row leaves the Unread list, the selection moves to the next row instead of j/k jumping to the top or bottom; Your year shows an error with Try again instead of an endless loading state; Mark this fetch read refreshes loaded article lists; `/` on the Search screen focuses the search box instead of clearing the search; the status fallback poll can no longer run twice at once.
+- The image cache no longer deletes a freshly cached copy when an earlier reader found the old file already evicted.
+- Web (UAT Suite 2): `/` pressed on another screen opens Search with the caret in the search box instead of on the screen heading (other in-app arrivals at Search still focus the heading, and a page load still puts the caret in the box). A highlight filter in Settings says it marks matching words as you read (or that highlighting is off on this device) instead of always saying it has not matched anything, since highlights are never counted, and says nothing while it is switched off. The OPML import summary no longer mixes singular and plural for one feed ("1 feed was already in Kipple and was left as it is", "1 feed was listed in more than one folder. It stays in the first.").
+- Your year and Stats no longer show "Only N day(s) of reading so far" when there were opens but no reads (zero days with reading); the dedicated empty states already say so. The empty Unread list, when new articles have already arrived and are waiting on the "N new articles" pill, now says so instead of claiming they "appear after the next refresh".
+- Accessibility (UAT Suite 1): the Manage Feeds Select/Done button keeps its name for screen readers below 400 px, where its text is hidden, and its name alone carries the state (no longer also announced as pressed) (#47). Secondary text on a selected row or option meets 4.5:1 in Midnight (text2 `#9a9a9a` to `#a6a6a6`, was 4.05:1), Graphite (`#a3a3a0` to `#b8b8b5`, was 3.59:1), Carbon (`#a3a8ae` to `#a7acb2`) and Lamplight (`#b89a72` to `#bda078`), and `npm run contrast` now checks secondary text on the selection color; Cocoa Mid (4.00:1) still misses it and is listed as a known gap pending a design call (#48). The Your year content can be focused and scrolled with the keyboard, with its focus ring drawn inside the pane (#49).
+
+## [0.3.0-alpha.7] - 2026-09-27
+
+Wrapped, a yearly summary with an opt-in share sheet (phase 4, fourth and final step). No schema migration of its own.
+The first deployed build after 0.3.0-alpha.4: it also ships 0.3.0-alpha.5 and 0.3.0-alpha.6, which were never deployed
+or tagged on their own, so an upgrade from alpha.4 runs migration 0009 (from alpha.5).
+
+### Added
+
+- A yearly Wrapped summary at `/stats/wrapped`, linked from the Stats screen as "Your year": a year picker and seven cards (items read, active reading time, days with reading and the longest streak within the year, busiest weekday and hour, busiest month, top sources, and the longest read). A share dialog offers native share, downloading an image, or copying as text, with two toggles, both off by default, to include the top sources' feed names or the longest read's title; leaving them off means a shared summary is aggregate numbers only.
+- Settings > Statistics: `stats.wrapped_enabled` (default on) shows or hides the yearly Wrapped summary. It changes only what is shown; statistics are kept and the server stores and shares nothing extra.
+
+## [0.3.0-alpha.6] - 2026-09-27
+
+Statistics export and data controls (phase 4, third step). No schema migration. Not deployed or tagged on its own:
+it shipped in 0.3.0-alpha.7.
+
+### Added
+
+- Stats screen: an Export button opens a dialog to choose the format (CSV, JSON, JSON Lines), the contents (raw events or a summary), the range, and whether article titles and links are included, with a link to the data dictionary. Settings > Statistics gets a "Your statistics data" section to export, delete a date range (with a count and a confirming click) and delete all statistics (typed confirmation). Both stay available when reading statistics are off.
+- Statistics export: `GET /api/stats/export` downloads the raw events as CSV, JSON or JSON Lines, or a summary of a range as JSON, for a chosen range (default all time), with or without article titles and URLs. Text cells that start with `=`, `+`, `-`, `@`, a tab or a carriage return are prefixed with a single quote so a spreadsheet does not run them as formulas, and a lone carriage return in a title is kept as a line break. It streams in pages and keeps memory small (a million rows in about three seconds).
+- Export options and metadata: `bom=1` adds a UTF-8 byte-order mark to a CSV for Excel; raw exports send `X-Kipple-Rows` (the row count at the start, so a shorter CSV or JSON Lines file is known to be cut off), and every export sends `X-Kipple-Titles-Included`, `X-Kipple-TZ` and `X-Kipple-Include-Inferred`; a `titles=0` filename ends in `-no-titles`; a JSON export ends with `event_count`. The range of the summary and the export gains `last_event_date` (the newest date present, which can be after today); the `all` range still ends today, the all summary covers first date through today, and the raw all export includes rows dated after today. Raw exports also send an `X-Kipple-Rows-Sent` trailer, and `X-Kipple-Rows` counts records rather than lines and is now computed from the indexes.
+- A summary export (`content=summary`) works while recording is turned off, from the stored rows, and says `recording_enabled: false`. Every JSON export embeds the full data dictionary.
+- Deleting statistics no longer changes how the remaining opens are counted: the moment reading time was first recorded is remembered (hidden setting `sys.stats_timed_since`), so deleting the earliest data does not turn kept short visits into reads. A delete that stops partway says how many rows it removed (`deleted`, `complete: false`) and can be run again to finish; it extends its write deadline per batch.
+- `GET /api/stats/dictionary` returns a data dictionary (JSON, or Markdown with `?format=md`) that describes every exported column, the event kinds, what counts as a read, local-time handling and how the summary fields are computed. JSON exports embed the same dictionary.
+- `POST /api/stats/delete` deletes reading statistics events for a date range, or all of them with a typed confirmation, with a dry run that only counts. It touches only the statistics table, works in bounded batches, and is available while reading statistics are turned off, as are the exports.
+
+## [0.3.0-alpha.5] - 2026-09-27
+
+The Stats screen (phase 4, second step) and its summary endpoint. One schema migration (0009): a rollback goes through the
+pre-migration snapshot. Not deployed or tagged on its own: it shipped in 0.3.0-alpha.7.
+
+### Added
+
+- Reading statistics summary: `GET /api/stats/summary` returns totals, a daily series, streaks, a weekday and hour heatmap, reading behavior, per-source figures and feeds that were never opened, for the last week, month, year, all time or a custom date range, in the configured time zone. It is read-only.
+- Schema migration 0009: three covering indexes on the statistics table so the summary reads quickly. Building them scans the table once during the upgrade. An older binary refuses the migrated database, so a rollback restores the pre-migration snapshot (docs/deploy.md). The upgrade needs transient disk room (about twice the database plus the indexes at peak), documented in docs/deploy.md.
+- Stats screen: a Statistics entry in the navigation (hidden when reading statistics are off) opens `/stats`, with a summary strip, a daily activity chart, streaks, a weekday-by-hour heatmap, reading habits, per-source figures (Items or Minutes, by Feeds or Folders) and the feeds that were never opened, for the last week, month, year, all time or a custom range.
+- The summary reports `timed_seconds` and `timed_items` for each source, and `sources_truncated` when more than 300 sources had activity.
+- Before a schema migration, Kipple checks the free disk space and refuses to start with a clear message, changing nothing, when there is too little room for the pre-migration snapshot and the migration.
+
+## [0.3.0-alpha.4] - 2026-09-26
+
+The reading statistics sender (phase 4, first step; the Stats screen follows in a later alpha) and its settings. One schema
+migration (0008): a rollback goes through the pre-migration snapshot.
+
+### Added
+
+- Reading statistics sender: the web app now records `read_time` (active reading time only: the tab visible and focused, the article open, idle after 2 minutes), `scroll` (how far into an article a reader got, once per opening), `open_original` and `share` events. Every event carries a random `event_id`, and a repeated id is dropped by the server, so a retried or repeated send never counts twice. Unsent events wait in an offline queue that is cleared on sign-out.
+- Settings > Statistics: `stats.enabled` (reading statistics on or off) and `stats.week_start` (first day of the week).
+- Schema migration 0008: `stats_events.event_id` and a partial unique index on it. Building the index scans the table once during the upgrade. An older binary refuses the migrated database, so a rollback restores the pre-migration snapshot (docs/deploy.md).
+
+### Changed
+
+- With statistics off, the server records nothing, including star and unstar events from sync apps; starring itself still works. Existing statistics are kept, and turning the setting back on resumes recording.
+- The stats ingest endpoint reads the statistics setting and the time zone once per request instead of once per event.
+- `POST /api/stats/events` decodes each event on its own: a malformed event is dropped instead of rejecting the whole batch.
+
 ## [0.3.0-alpha.3] - 2026-09-26
 
 Review fixes across ingestion, auth, images, filters, the web app and operations (from a local deep review of alpha.2), the
@@ -38,7 +138,6 @@ migrations: a rollback goes through the pre-migration snapshot.
 - Each feed body is decoded once instead of twice.
 - Docker images report the real version (`KIPPLE_VERSION` / `KIPPLE_VCS_REF` build args; CI passes `git describe`). Base images and the local CI's gitleaks and Trivy images are pinned by digest; deploys check out the release tag; rollback goes through `kipple restore` and never a copy over `kipple.db`.
 - `.dockerignore` keeps `.env` files in subdirectories out of the build context. `npm run seed` only deletes a data directory it created unless `--force` is given. SECURITY.md points to GitHub private vulnerability reporting.
-
 - Up to 50 enabled regex filters, with a set-wide cost cap that fits about 40 typical keyword alternations. A stored filter that no longer meets the limits is switched off with a visible reason (shown in Settings > Filters) instead of blocking other filters or being skipped silently.
 - Keyword filters are matched against a fetch's new items before its database write, so costly regex rules no longer hold the single writer; the write re-evaluates if a filter, the feed's folder or its title changed in between.
 - A permanent redirect within the same site (same registrable domain, or a LAN name gaining its domain) keeps the feed's credentials and network exceptions; a move to another site while any is set stays pending (`redirect_held_new_site`) instead of migrating.
@@ -62,6 +161,7 @@ migrations: a rollback goes through the pre-migration snapshot.
 - A basic-auth feed that redirects to a subdomain of its host keeps its credentials (never over an https to http downgrade). Full-text extraction applies a feed's network exceptions to the host's subdomains and its bare/www twin too, and says so when it withholds them.
 - Shutdown keeps 3 s for the database close alone; a panic while committing a fetch no longer leaves new items hidden from the Reader API; a queued feed edited or disabled while waiting is checked again before it runs; a panic in a password check no longer holds the only hashing slot; a leftover `KIPPLE_API_PASSWORD` that fails the length rules no longer stops the server (the Reader API stays disabled and the error is logged).
 - A large download burst can no longer make one eviction empty the image cache.
+- A star replayed from the offline queue can no longer restore a trimmed article whose restore window had already closed when the server received it; a restored read article gets the real time as its read time.
 - The sign-in screen says so when the sign-in in front of Kipple has expired (and Reload reaches it even on a slow network) instead of reporting a wrong password. A stalled request sending offline changes no longer holds up opening, starring or marking articles. Articles a bulk mark left unread come back instead of disappearing. Mark-read-on-scroll no longer retries with an error at every scroll pause. A failed background refresh keeps the reader on screen. The error screen clears when you navigate, and Try again re-downloads a screen that failed to load.
 
 ## [0.3.0-alpha.2] - 2026-09-26
@@ -528,7 +628,12 @@ Phase 1: fetch, store and Reader API.
 - One-file status page at `/_status` with login, feed health, refresh and live events.
 - Multi-stage Docker image and CI.
 
-[Unreleased]: https://github.com/WPTK/Kipple/compare/v0.3.0-alpha.3...HEAD
+[Unreleased]: https://github.com/WPTK/Kipple/compare/v0.3.0-beta.1...HEAD
+[0.3.0-beta.1]: https://github.com/WPTK/Kipple/compare/v0.3.0-alpha.7...v0.3.0-beta.1
+[0.3.0-alpha.7]: https://github.com/WPTK/Kipple/compare/271fd23...v0.3.0-alpha.7
+[0.3.0-alpha.6]: https://github.com/WPTK/Kipple/compare/5b0db7d...271fd23
+[0.3.0-alpha.5]: https://github.com/WPTK/Kipple/compare/v0.3.0-alpha.4...5b0db7d
+[0.3.0-alpha.4]: https://github.com/WPTK/Kipple/compare/v0.3.0-alpha.3...v0.3.0-alpha.4
 [0.3.0-alpha.3]: https://github.com/WPTK/Kipple/compare/v0.3.0-alpha.2...v0.3.0-alpha.3
 [0.3.0-alpha.2]: https://github.com/WPTK/Kipple/compare/v0.3.0-alpha.1...v0.3.0-alpha.2
 [0.3.0-alpha.1]: https://github.com/WPTK/Kipple/compare/v0.2.0...v0.3.0-alpha.1

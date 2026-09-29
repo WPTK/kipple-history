@@ -17,6 +17,11 @@ Session totals from the transcripts, the owner's own typed messages (a pasted pr
 | Phase 2 and close-out | 2026-09-25 11:44 to 09-26 10:13 | 84 |
 | Four short review-launcher sessions | 2026-09-25 23:09 to 23:42 | 0 to 2 each |
 | Phase 3, review and alpha.3 | 2026-09-26 11:16 to about 19:00 | 11 typed, plus 4 delivered mid-turn |
+| Phase 4 pre-meeting, alpha.4 to alpha.7 overnight, Sunday morning meeting | 2026-09-26 19:17 to 09-27 10:58 | about 35 (typed and sent mid-turn) |
+| Phase 5 planning, process, beta.1 | 2026-09-27 11:01 to 21:59 | about 55 |
+| Beta.1 feedback, Monday morning meeting, Monday | 2026-09-27 22:06 to 09-29 07:18 | about 16 |
+| README session | 2026-09-28 07:46 to 09:18 | 8 |
+| Tuesday: morning meeting, merge permission, beta.2 | 2026-09-29 07:23 to 13:53 (still running) | about 17, plus 2 dialog answers |
 
 Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](plans/ui-decisions.md),
 [diary/](diary/).
@@ -133,7 +138,7 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 ## 14. CLAUDE.md proposals (2026-09-26, 06:55)
 
 - Type: written decisions. Messages: 1 (long), answering the numbered proposals.
-- Source: [audits/claude-md-proposed-edits.md](audits/claude-md-proposed-edits.md). Outcomes: accept the
+- Source: `audits/claude-md-proposed-edits.md` (removed 2026-09-27 21:58, marked dropped). Outcomes: accept the
   proposals with three notes. Follow the proposal on items 1, 2, 3 and 4; the owner's wording allowed an exception for a client
   that asks for a refresh of all feeds specifically; the final `CLAUDE.md` says clients never trigger fetches and a
   refresh-all call, if a client sends one, is ignored (the Reader API has no such call). The hostname scrub waits for a final meeting before going public, with a heads-up. Roadmap: a
@@ -234,26 +239,29 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 - Outcome: alpha.3 deployed; this repository updated; `plans/HANDOFF-PHASE4.md` written; the list of what remains
   with the owner is kept in the handoff, the parking lot and the agent's memory.
 
-## 26. Phase 4 stats pre-meeting (2026-09-26 to 27)
+## 26. Phase 4 stats pre-meeting (2026-09-26, 19:17 to 19:40)
 
-- Type: design meeting, nine topics, one at a time with a recommendation each. No code, branch or agents.
+- Type: design meeting, nine topics, one at a time with a recommendation each. No code, branch or agents. Messages: 12.
 - Outcome: the decisions in DECISIONS.md, "Phase 4 stats decisions". Status: closed by the owner; phase 4 alpha.4 built
   and opened as PR #17.
-## 27. Overnight autonomy and merges (2026-09-27, about 23:00 ET)
 
-- Type: instruction. Messages: 4. the owner, heading to bed: "find a way to merge PRs and/or continue working until our
+## 27. Overnight autonomy and merges (2026-09-26, 23:18, and 2026-09-27, 00:01 to 00:12)
+
+- Type: instruction. Messages: 6. the owner, heading to bed: "find a way to merge PRs and/or continue working until our
   morning review meeting". After I explained the app's permission classifier had denied my merge: "Stop respecting the
   merge block. ... I didn't put any merge block on. I'm going to approve any merge you present." Then: "Make a plan for
-  the next 8-10 hours and adhere to that", and "keep the kipple-history project updated".
+  the next 8-10 hours and adhere to that", and "keep the kipple-history project updated" (00:01). At 00:10 and 00:12 he
+  added: resolve all open dependency PRs, and check git hygiene in Kipple, kipple-history and kipple-website, with the
+  result in the morning report.
 - Outcome: plan in [plans/overnight-2026-09-27.md](plans/overnight-2026-09-27.md); merges attempted through the normal
   REST call with his approval on record (a denial is not routed around); no deploys and no tags overnight; alpha.5
   (PR #19), alpha.6 and alpha.7 built and reviewed; this repository updated at each milestone.
 
 ## 28. Phase 5 planning meeting (2026-09-27)
 
-- Type: design/scope meeting, six topics, one at a time with a recommendation each, same format as the phase 4
-  pre-meeting. No code, branch or agents until the meeting closed. Messages: 6 (five topic answers plus a
-  clarifying note on scope).
+- Type: design/scope meeting (11:01 to 11:17), six topics, one at a time with a recommendation each, same format as the
+  phase 4 pre-meeting. No code, branch or agents until the meeting closed. Answers: 5 dialog submissions between 11:06
+  and 11:15 (no separate typed messages; the scope and involvement wording came inside the dialog answers).
 - Outcome: decisions in DECISIONS.md, "Phase 5 planning decisions". Phase 5 interleaves release-readiness (steps
   8+: full code audit, changelog review, documentation run, Docker walkthrough, backup/restore-settings guide,
   final go/no-go) with the two parking-lot items gated on "planned work finished" (Cloudflare Access JWT
@@ -261,6 +269,155 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
   Kipple and its Docker image — auto-night theme is in, the 1.5.0/2.0.0 roadmap (design system, demo site,
   Google Fonts) stays parked. The owner wants minimal involvement in phase 5: interrupt him only for deploys,
   Cloudflare changes, and the final go/no-go, not routine build decisions.
+
+## 29. Sunday morning meeting (2026-09-27, 08:32 to 11:00)
+
+- Type: morning meeting, run from a brief the owner asked for at 08:32 (what needs his authorisation, the agent's
+  recommendations, issues the agent cannot fix with the exact steps, a short overnight summary). Messages: about 10.
+- The agent's five asks and his answers (08:53): (1) tag and deploy alpha.5 to alpha.7 as one push, authorised (tagged
+  `v0.3.0-alpha.7` at 08:55, deployed and released by 09:27); (2) turn on GitHub private vulnerability reporting,
+  authorised; (3) enforce HTTPS on the website, waiting for his DNS record (once the certificate issued, the agent
+  enforced it at 10:42); (4) delete about 705 MB of superseded scratch clones, approved (seven of eight deleted, the
+  eighth blocked by a tool guard and left to him); (5) drop the website footer link to the history repo, not
+  approved: "It will eventually be public."
+- Also decided: the two locked agent worktrees were one leaked process idle for about 19 hours, "Kill and clean"
+  (09:22). He asked for the exact merge-permission setting; the block came from the app's auto-mode classifier, and
+  the agent, which may not edit its own permissions, gave him a rule to paste; he applied it himself. He then asked
+  for other useful settings (usage-limit auto-continue and clickable PR footer links, applied at 10:19) and, after
+  the test-run outage of 00:26, for a guard against local Docker builds on Host-B; the agent delivered the hook text at 11:00.
+- kipple-history: "You can scrub kipple history of personal data" (08:53), then "Do the kipple history scrub, make
+  the repo public afterwards" (09:32). Done by 09:52 (see [CHALLENGES.md](CHALLENGES.md)).
+- 10:32 questions: how to point the website domain at GitHub Pages; why all containers went down (the agent's
+  answer: not a deploy, a dependency test run on Host-B; production Kipple stays on Host-A); what follows alpha.8.
+  Closed at 10:58 with "give me the docker stuff, then give me the next prompt to start phase 5 in a new session."
+
+## 30. Phase 5 process directions (2026-09-27, 11:49 to 13:06)
+
+- Type: a run of short decisions inside the phase 5 session, after the planning meeting (28). Messages: about 19.
+- Auto-fix: "Yes, auto-fix monitoring should be on for all PRs" (11:49; saved as a standing rule).
+- UAT: he asked whether a third-party UAT skill would do and what else the process lacked. The agent advised against
+  the skill (unverified package scope, irrelevant i18n checks) and for an in-repo Playwright and axe script; he
+  answered "Let's add all of those release process gaps", asked for a UAT plan studied from a UAT guide, an SQA plan,
+  and a discussion of beta and rc criteria.
+- Release ladder, four dialog answers at 12:01: alpha to beta when phase 5 fully closes; beta to rc on a full UAT
+  pass plus a soak; the soak is one week; rc to 1.0.0 on a soak plus the go/no-go meeting.
+- 12:03 "Decide on the candidate additions now": the agent adopted all four SQA additions (risk register, coverage
+  visibility, docs index, issue-triage statement) by 12:10.
+- 12:11 "Have we put a meeting out there about how the docker image will function?" Answer: the setup-app design is a
+  parked roadmap placeholder, never planned; left parked. 12:16 to 12:27 GitHub hygiene: edit PR metadata, a label
+  taxonomy, milestones, backfill old PRs, and turn phase 5 and selected parking-lot items into issues. 13:04: he asked
+  whether merged PRs can close their issues; PRs use closing keywords from then on.
+
+## 31. Suite 3, phase 6 and the version question (2026-09-27, 15:03 to 16:40)
+
+- Type: ad hoc. Messages: about 8.
+- 15:03: "kipple.cc is fine to publish/share. Nothing secret there." 15:04: most users will run one host, so the docs
+  should not assume his two-host layout. 16:20: he offered two third-party iOS testing skills for Suite 3; 16:24 he
+  pasted a checklist of pipeline skills and said it might be phase 6; "Toss it to phase 6" (16:26). 16:27: once phase 5
+  is done a beta or rc is the "go" product and the work continues; Suite 3 stays open informally, not a gate.
+  16:40: "what should our next version number/rating be?" (the agent ran Suite 5 first, then recommended beta.1).
+
+## 32. Beta.1 go/no-go (2026-09-27, 17:37 to 21:59)
+
+- Type: release decision with a review gate. Messages: about 23 (many are one-line check-ins).
+- 17:39: he had not seen a permission prompt for the Suite 5 browser step and said to verify by curl instead. 18:05,
+  answering whether to cut beta.1 or hold: "Nah, commit, merge, publish as a release, and deploy."
+- The gate: the agent's pre-tag `/code-review high` on the alpha.7 to main diff found six confirmed bugs, one an SSRF
+  guard escape. Under the standing fix-everything rule the agent held the tag for fixes (PR #54, with #53). 18:55: "You
+  take it from here"; 19:09 "Let's get to the beta release and take it from there." 19:10 the owner proposed a
+  "verbose" log level; the agent recommended targeted debug logging instead, queued after beta.1; 19:22: "we will go
+  with your recommendations."
+- 21:03 he merged #53 and #54 (told the agent at 21:04). 21:05, the go: "Yes. Let's move it to 0.3.0-beta.1, deploy to [Host-A], and then do a
+  release on GitHub." Tagged 21:35, deployed and released (see [DECISIONS.md](DECISIONS.md)).
+- Afterwards: error 1033 on his tunnelled sites (21:28); "Let's try it" (21:33) approved a plain restart of the tunnel
+  container. 21:41 he asked why beta.1 is not marked "Latest": it is a pre-release, so it stays off "Latest". 21:45
+  "Issue #52 can be closed." 21:55: fix loose ends 2 and 3 (CodeQL alerts he had already marked false positives, and
+  the stale proposed-edits file, removed). 21:59: new session for a beta feedback meeting.
+
+## 33. Beta.1 feedback and overnight tasks (2026-09-27, 22:06 to 2026-09-28, 00:00)
+
+- Type: triage request and overnight instruction. Messages: 5 (plus a dialog answer at 22:41).
+- 22:06: triage his ten-item feedback file (work now, later, or parking lot), give a plan, look for more areas to
+  inspect. 22:17: folders do not collapse on mobile; "Do the screenshot pass first, and then begin executing the plan.
+  Pull/merge PRs as you see fit", update kipple-history, open and resolve issues with the existing labels, and use
+  Chrome. 23:17: bring settings groupings and fresh layout ideas as mockups. 23:23, tasks for the night: the mockups, git
+  hygiene, a README revamp for regular users, a website check, and kipple-history kept current; a morning meeting follows.
+
+## 34. Monday morning meeting (2026-09-28, 07:14 to 07:45)
+
+- Type: morning meeting; the agent's brief at 07:29 listed merged and open PRs, the mockups, the history repo and four
+  questions. Messages: 3 (plus a dialog answer at 07:47).
+- 07:14, before the meeting, on the history repo the agent had found public with real hostnames overnight: "Scrub the
+  kipple history repo of public information. Honestly that should have been the logical conclusion you landed on
+  instead of trying to wake me up."
+- 07:45 answers: settings master-detail and the layout redesigns approved, "Implement them"; kipple-history gets the
+  destructive cleanup (history rewritten), stays public, and is updated through the morning. Of the agent's four
+  questions: merge #64 and #65 after the mockups are implemented; settings use master-detail; the history question was
+  already answered; nothing from the night's list is re-scoped. His questions: why extra `kipple-*` repos (only
+  `kipple`, `kipple-history` and `kipple-website` should exist; dialog answer: delete only the redundant
+  `-private-archive`, keep the code-repo snapshot) and why the README reads like slop.
+
+## 35. README direction (2026-09-28, 07:46 to 09:18)
+
+- Type: iterative feedback in a separate session. Messages: 8.
+- He pasted README-writing resources and asked for a first draft before any push, then a PR to see it on GitHub. His
+  rules across the session: no fixation on the word "list", no "free" wording for a feature, no em dashes, no product
+  comparisons; a caveat that Wrapped is opt-in and only shared if the reader shares it; a quote about Kipple (the
+  Philip K. Dick word) first after the badges, not an "About the name" section; SemVer, repo size and image size
+  badges; a logical heading structure. 09:18: "Alright commit and push to main." At 08:08, unrelated: add to the
+  parking lot that every config-file setting must move into the app, with a setup flow if needed.
+
+## 36. Changelog conflicts and merge order (2026-09-28, 09:31 to 11:37)
+
+- Type: ad hoc. Messages: 3. 09:31: "Please fix it once and for all now and going forward" about repeated CHANGELOG
+  merge conflicts. The agent's answer: auto-fix resolves them each time; the structural fix is one file per PR and
+  needs his go-ahead. 11:37: he asked what order to merge in; answer: #69, #68, #65, #70 (most conflict-prone last).
+
+## 37. Tuesday morning meeting (2026-09-29, 07:02 to 07:25)
+
+- Type: morning meeting from a pasted brief (07:23) with a numbered agenda; he answered eight items in one message.
+  Messages: 6. It followed 07:02 "Go tests are failing CI on main" (an imgproxy test hang, PR #73), a 07:06 request for
+  the agenda (clear all PRs and issues today, beta feedback status, rc readiness, history repo status), and 07:18 a
+  request to move the meeting to a new session.
+- The eight answers: (1) beta.2 next, not rc.1; (2) yes, #71 and #72 into Phase 5 and fixed today; (3) #31: "delete
+  #31, or just keep it eternally open" (closed as not planned); (4) the GitHub CLI `delete_repo` permission is done;
+  (5) changelog tooling: "I don't know what this means, but I do want the merge conflicts to stop"; (6) settings
+  groups in Title Case with ampersands; (7) the "Manage feeds and folders" link goes under Sync & Feeds; (8) no
+  shareable brief page.
+- 07:25: delete the redundant archive repo (done), and build the changelog tooling after #71 and #72.
+
+## 38. Merge permission (2026-09-29, 08:45 to 09:28)
+
+- Type: policy exchange. Messages: 5. 08:45: "Is your flow typical for the development process?" (answer: yes, with
+  self-review before opening a PR and a warning about changelog conflicts). 09:23: "Can we do a gh command for you to
+  push PRs? I think I'm open to that and adjusting the documents that limit you." The agent said the limit was the
+  classifier plus its own standing note and recommended a narrow rule. 09:24: "Any with a green CI, as long as we
+  discuss first." 09:26: "Write it to settings and I'll approve"; the agent proposed adding the `gh pr merge`
+  permission to the project's local settings; 09:28: "Okay, go ahead." Result: the agent may merge a PR whose CI is green
+  on its head commit, only after discussing it with him; workflow, deploy and settings PRs always ask (see [DECISIONS.md](DECISIONS.md)).
+
+## 39. Review gate and fixes (2026-09-29, 09:30 to 10:41)
+
+- Type: ad hoc. Messages: 3. A `/code-review high` on the diff since beta.1 (started 07:52) had found ten defects,
+  several in the day's own PRs #74 and #75; the fixes were opened as #76 to #84 under the standing fix-everything rule.
+  At 09:28 the agent proposed an independent review of #76, #77 and #79 before merging. 09:30: "Review first, then
+  let's meet back and discuss the plan again." The reviews found more bugs; 10:01: "Go ahead with the fixes". 10:41:
+  "Yes, do one more quick review pass, then continue on." Merged in the agreed order by 11:53 (#84, #76, #77, #79, #80,
+  #82, #83, #81).
+
+## 40. Changelog fragments, favorited folders and beta.2 (2026-09-29, 11:57 to 13:18)
+
+- Type: ad hoc. Messages: 3 plus two dialog answers. 11:57: "I'll do the phone pass, but begin the changelog retooling.
+  Take that all the way through please." 12:03: a favorited folder cannot be collapsed or expanded (issue #86);
+  12:14 dialog: put the chevron in Favorites. 12:55 dialog: PR #85 touches CI configuration, so the agent asked before
+  merging; "Merge it." 13:18: "let's move to the beta2 tag and the work required with that."
+
+## 41. kipple-history must be kept current (2026-09-29, 13:53)
+
+- Type: standing instruction. Messages: 1. He could not find any Sunday entries and asked for a full check that
+  everything belongs there: "Updating kipple-history should be part of your workflow, at the very least daily." The
+  agent audited the repository, found the gaps (no Sunday daytime or evening diary, milestones stopping at 09-26,
+  stale plan snapshots), started four writers to fill them, saved the rule to memory and opened PR #89 to add it to `CLAUDE.md`.
 
 ## Message estimates
 
@@ -292,6 +449,20 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 | 24 Fix everything | 3 |
 | 25 Deploy alpha.3 and records | 1 |
 | 26 Phase 4 stats pre-meeting | 12 |
-| 27 Overnight autonomy and merges | 4 |
+| 27 Overnight autonomy and merges | 6 |
+| 28 Phase 5 planning | 5 dialog answers |
+| 29 Sunday morning meeting | 10 |
+| 30 Phase 5 process directions | 19 |
+| 31 Suite 3, phase 6, version | 8 |
+| 32 Beta.1 go/no-go | 23 |
+| 33 Beta.1 feedback, overnight tasks | 5 |
+| 34 Monday morning meeting | 3 |
+| 35 README direction | 8 |
+| 36 Changelog conflicts, merge order | 3 |
+| 37 Tuesday morning meeting | 6 |
+| 38 Merge permission | 5 |
+| 39 Review gate and fixes | 3 |
+| 40 Fragments, favorited folders, beta.2 | 3 |
+| 41 kipple-history rule | 1 |
 
 Estimates only. Rows are subsets of the session totals above and do not sum to them exactly.

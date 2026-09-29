@@ -171,3 +171,12 @@ private GitHub repo `WPTK/kipple-archive` (outside this pass's scope; not audite
   public without a scrub would leak them.
 - Deleting `C:\kipple-scrub` removes the local bridge between the archive and the public history; the public
   history itself contains all of it, so nothing is lost.
+
+## Status update (added 2026-09-29, after the fact)
+
+The follow-up pass on 2026-09-28 ([git-hygiene-2026-09-28.md](git-hygiene-2026-09-28.md)) found no Dependabot pull
+requests open, all tags present, the stale worktrees and merged branches removed, and repository settings unchanged.
+Item 1 (private vulnerability reporting) is recorded as turned on in `docs/RELEASING.md` as of 2026-09-27. The
+website's link to the history repository (item 3) is how the history repository's exposure was found; see
+[overnight-2026-09-28.md](overnight-2026-09-28.md). The status of items 2, 4, 6, 8 and 9 is not recorded in the
+sources used for this update.

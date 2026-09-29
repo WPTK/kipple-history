@@ -120,11 +120,108 @@ These four branches were cut from `main` after `v0.2.0` and are open work at the
   a second fix round, 26 fuzz targets clean, GitHub CI with `-race` green, a migration rehearsal on a copy of the
   live database. Two migrations, so a rollback goes through the pre-migration snapshot.
 
+## Phase 4 step 1: `v0.3.0-alpha.4` (2026-09-26 22:36 ET, tag on merge commit `56fc6ad`, PRs #17 and #18)
+
+- What shipped: the reading statistics sender. The web app records `read_time` (active time only: tab visible and
+  focused, article open, idle after 2 minutes), `scroll`, `open_original` and `share` events, each with a random
+  `event_id` so a replayed batch is dropped; Settings > Statistics with `stats.enabled` and `stats.week_start`. With
+  statistics off the server records nothing, including stars from sync apps. Migration 0008 (`event_id` plus a partial
+  unique index).
+- Size: 5 commits since alpha.3; 35 files, 2,986 lines added and 81 removed. PR #17 alone: 2,979 added, 80 removed.
+- What shaped it: the phase 4 pre-meeting (see [MEETINGS.md](MEETINGS.md)) chose an event id over the first-draft
+  sequence number, so migration 0008 was edited in place before it was ever deployed.
+- Process: the app's permission classifier denied the agent's merge of PR #17, so the owner merged #17 and #18 himself
+  (see [CHALLENGES.md](CHALLENGES.md) items 24 and 34). Fuzz clean (26 targets), off-box copy of the live database, a
+  migration rehearsal on a scratch copy (0008 in about 11 ms), then a named-service deploy: healthy, 56 MiB.
+
+## Phase 4 steps 2 and 3: `0.3.0-alpha.5` and `0.3.0-alpha.6` (2026-09-27, no tags, never deployed on their own)
+
+- Both were built overnight (from about 23:00 ET Saturday) while the owner slept, merged in the small hours of Sunday and
+  folded into alpha.7. `CHANGELOG.md` has a section for each; there is no git tag and no deploy for either. They are
+  listed here because each was a separate branch, a separate review round and a separate pair of PRs.
+- alpha.5 (PRs #19 and #20, merged 00:03 and 00:14 ET): the Stats screen and `GET /api/stats/summary` (totals, daily
+  series, streaks, weekday-by-hour heatmap, per-source figures, feeds never opened), a free-disk-space check before any
+  schema migration, and migration 0009 (three covering indexes). PR #19: 31 files, 3,345 lines added, 18 removed. Two
+  Sonnet build agents, three Opus reviewers (about 25 findings) and a second round (about 12 more), all fixed. Checked
+  at phone size against a seeded local instance: the heatmap and sources table needed sideways scrolling on a phone.
+- alpha.6 (PRs #21 and #22, merged 01:33 and 01:44 ET): statistics export (CSV, JSON, JSON Lines; raw events or a
+  summary; formula-injection prefixing for spreadsheet cells; `X-Kipple-Rows` so a cut-off file is detectable), a data
+  dictionary endpoint, delete a range or everything (typed confirmation, dry run, bounded batches). No migration. PR
+  #21: 27 files, 2,999 lines added, 64 removed.
+- Between them, five Dependabot GitHub Actions bumps (PRs #2 to #6) were merged (00:40 to 01:22 ET), then a Dependabot
+  config tidy (PR #24).
+
+## Phase 4 step 4: `v0.3.0-alpha.7` (2026-09-27 08:55 ET, `00510e3`, PRs #23 and #25)
+
+- What shipped: Wrapped, a yearly summary at `/stats/wrapped` (year picker, seven cards, an opt-in share sheet) and the
+  `stats.wrapped_enabled` setting. It is also the first build deployed after alpha.4: it carries alpha.5 and alpha.6, so
+  the upgrade ran migration 0009. Phase 4 was complete.
+- Size: 32 commits and 7,981 lines added, 42 removed in 62 files since alpha.4 (all of alpha.5 to alpha.7); 10,960 added, 116 removed in 83 files since alpha.3. PR #23 alone: 16 files, 1,639 lines added.
+- Deployed to Host-A on Sunday morning (live by about 09:30 ET): off-box copy, migration rehearsal, named-service
+  deploy, healthy at 41.6 MiB, GitHub pre-release published. kipple.cc and this repository were made public that
+  morning (this repository was later found to contain real hostnames; see [CHALLENGES.md](CHALLENGES.md) item 26).
+
+## Phase 5: release readiness (2026-09-27 daytime, merged between `00510e3` and `12121c7`, no tag of its own)
+
+- What shipped, by PR: #26 the full code audit (scoping, scheduler starvation, stats and web fixes, changelog review;
+  53 files, 1,086 lines added); #40 optional Cloudflare Access token validation and an optional web password (27
+  files, 2,258 lines added); #41 the scheduled auto-night theme (20 files, 1,106 lines added); #42 the documentation
+  run (14 files, 275 lines added, 152 removed); #45 UAT Suite 2 findings; #46 UAT Suite 1, a Playwright plus axe-core
+  walk of every screen (`npm run uat`, 1,151 lines added); #51 the CodeQL follow-up to #46.
+- What shaped it: the phase 5 planning meeting (MEETINGS item 28) set a UAT plan, an IEEE 730-shaped SQA plan,
+  promotion criteria for alpha to beta to rc to 1.0, a risk register and an audit-first order, with Kipple-only scope and
+  minimal owner involvement. UAT Suite 4 (a restore drill onto a throwaway volume and a migration rehearsal) passed;
+  Suite 3 (real-device checks) is not a promotion gate. See [audits/](audits/) and [human-feedback/](human-feedback/).
+- Process: agents ran in parallel in worktrees, one PR each, with auto-fix monitoring on every PR; reviewers were Opus.
+
+## Beta 1: `v0.3.0-beta.1` (2026-09-27 21:35 ET, `12121c7`, PRs #53 and #54)
+
+- What shipped: the Phase 5 content above, plus the fixes from a pre-tag `/code-review high` of the whole alpha.7 to
+  main diff (six confirmed bugs, one a real SSRF-guard escape; PR #54, 33 files, 1,313 lines added), a batch of race
+  regression tests and UAT accessibility fixes (PR #53), and a README Quickstart. No schema migration (still 9). From
+  here `-beta.N` and `-rc.N` builds change only fixes, not features.
+- Size: 70 commits, 8,241 lines added and 532 removed in 148 files since alpha.7; 202 files, 19,173 lines added and 620
+  removed since alpha.3. 26 fuzz targets clean.
+- Deploy prep was interrupted by a Cloudflare tunnel incident (CHALLENGES item 29); the build then went to Host-A (the
+  exact deploy time is not recorded in the sources used here). Issue #52 (Unread dominated by one feed, others stale)
+  was closed after the deploy: the scheduler starvation fix from PR #26 was in `main` but not yet on Host-A when the
+  owner first saw it.
+
+## Beta 1 feedback round (2026-09-27 evening to 2026-09-29 morning, no tag)
+
+- Source: the owner's own phone-testing notes on beta.1 (ten items), triaged into issues #55 to #62 and shipped as PRs
+  #63 to #70. See [diary/2026-09-28.md](diary/2026-09-28.md).
+- What shipped: the "N new articles" pill only after a manual refresh (#63), a softer mobile tab-bar seam (#64), mobile
+  folder collapse and an edit-mode toggle in Manage Feeds (#65), Feed Health bulk actions and a "Manage this feed" entry
+  in the article menu (#66), a two-pane Settings in six groups (#70), Cards and Compact list layouts made more
+  distinct (#68), two README rewrites (#67, #69).
+- What shaped it: overnight mockups (three settings structures, layout redesigns), approved at the 2026-09-28 morning
+  meeting; the owner rejected the first README revamp and asked for it to be redone plainly.
+- Size: the merge commits for #63 to #70 add about 1,400 lines in total (a rough figure: merge-commit diffs against the
+  first parent). Issues #71 (blurry thumbnails) and #72 (stale scroll position marking new rows read) were filed from the
+  soak; #73 fixed the imgproxy CI hang (CHALLENGES item 27), #74 and #75 fixed #72 and #71.
+
+## Beta 2 (in progress, 2026-09-29): release PR #88, not yet tagged
+
+- What is in it: ten fixes from a `/code-review high` of everything since beta.1 (#76, #77, #79, #82, #83, #84 and the
+  interval label #81); the offline "Read the original" bug the owner reported (#78, PR #80); the favorited-folder
+  collapse bug (#86, PR #87); and the changelog fragment tooling (PR #85: one file per PR in `changes/`, folded into
+  `CHANGELOG.md` by `scripts/changelog.mjs` at release time). See CHALLENGES items 30 to 35.
+- Size so far: 46 commits, 2,605 lines added and 432 removed in 84 files since beta.1 (release PR #88 itself: 20 files,
+  34 added, 20 removed). Fuzz clean, UAT Suite 1 clean, review clean; waiting on CI for the release commit at the time of
+  writing. #88 merged 14:01 ET and #89 (the daily-history rule) 14:08. Not tagged, not deployed yet.
+- The owner decided beta.2 is next, not rc.1: the changes since beta.1 are feature-sized, and per `docs/RELEASING.md` an
+  rc needs Suites 1, 2 and 4 re-verified plus a soak week.
+
+## Size of the repository at beta.2 prep
+
+At the beta.2 release branch: 645 commits (492 at alpha.3), 712 tracked files, about 83,800 lines of Go (about 43,200 of
+them in test files) and about 40,000 lines under `web/src`.
+
 ## Not built yet
 
-Phase 4 (stats UI: sender, summary and CSV endpoints, screens) then release steps 8 onward per the Kipple `CLAUDE.md`
-Process section (the full audit was done as the local review; changelog review, documentation run, first-time Docker
-setup walkthrough, backup and settings retention, final go/no-go meeting remain); the setup app and single
-pull-and-run image (roadmap 1.5.0 or 2.0.0), user-chosen Google Fonts (2.0.0), Cloudflare Access JWT validation,
-passwordless login. See [plans/HANDOFF-PHASE4.md](plans/HANDOFF-PHASE4.md) and the parking lot in
-[DECISIONS.md](DECISIONS.md).
+Setup app and single pull-and-run image (#33), user-chosen Google Fonts (#34), design system, demo site and brand
+identity (#35), reading stats for Reader API clients (#36), further Stats screen views (#37), filters follow-ups (#38),
+more reading layouts (#39): all labelled Roadmap, post-1.0. Before 1.0: a beta soak week with zero incidents, `-rc.1`
+(Suites 1, 2 and 4 re-verified), Suite 3 on real devices, and the final go/no-go meeting. See
+[plans/HANDOFF-PHASE4.md](plans/HANDOFF-PHASE4.md) and [parking-lot.md](parking-lot.md).

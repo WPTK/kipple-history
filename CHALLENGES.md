@@ -289,6 +289,131 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   in `t.Cleanup`, and a "timeout" should be diagnosed from the goroutine dump before assuming a race or
   re-running.** Re-running a flake twice was the wrong response; the evidence was already in the log.
 
+## 28. The pre-tag review found an SSRF-guard escape in the audit's own fix (2026-09-27, findings reported 18:15 to 18:19 ET)
+
+- Before tagging beta.1, `/code-review high` ran on the whole diff since alpha.7 (over 7,000 lines): 8 finder agents
+  from different angles, then 8 verifiers. Six findings were confirmed and three refuted (a documented Access-policy
+  trade-off, a fulltext-hold leak that turned out to be cleared already, and a duplicate-write worry with no real code
+  path). The tag was held until all six were fixed (PR #54, 33 files).
+- The headline: `fetch.SameSite` treated a bare hostname such as `nas` as the same site as any host that starts with
+  `nas.`. A feed with "allow private network" that redirected to `nas.attacker.example` (a public name whose DNS can point
+  at a private address) skipped the address guard. Five of the eight finder angles found it independently before
+  verification began. It was in code written to harden exactly that guard (the phase 5 audit, PR #26). Fix: a bare LAN name
+  and a longer name that merely starts with it are different sites; the exception applies only to redirect hops on the
+  feed's own site.
+- The other five: a Reader API batch of title edits lost per-feed atomicity (partial commits and a misleading 500); a
+  folder-merge rename through the Reader API widened a mute or mark-read filter onto feeds it was never scoped to;
+  the `kipple:deleting:<id>` placeholder of a feed being deleted leaked into unread counts, OPML export and backups
+  because the guard was wired into 3 of about 8 queries; editing only a LAN feed's URL silently dropped its network
+  exception; the auto-night theme's "a fixed theme clears the schedule" rule ran from one of three places that set it.
+- The conventions angle also caught my own README Quickstart saying `localhost`, against the standing `127.0.0.1` rule
+  (it can stall for 5 to 10 seconds on the first page load). Fixed at once.
+- Lesson: a security fix needs a review of its own, and independent angles agreeing on one defect is stronger evidence
+  than any single verifier. A "fix everything" rule means a release waits for its review.
+
+## 29. Cloudflare error 1033 on every tunnelled site (2026-09-27, about 21:28 ET)
+
+- The owner reported error 1033 on all tunnelled sites during beta.1 deploy prep. Both Docker stacks were healthy. The
+  tunnel container (up 21 hours, never recreated) was failing to dial Cloudflare's edge over QUIC/UDP
+  (`no recent network activity`) while the host's DNS and TCP to Cloudflare worked.
+- This is not the token-rotation failure that the standing "never recreate cloudflared" rule is about. With the owner's
+  go-ahead a plain `docker restart` (restart, not recreate) brought all four connections back in under a minute,
+  checked from outside against two sites.
+- Root cause not confirmed. The session was running heavy background load (parallel agents, image builds, a long fuzz
+  run), which is a plausible trigger but unproven. Lesson: read the tunnel's log before assuming a pulled-down stack or a
+  rotated token, and keep restart and recreate distinct. Memory note added.
+
+## 30. Ten defects in the day's own PRs (2026-09-29, 07:55 to 08:55 ET)
+
+- After PRs #73, #74 and #75 merged, a `/code-review high` of the diff since beta.1 (several angles, then verifiers)
+  found 10 confirmed or plausible defects. Five were in my own fixes for #71 and #72, merged minutes earlier: the lead
+  image picker split `srcset` on commas and corrupted CDN URLs that contain commas; an unsized hero image lost to any
+  later image with a tiny declared size such as a 48 px avatar (the reverse of what #71 asked for); the saved scroll
+  offset was compared with a global watermark that survives a remount; the "seen" set included the 8-row overscan
+  buffer; and it was not kept across a remount.
+- Five older ones: the refresh pill announced once per feed on refresh-all and missed a manual refresh that joined an
+  in-flight fetch; a collapsed folder was unreachable in Edit and Select mode and select-all could include hidden feeds in
+  a bulk delete; Feed Health kept its selection across a search or filter; a check interval of 100 minutes read "Every
+  1.6666666666666667 hours"; the two bulk dialogs duplicated their loop.
+- All ten were fixed, one small PR each (#76, #77, #79, #82, #83, #81, #84), each with a regression test that fails
+  without the fix except the refactor and one guard that could not be reproduced in jsdom (item 35). Second-round
+  reviews of #76 and #77 each found one more real issue; both fixed. Four smaller review items fell outside the top-10
+  cap and were folded into the fragment tooling PR.
+- Lesson: #74 and #75 were merged on my own review only, and a fresh review then found regressions in both. From this day
+  I self-review each diff before proposing a merge (item 34), and a fix for a bug is reviewed like any other change.
+
+## 31. CHANGELOG conflicts on every merge (2026-09-28 to 09-29)
+
+- Every PR added a line under `[Unreleased]` in the same place. On Sunday night PRs #63, #64 and #65 all conflicted with
+  `main` once #66 merged (23:19) (two also on `f3.test.tsx` and `AppShell.tsx`); I merged `main` into each by hand and re-ran the
+  suite. On Tuesday seven of the eight fix PRs edited the same Fixed section, so the merge order needed a rebase between
+  each. The owner asked for the conflicts to stop.
+- Fix (PR #85, merged 12:55 ET): one file per change, `changes/<slug>.<kind>.md`, and `scripts/changelog.mjs` with
+  `check` (in CI and in `ci-local.ps1`), `preview`, `release X.Y.Z` (folds fragments in Keep a Changelog order, merges
+  duplicate headings, updates links, deletes the fragments) and `notes`. The 17 pending entries were migrated verbatim.
+  Eight tests.
+- Lesson: a file that every parallel branch appends to will conflict; give each change its own file and let a script
+  assemble it. I had predicted the conflicts on Tuesday morning and queued the tool behind the bug fixes; building it
+  first would have avoided the rebases.
+
+## 32. CodeQL alerts: a fix that missed `main`, and a dismissal I got wrong (2026-09-27, 15:09 to 21:58 ET)
+
+- Two alerts came in on `internal/discover` (request forgery) and `internal/greader/itemid.go` (integer conversion), both
+  false positives: the fetcher runs through a guarded transport, and the `int64` conversion is a deliberate bit-cast of a
+  `uint64`. While diagnosing a character limit on the dismissal comment, my first test call dismissed alert 1 with the
+  comment "test". The classifier then blocked the real dismissal as a security bypass, correctly. I did not work around it,
+  reported the "test" comment, and left both for the owner. Later that evening both
+  alerts were reopened and dismissed again with real reasons, and recorded as risks R8 and R9 so the citations resolve.
+- Two more alerts came from the new UAT runner (`web/uat/run.mjs`): a tag-stripping regex that ran one pass (a nested
+  malformed tag can reassemble) and a selector escape that handled quotes but not backslashes. Neither was exploitable
+  (test tooling, no untrusted input) but both were cheaper to fix than to dismiss: strip to a fixed point, escape
+  backslashes first. The fix landed on a branch the owner had already merged as PR #46, so it never reached `main`;
+  I cherry-picked it into PR #51.
+- Lesson: never use a placeholder comment on a security action; check whether a branch is already merged before pushing a
+  fix to it.
+
+## 33. The local kipple-history clone diverged after the history rewrite (2026-09-29)
+
+- The 2026-09-28 rewrite of this repository's history (item 26) was pushed from a fresh clone. The working copy on the
+  dev machine stayed on the old, pre-rewrite history, with the real hostnames still in it. The morning brief for Tuesday
+  already warned not to push it, and when the owner asked why nothing from Sunday was in the diary, the audit found
+  that copy diverged from GitHub.
+- Fix: I kept it as the local branch `local-pre-rewrite-backup` (never pushed) and reset `main` to match GitHub, with
+  nothing force-pushed. The private duplicate repository was deleted on Tuesday morning after the owner refreshed the
+  `delete_repo` scope and said go.
+- The gap itself came from the same period: nothing was written here for Sunday daytime and evening, because the
+  overnight task list put the scrub first. The owner said this repository must be updated at least daily; the rule is in
+  memory and in Kipple's `CLAUDE.md` (PR #89).
+- Lesson: after a history rewrite, every other clone is a hazard. Replace or delete them at once, and tell the next
+  session which one is real.
+
+## 34. Merging: a denied merge, then permission with a condition (2026-09-26 to 09-29)
+
+- Item 24 records the first denial (PR #17, "merge without review") and the owner merging #17 and #18 himself. On
+  Tuesday, after #74 and #75 had merged and a review found regressions in both (item 30), the owner set the current rule:
+  I may merge any PR whose CI is green on its exact head commit, but only after we have discussed it. I wrote it to
+  the settings file and he approved it.
+- The Tuesday batch then merged in the agreed order (#84, #76, #77, #79, #80, #82, #83, #81) with the changelog rebased
+  between each, and later #85 and #87. PRs that touch workflows, deploy or release files or repo settings still need
+  an explicit ask. Tags, releases and deploys always do.
+- Lesson: the classifier's denial and the owner's gate are two separate things; I stop at a denial rather than route
+  around it, and a merge proposal states the PRs, the order and the conflicts to expect.
+
+## 35. Test pitfalls in jsdom and with virtualized lists (2026-09-29)
+
+- The scroll fixes (PRs #74, #77) depend on a virtualized list. The original bug treated every row above the
+  virtualizer's start index as "scrolled past", including rows a jump had skipped without rendering them; the fix tracks
+  which rows were actually rendered in the visible window.
+- In jsdom `Element.prototype.scrollTo` is a no-op stub (`src/test/setup.ts`), so a pixel check of `scrollTop` cannot tell
+  a restored offset from a reset one. The regression test spies on `scrollTo` and asserts whether the list asked to go
+  back to the top. A stale-cache scenario also needs `invalidateQueries` with `refetchType: "none"` inside `act`, so the
+  stale cached page is still served on remount.
+- One guard added in the second round of fixes could not be reproduced reliably in jsdom. It shipped with no test of
+  its own, and the commit says so. Timing tests in #79 were rewritten to be deterministic rather than given longer
+  timeouts (as in item 24).
+- Lesson: state plainly which behaviour a test does not cover, and prefer asserting the call the code makes over a
+  layout number jsdom cannot produce. Real layout still needs a browser or a phone.
+
 ## Not yet sourced
 
 - Exact token totals per session. The harness does not expose a per-session counter; the diary's numbers come from

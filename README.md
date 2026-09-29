@@ -5,14 +5,25 @@ API sync endpoint, with an AI coding agent (Claude Code). It is kept apart from 
 repository can go public without the working notes, testing evidence and deployment details that came with the
 build.
 
-This repository is private on purpose. It contains personal and deployment details: first names, internal
-hostnames and IP addresses, tunnel and device names, real-device testing notes, and a Reeder sync log. Do not
-make it public without a scrub pass. The code repo is `WPTK/Kipple` (public since 2026-09-26 11:03 ET).
+This repository was written to be private, because the raw material (transcripts, memory notes, the owner's testing
+notes, a Reeder sync log) contains personal and deployment details: first names, internal hostnames and IP addresses,
+tunnel and device names. It has been public since 2026-09-27 09:49 ET, and that was not safe at first: it went public
+before the scrub was finished, and `DECISIONS.md` carried two real server hostnames and one path with a Windows account
+name. That was found on 2026-09-28, the current files were scrubbed the same night, and the whole git history was
+rewritten and force-pushed with the owner's go-ahead on the morning of 2026-09-28 (see item 26 of
+[CHALLENGES.md](CHALLENGES.md)). Anyone who cloned or viewed it before the rewrite may still have the old text; a
+rewrite cannot undo that. The rule stands for everything added here: use Host-A (deploy target) and Host-B
+(dev and admin machine), `rss.example.com` for the public hostname, no IP addresses, no Windows account name or profile
+paths, no email addresses, no surname, no device or tunnel names, no tokens. A private duplicate of the repository that
+existed for the purpose was deleted on 2026-09-29. The code repo is `WPTK/Kipple` (public since 2026-09-26 11:03 ET).
 
 The material was assembled on 2026-09-26 from the Kipple repository history, the agent's memory notes and the
-session transcripts, and updated at each milestone. It covers 2026-09-24 to 2026-09-26 (phases 1 to 3, the public
-release and the first local deep review). Nothing here was rewritten after the fact except a
-single redaction (see the note at the end).
+session transcripts, and updated at each milestone. It now covers 2026-09-24 to 2026-09-29: phases 1 to 5, the public
+release, the local deep review, `v0.3.0-alpha.4` to `v0.3.0-beta.1`, the beta feedback round and `v0.3.0-beta.2` in
+preparation. Nothing was rewritten after the fact except the redactions described in this file. Sunday 2026-09-27
+daytime through Tuesday 2026-09-29 were added late, on 2026-09-29, after the owner noticed the gap; those entries were
+written from the transcripts, the Kipple git log and pull requests and the memory notes, not from the notes taken at the
+time. From now on this repository is updated at least daily.
 
 ## How to read it
 
@@ -21,9 +32,10 @@ Start with the synthesis documents, then drop into the sources they link to.
 | File | What it is |
 |---|---|
 | [TIMELINE.md](TIMELINE.md) | Dated chronology, hour by hour where it matters, with tags and phases |
-| [MILESTONES.md](MILESTONES.md) | Each release and phase: what shipped, what shaped it, size in commits and lines |
+| [MILESTONES.md](MILESTONES.md) | Each release and phase (planning to `v0.3.0-beta.2` in preparation): what shipped, what shaped it, size in commits and lines |
 | [MEETINGS.md](MEETINGS.md) | Every decision session: date, type, what was decided, approximate message counts |
-| [CHALLENGES.md](CHALLENGES.md) | Real problems with cause, fix and lesson |
+| [CHALLENGES.md](CHALLENGES.md) | Real problems with cause, fix and lesson (35 items) |
+| [parking-lot.md](parking-lot.md) | Deferred ideas, follow-ups with their status, and the owner's standing rules |
 | [DECISIONS.md](DECISIONS.md) | Standing and later decisions, each with its source |
 
 Primary sources:
@@ -32,12 +44,12 @@ Primary sources:
 |---|---|
 | [diary/](diary/) | The agent's engineering diary, one file per day, written for the article |
 | [human-feedback/](human-feedback/) | the owner's testing notes and evidence (Reeder sync log) |
-| [audits/](audits/) | The 285-item docs-versus-code audit, the `CLAUDE.md` proposals, and the local deep review with its second round |
+| [audits/](audits/) | The 285-item docs-versus-code audit, the `CLAUDE.md` proposals, the local deep review with its second round, and later audits and reviews |
 | [research/](research/) | 21 research reports and design-meeting prework (client behaviour, libraries, UI, colour) |
 | [plans/](plans/) | Current plan, design, UI decisions, phase 3 and phase 4 handoffs, both kickoff briefs, `CLAUDE.md`, changelog |
 | [plans/history/](plans/history/) | Earlier revisions of plan, design and `CLAUDE.md`, and the first kickoff prompt, named `<doc>-<date>-<shortsha>.md` |
 
-The documents in `plans/` and `plans/history/` are snapshots (refreshed 2026-09-26 evening, after `v0.3.0-alpha.3`); the
+The documents in `plans/` and `plans/history/` are snapshots (refreshed 2026-09-29, at `v0.3.0-beta.2` preparation; earlier revisions are in `plans/history/`); the
 living copies stay in the Kipple repo.
 
 ## Conventions
@@ -55,8 +67,11 @@ living copies stay in the Kipple repo.
 At `v0.2.0` (about three calendar days in): 354 commits and six tags, 544 files, about 114,000 added lines, of
 which about 63,500 are Go (about 31,000 of it tests). At `v0.3.0-alpha.3` (the evening of day three, after the
 repository history was rewritten for going public): 492 commits, ten tags, 615 tracked files, about 75,400 lines of
-Go (about 38,800 of them tests) and about 30,500 lines under `web/src`. See [MILESTONES.md](MILESTONES.md) for the
-breakdown and what the counts do and do not mean.
+Go (about 38,800 of them tests) and about 30,500 lines under `web/src`. At the `v0.3.0-beta.2` release branch (day
+six, 2026-09-29): 645 commits, twelve tags (`v0.3.0-beta.1` is the latest; alpha.5 and alpha.6 were never tagged),
+712 tracked files, about 83,800 lines of Go (about 43,200 of them tests) and about 40,000 lines under `web/src`; 44
+pull requests merged since alpha.3. See [MILESTONES.md](MILESTONES.md) for the breakdown and what the counts do and do
+not mean.
 
 ## Redaction note
 

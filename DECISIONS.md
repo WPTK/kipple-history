@@ -232,7 +232,7 @@ ask before deploy. Acceptance: a week of real reading on the web app.
 ## Still with the owner (as of 2026-09-26 evening)
 
 1. Turn on GitHub private vulnerability reporting (repo setting); `SECURITY.md` points to it.
-2. ~~Approve or reject audits/claude-md-proposed-edits.md.~~ Dropped (2026-09-28): the owner had the file removed
+2. ~~Approve or reject audits/claude-md-proposed-edits.md.~~ Dropped (2026-09-27, 21:55): the owner had the file removed
    rather than acted on, given how much has shipped since it was written.
 3. Say when to turn off debug logging on Host-A (`KIPPLE_LOG_LEVEL`, `KIPPLE_LOG_GREADER_FORMS`).
 4. The Host-A-side backup job that pushes to Proton Drive (outside the repo).
@@ -284,7 +284,7 @@ the IEEE 730 SQA plan outline, documenting existing practice (CI's static analys
 gates, CHANGELOG/SemVer/tag discipline, dependency-vetting practice) rather than inventing new process. It
 flags four candidate additions for his decision, not yet built: a living risk register, code-coverage
 visibility in CI (reporting only, not a gate), a docs index page, and a stated (low-commitment) issue-triage
-expectation now that the repo is public.
+expectation now that the repo is public. (All four were adopted the same day; see "Phase 5 process directions" below.)
 
 Phase 5 outline, current: (A) code audit + changelog review — DONE, PR #26; (B) Cloudflare Access JWT +
 passwordless, in parallel — in progress; (C) auto-night theme; (D) documentation run + Docker walkthrough
@@ -559,7 +559,7 @@ on. One thing deliberately left out: the reviewers' suggestion to consolidate de
 view/indexed column instead of a per-query condition — needs a schema migration, and this release has none, so
 it's written up in the PR body as a future item instead of forced into a "no migration" release.
 
-## v0.3.0-beta.1 shipped (2026-09-28)
+## v0.3.0-beta.1 shipped (2026-09-27, tagged 21:35)
 
 PRs #53 and #54 merged, closing every phase 5 gate. Full release checklist run: CI green on the exact commit
 (`12121c7`), 26/26 fuzz targets clean, off-box DB copy (a copy of the nightly snapshot kept on the owner's
@@ -581,12 +581,12 @@ tunnel, Kipple included, answering normally again). Root cause of the WSL2 netwo
 down — plausibly the heavy sustained background load this session was running (parallel review/fix agents,
 long fuzz suite, image builds), but that's a hypothesis, not confirmed.
 
-**Issue #52 closed (2026-09-28):** the owner confirms feed fetching is back to normal after the beta.1 deploy.
+**Issue #52 closed (2026-09-27, 21:45):** the owner confirms feed fetching is back to normal after the beta.1 deploy.
 Not independently proven with logs (routine fetch activity still isn't logged — the debug-logging follow-up is
 still queued), but the timing matches the theory: PR #26's scheduler-starvation fix was in `main` but not yet
 deployed when the owner first saw the problem (Host-A was on alpha.7 at the time); beta.1 includes it.
 
-## Overnight: beta.1 feedback triage (2026-09-28)
+## Overnight: beta.1 feedback triage (2026-09-27, from 22:06, to 2026-09-28)
 
 The owner attached a running feedback file (`0.3.0B1 feedback.md`, ten items from his own phone testing) and
 asked for triage (work now / work later / parking lot), a plan, and anything the feedback pointed at beyond
@@ -623,3 +623,132 @@ regardless. Separately: `kipple-history-private-archive` (fully
 redundant, superseded by this repo one minute after its last commit) is being deleted; `kipple-archive`
 (a full pre-history-rewrite snapshot of the *code* repo, not docs — different purpose, a real backup) is
 being kept.
+
+## Sunday morning meeting (2026-09-27, 08:32 to 11:00)
+
+Meeting 29 in [MEETINGS.md](MEETINGS.md). Decisions:
+
+- **Phase 4 ships as one deploy.** alpha.5 to alpha.7 were tagged and deployed together as `v0.3.0-alpha.7` (08:55),
+  on the agent's recommendation: they are additive to one feature and only alpha.5 carries a migration (0009), so one
+  migration rehearsal covered all three. Off-box backup and rehearsal came first. The owner authorised it and turned on
+  GitHub private vulnerability reporting.
+- **Website HTTPS** is enforced once the certificate exists: the owner added the DNS record, the certificate issued,
+  the agent enforced it at 10:42. The website's footer link to the history repo stays: "It will eventually be public."
+- **Scratch clones deleted** (eight superseded local clones, about 705 MB); the one blocked by a tool guard was left to
+  the owner. The stuck agent worktrees were one leaked process; killed and cleaned up.
+- **The auto-mode classifier is not a normal permission rule.** The agent may not edit its own permission settings, so
+  the owner pasted a rule himself: merging a PR in the Kipple repo once CI is green on the exact commit and the change
+  has been reviewed. (CHALLENGES item 34 records that the agent's `gh pr merge` calls were still refused until Tuesday
+  09:24, when an allow rule for `gh pr merge` was written to the project's local settings and approved.) He also set usage-limit auto-continue and clickable PR/CI links in the footer. A guard hook that
+  blocks local `docker build`/`run` on Host-B (unless wrapped in an ssh to Host-A) was written after the 00:26 outage
+  and given to him to install.
+- **kipple-history is public.** The owner: scrub it of personal data, then make it public. The agent renamed the old
+  private repo to an archive and created a new public repo with the rewritten history, because GitHub can serve
+  unreferenced commits by hash after a force-push and the raw data must never be reachable while public. It fixed one
+  mistake on the way (see [CHALLENGES.md](CHALLENGES.md)). The archive was meant to stay private; the owner had it deleted on Tuesday (below).
+- **Production is on Host-A.** The 00:26 outage was a dependency test run on Host-B, not a deploy; no test builds on Host-B.
+
+## Phase 5 process directions (2026-09-27, 11:49 to 13:06)
+
+Meeting 30 in [MEETINGS.md](MEETINGS.md).
+
+- **Auto-fix monitoring is on for every PR** (the owner, 11:49). Right after opening a PR the agent binds it and turns on
+  auto-fix and comment handling.
+- **The four SQA additions were adopted at once** (12:03 "Decide on the candidate additions now", built by 12:10, commit
+  `1447d76` on `main`): risk register, coverage visibility (reporting only, no gate), a docs index, and an issue-triage
+  statement in `SECURITY.md`. This supersedes "not yet built" under "Phase 5 additions" above.
+- **The setup-app / single-image design stays parked**: the owner asked (12:11) whether a meeting exists; the answer was
+  that it is a one-line roadmap placeholder and phase 5 excludes it.
+- **Merged PRs close their issues** through closing keywords in the PR body (asked 13:04).
+
+## Beta.1 decision and aftermath (2026-09-27, 17:37 to 21:59)
+
+Meetings 31 and 32 in [MEETINGS.md](MEETINGS.md). Complements "Pre-tag `/code-review high`" and "v0.3.0-beta.1 shipped".
+
+- **The pre-tag review is a gate.** The owner said to cut and deploy beta.1 (18:05); the agent held the tag for the six
+  confirmed findings under the fix-everything rule, and he left the issue queue and the fixes to it ("You take it from
+  here", 18:55). He merged #53 and #54 at 21:03 (said so at 21:04) and gave the go at 21:05.
+- **Suite 5 may fall back to curl** when the browser pane is refused a LAN address (17:39).
+- **A pre-release is not "Latest".** GitHub keeps showing `v0.2.0` as Latest; the owner asked at 21:41 and it was left
+  alone so that nobody is steered to a beta.
+- **The plain tunnel restart** was approved at 21:33 (a restart of the existing container, not a recreate).
+- **Loose ends 2 and 3** (21:55): the agent re-dismissed the two CodeQL alerts with written reasons (R8 and R9; Kipple commit `1158ca3`, 21:57), and the stale proposed-edits file was removed (kipple-history commit `ee8ecca`, 21:58).
+- **The beta soak week began** on beta.1 (the agent's statement at 21:42); a real bug resets its clock.
+
+## Beta.1 feedback, overnight authority and the Monday meeting (2026-09-27 22:06 to 2026-09-28)
+
+Meetings 33 to 36 in [MEETINGS.md](MEETINGS.md). The morning-meeting answers themselves are under "Morning meeting,
+mockups approved, kipple-history follow-through" above.
+
+- **Overnight authority (22:17):** screenshot pass first, then execute the triage plan; "Pull/merge PRs as you see fit";
+  update kipple-history and the relevant docs; open and resolve issues with the existing labels. Tasks added at 23:23: the
+  mockups, git hygiene, a README for regular users, a website check.
+- **Fix, do not wake the owner (07:14).** When the agent found the public history repo carrying real hostnames it tried
+  to set the repo private (denied by the classifier) and sent a phone alert. The owner's rule: if a fix is inside an
+  established policy (here, the Host-A/Host-B aliasing), apply it instead of escalating. Destructive history rewrite was
+  approved in the meeting.
+- **Only three Kipple repositories:** `kipple`, `kipple-history`, `kipple-website`. The redundant private archive of the
+  docs repo is deleted; the private snapshot of the code repo from before the history rewrite is kept.
+- **README rules** (07:46 to 09:18): no fixation on the word "list", no em dashes, no comparisons with other products,
+  a caveat that Wrapped is opt-in, a quote about the word "kipple" as the first thing after the badges, SemVer / repo
+  size / image size badges, a sensible heading order, and use of the writing skills. At 09:18 he said to commit and push to `main`.
+- **Parking lot (08:08): every config-file setting should move into the app**, with a setup flow if needed, so users do not
+  edit a file to run Kipple. (Now in `parking-lot.md`.)
+- **Changelog conflicts (09:31):** the owner asked for a lasting fix; the agent said conflicts could only be caught fast
+  by auto-fix unless changelog entries moved to one file per PR, which needed his go-ahead (given Tuesday 07:23).
+
+## Tuesday morning meeting (2026-09-29, 07:23 to 07:25)
+
+Meeting 37 in [MEETINGS.md](MEETINGS.md). The agent's brief said an rc was not yet justified: the changes since beta.1
+were feature-sized and `docs/RELEASING.md` asks for the suites re-run and a one-week soak. The owner's eight answers:
+
+1. **beta.2 next, not rc.1.** The realistic sequence is beta.2, then rc.1 after the soak.
+2. **#71 and #72 go into "Phase 5 - Release readiness"** and are fixed today, one PR each.
+3. **#31 (feed delete with 600k+ items outlasts the timeout) is closed as not planned**, at 07:24. The owner: it is "so
+   far beyond an edge case" that it could just stay open; the agent closed it with a written reason.
+4. **The GitHub CLI `delete_repo` permission is granted** by the owner; the redundant private archive repo was then
+   deleted at his 07:25 go-ahead.
+5. **Changelog conflicts must stop**: build changeset-style tooling, queued behind #71 and #72 (07:25).
+6. **Settings group names: Title Case with ampersands.**
+7. **The "Manage feeds and folders" link goes under Sync & Feeds.**
+8. **No shareable page for the meeting brief.**
+
+## Merge permission and the review gate (2026-09-29)
+
+Meetings 38 and 39 in [MEETINGS.md](MEETINGS.md). This replaces the earlier standing rule "I merge code PRs; you never
+merge them" and the "Merges of code PRs" line under "Phase 4 build decisions after the meeting".
+
+- **The agent may merge any PR whose CI is green on its exact head commit, but only after discussing it with the owner
+  in the conversation** (09:24). Never unprompted, never around a denied merge. Merge order and expected conflicts are
+  proposed first; merging uses `gh pr merge <n> --squash`. The agent added `Bash(gh pr merge:*)` to the
+  project's local settings file and the owner approved the edit (09:26 to 09:28). PRs touching CI configuration, deploy or release files or repo settings always
+  ask (the 12:55 merge of #85, which edits CI, was asked and approved). Tags, release builds and deploys still need
+  his go-ahead each time.
+- **Review before merge, not after.** A review run after #74 and #75 merged had found regressions in both. The agent
+  now self-reviews each diff before opening a PR and gets an independent review of the substantive ones before the
+  owner merges (09:30 "Review first, then let's meet back").
+- **Every review finding is fixed** (standing since 2026-09-25/26). Applied at 10:01 ("Go ahead with the fixes"); ten
+  defects from the review of the diff since beta.1 became fix PRs #76, #77, #79, #81, #82 and #83 (and #84, a refactor from
+  the second review), plus #80 for the owner's offline "read the original" report (issue #78). The two-round review of #76, #77 and #79 added fixes; the owner asked for one more
+  quick pass on the last two fixes (10:41).
+- **The flow is right** (08:45 "I like that flow"): one branch per fix, a regression test that fails without the fix,
+  a PR, then CI. Added: the agent's own review first.
+
+## Changelog fragments (2026-09-29, 11:57)
+
+- The owner: "begin the changelog retooling. Take that all the way through." Shipped as PR #85 (merged): each change
+  adds `changes/<slug>.<kind>.md`; `scripts/changelog.mjs` has `check` (also run in CI and `ci-local.ps1`), `preview`,
+  `release X.Y.Z` and `notes X.Y.Z`; `CHANGELOG.md` `[Unreleased]` holds only a pointer line. `CLAUDE.md`,
+  `docs/RELEASING.md`, the PR template and the plans point to it. It also fixed the duplicate `### Changed` headings and
+  gave `.claude/launch.json` its `url`.
+- **Favorited folders collapse from Favorites** (issue #86, PR #87): the owner chose a chevron in Favorites (12:14
+  dialog); the folder shares its collapsed state with the Feeds list, and folders start expanded.
+
+## Beta.2 and the daily kipple-history rule (2026-09-29)
+
+- **Beta.2 go (13:18):** "let's move to the beta2 tag and the work required with that." The pre-tag checks ran (CI
+  green, 26 fuzz targets clean, UAT Suite 1 clean, review clean), and the release commit is PR #88, the first real use
+  of the fragment `release` command. The agent said it would still ask before each production step (tag push,
+  off-box copy, deploy, GitHub Release). The owner's phone pass and the closing of #57 and #62 remain his. #88 merged at 14:01 ET; no tag exists yet.
+- **kipple-history is updated at least daily** and after every release, meeting or incident (13:53: "should be part
+  of your workflow, at the very least daily"). Saved to memory; PR #89 adds it to `CLAUDE.md`.

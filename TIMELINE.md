@@ -1,6 +1,6 @@
 # Timeline
 
-Dated chronology of building Kipple with an AI coding agent, 2026-09-24 to 2026-09-26.
+Dated chronology of building Kipple with an AI coding agent, 2026-09-24 to 2026-09-29.
 
 Sources: `git log --date=iso` in the Kipple repo (times are the author's local clock, US Eastern, UTC-4),
 annotated tags, the diary in [diary/](diary/), and the session transcripts. The diary and the transcripts
@@ -20,6 +20,13 @@ Tags in the Kipple repo (dates are the commit dates the tag points at; deploy ti
 | `v0.3.0-alpha.1` | 2026-09-26 11:03 | `7497c4c` | 362 |
 | `v0.3.0-alpha.2` | 2026-09-26 13:34 | `640fe2c` | 373 |
 | `v0.3.0-alpha.3` | 2026-09-26 18:13 | `42fd5c8` | 492 |
+| `v0.3.0-alpha.4` | 2026-09-26 22:26 | `56fc6ad` | 497 |
+| `v0.3.0-alpha.7` | 2026-09-27 02:26 | `00510e3` | 529 |
+| `v0.3.0-beta.1` | 2026-09-27 21:12 | `12121c7` | 599 |
+
+`v0.3.0-alpha.5` and `v0.3.0-alpha.6` were merged (PRs #20 and #22) but never tagged; they shipped inside alpha.7. The
+tag objects were created a little after these commits: alpha.4 at 22:36, alpha.7 at 08:55 and beta.1 at 21:35. Beta.2's
+release commit (`585e961`, 2026-09-29 13:49, PR #88) merged at 14:01 (squash commit `95173b8`); not yet tagged at the time of writing.
 
 ## 2026-09-24 (Thursday): planning and research
 
@@ -144,25 +151,87 @@ the model policy discussed; a start prompt for a fresh implementation session fo
 - 2026-09-27 00:00 (ET): alpha.5 (Stats screen, PR #19) reviewed twice and fixed; alpha.6 (export and data controls)
   started on branch phase4-stats-export.
 
-## 2026-09-27 to 28: phase 5, beta.1, and the beta feedback round
+## 2026-09-27 (Sunday): alpha.5 to alpha.7, phase 5, beta.1
 
-- Phase 5 (release readiness: code audit, Cloudflare Access JWT + passwordless, auto-night theme, docs run,
-  UAT suites) run mostly in parallel, closing through the day; see DECISIONS.md for the individual PRs.
-  `v0.3.0-beta.1` tagged and deployed to Host-A 2026-09-28 (commit `12121c7`, schema 9 — no migration).
-  A real incident (Cloudflare error 1033, a stuck QUIC dial on `cloudflared`) interrupted deploy prep and was
-  fixed with a plain restart; unrelated to any of this project's own changes.
-- 2026-09-27 evening: the owner brought a phone-testing feedback file for v0.3.0-beta.1 (ten items). Triaged
-  to issues #55-#62, four PRs shipped same session (#63-#66). See diary/2026-09-28.md.
-- Overnight (the owner's fixed task list, not open-ended): settings/layout mockups for #55/#57, a git
-  hygiene pass (ten stale worktrees removed), a README revamp attempt (PR #67 — the owner's read the next
-  morning was that it needed redoing properly, not accepted as-is), a kipple.cc visual check (one staleness
-  found and fixed, kipple-website#1), and keeping this repository current — which is how this repository's
-  own public exposure was found and fixed the same night. See CHALLENGES.md #26 for that account in full.
-- 2026-09-28 morning meeting: mockups approved (master-detail settings, redesigned Cards/Compact/Headlines
-  layouts — implementation follows); this repository's git history rewritten (not just the current-file
-  fix from the night before) with the owner's explicit go-ahead, force-pushed, verified clean; the
-  now-redundant `kipple-history-private-archive` repository slated for deletion (blocked on a missing GitHub
-  token scope), `kipple-archive` kept as a genuine backup of the pre-rewrite code history.
-- 2026-09-29: PRs #65, #68, #69, #70 merged (beta.1 feedback fully implemented); issues #71 and #72 filed;
-  the imgproxy CI 900 s "hang" root-caused and fixed in PR #73; morning-meeting brief prepared. See
-  diary/2026-09-29.md and CHALLENGES.md #27.
+Overnight (00:00 to 02:37 ET, first session; details in diary/2026-09-27.md):
+
+- 00:04 PR #19 (alpha.5 Stats screen) merged, release PR #20. 00:26 a test run inside Docker on Host-B briefly restarted
+  Docker Desktop: public services down 20 to 50 s (CHALLENGES.md #25).
+- 01:12 CI `-race` catches five new export tests timing out (25,000 single-row inserts in one write); fixed by chunking.
+  01:33 PR #21 (alpha.6 export and data controls) merged, release PR #22. PR #23 (alpha.7 Wrapped), #24 (Dependabot config)
+  and #25 (release) merged by 02:26; main at `00510e3`, zero open PRs. 02:37 morning brief.
+
+Daytime and evening (diary/2026-09-27-sunday.md; commit times from git, PR merge times from the merge commits):
+
+- 08:32 Morning meeting. 08:53 the owner authorises the deploy, vulnerability reporting and HTTPS for the site. 08:55
+  `v0.3.0-alpha.7` tagged. 09:22 stuck worktree process killed. About 09:27 alpha.7 deployed to Host-A after the off-box
+  copy, migration rehearsal (0009) and 26-target fuzz run.
+- 09:32 to 09:52 kipple-history scrub, first pass: private original renamed to an archive, rewritten history published as
+  a new public repository; my own write-up briefly reintroduced two hostnames (under two minutes).
+- 10:18 to 10:42 user-level settings commands; DNS instructions for the project site; certificate found already issued,
+  HTTPS enforced (301). 11:00 Docker guard hook handed over.
+- 11:01 New session. Phase 5 planning meeting; 11:17 decisions recorded (`d2ea1c8`); code audit and Access JWT work start
+  in the background.
+- 11:30 to 11:43 audit fixes on `phase5-code-audit`; 12:20 PR #26 merged (24 defects). 11:51 to 12:10 UAT plan, SQA plan,
+  release ladder and risk register written (third-party UAT skill declined). 12:17 to 12:30 PR labels, milestones,
+  backfill of 25 PRs, issues #27 to #39 filed.
+- 13:03 PR #40 (Access JWT, optional password) merged. 13:18 to 14:36 auto-night theme, six review rounds; PR #41 merged 14:36.
+- 14:41 UAT Suite 4 (restore drill, migration rehearsal). 14:55 to 15:08 docs run, PR #42 merged (hostnames removed from
+  four docs; the project domain kept). 15:10 to 15:11 CodeQL alerts examined; a mistaken dismissal with a placeholder
+  comment, then the classifier blocks further attempts.
+- 16:10 to 16:17 UAT Suite 2 findings, PR #45 merged. 16:35 UAT Suite 1 (PR #46) merged; 16:39 CodeQL follow-up PR #51 merged.
+- 16:40 the owner asks for the next version. 16:42 to 18:04 UAT Suite 5 walkthrough on Host-A (interrupted once by a
+  declined browser navigation). 18:04 README Quickstart fix; recommendation `v0.3.0-beta.1`.
+- 18:07 to 18:19 pre-tag `/code-review high` finds six confirmed bugs, one critical SSRF-guard escape; fix agents start.
+- 18:50 all open issues checked against the code. 19:02 to 19:15 wording fixes and phase 5 issue batch. 19:09 the owner
+  reports stale feeds, filed as #52.
+- 19:21 PR #53 and 20:33 PR #54 opened (regression tests and accessibility fixes; the six review fixes, with a second
+  SSRF hole found by the fix agent's own reviews). 21:03 both merged.
+- 21:05 the owner: go to `0.3.0-beta.1`. 21:12 release commit. About 21:22 to 21:35 the tunnel outage (error 1033 on every
+  tunnelled site, stuck QUIC dial, fixed by a plain restart). 21:35 tag pushed, deployed to Host-A, GitHub pre-release.
+- 21:45 the owner closes #52. 21:57 CodeQL alerts recorded as R8 and R9 (`1158ca3`). 21:59 the owner starts a new
+  session for the beta feedback meeting.
+
+## 2026-09-28 (Monday): beta feedback, overnight tasks, the public-repository incident, README
+
+Sources: diary/2026-09-28.md, CHALLENGES.md #26. Times ET.
+
+- 22:06 (Sunday night) New session. The owner's phone-testing notes for beta.1 (ten items) triaged into issues #55 to #62.
+- 22:36 to 23:19 fixes committed: N-new pill only after a manual refresh (`c9b47b0`), mobile tab-bar seam (`d20a0b4`),
+  mobile folder collapse and Manage Feeds edit mode (`6a1470a`), Feed Health bulk actions and Manage-this-feed menu
+  (`7d972bc`); PR #66 merged 23:19. Conflicts on `CHANGELOG.md` between PRs #63 to #65 begin.
+- 23:38 README revamp (`9ac56fe`), PR #67. The owner sleeps with a fixed task list: mockups for #55 and #57, git hygiene,
+  README, a visual check of the project site, keeping this repository current.
+- Overnight: five mockup artboards; ten stale worktrees and their branches removed; the kipple-website check finds one stale
+  status paragraph (kipple-website#1). Following its link to this repository shows real hostnames and a local path in
+  it; scrubbed, then the history rewritten and force-pushed after the owner's go-ahead (CHALLENGES.md #26).
+- 07:14 The owner: scrub it, "that should have been the logical conclusion". 07:16 PRs #67 and #63 merged.
+- 07:28 to about 08:00 Morning meeting: mockups approved; repository history rewrite approved; a question about four
+  related repositories leads to deleting the redundant archive (blocked on a missing `delete_repo` scope).
+- 07:46 to 09:18 Second session: README rounds (08:00 blunt critique, 08:08 parking-lot item, 08:12 to 08:36 specific
+  edits). Commits 08:05 to 08:37. Layout differentiation `8a5cc47` 08:02; master-detail Settings `409d595` 08:35.
+- 09:30 PR #64 (tab-bar seam) merged after its deleted branch was recovered from the PR reference. 09:57 second imgproxy
+  CI 900 s timeout, on PR #70.
+- 11:25 status. 11:37 to 11:39 PRs #69, #68, #65, #70 merged in that order. 11:42 issue #71 filed. 15:50 issue #72 filed.
+- After 15:51 no session activity is recorded until Tuesday 07:02.
+
+## 2026-09-29 (Tuesday): review of the day's own merges, changelog fragments, beta.2 preparation
+
+Sources: diary/2026-09-29.md, CHALLENGES.md #27. Times ET.
+
+- 07:02 The owner: Go tests failing CI on `main`. 07:05 PR #73 (imgproxy test fix, root cause) opened; 07:06 merged.
+  07:06 to 07:18 morning-meeting brief written and a handoff prompt for a new session.
+- 07:23 New session. Meeting decisions: beta.2 next, not rc.1; #71 and #72 into Phase 5; #31 closed; archive repository
+  deleted; changelog tooling queued. 07:35 to 07:52 PRs #74 (`b862081`, scroll restore and mark-read) and #75
+  (`0082d37`, lead image by size) merged.
+- 07:52 to 08:01 `/code-review high` on `v0.3.0-beta.1..main`: ten findings, five of them regressions in #74 and #75 (fixed in #76 and #77).
+- 08:07 to 08:54 fixes as PRs #76, #77, #79, #82, #83, #84, #81; #80 for the owner's offline "read the original" report
+  (#78). 08:45 the owner asks whether the workflow is typical; review-before-merge adopted.
+- 09:23 to 09:28 merge permission for green-CI PRs after discussion; rule saved; `gh pr merge` allowed in local settings.
+  09:32 to 10:14 per-PR reviews find a serious bug in #77 (snap-to-top never disarms) and gaps in #76, #79; fixed.
+- 10:42 to 11:53 merges in order: #84 (10:42), #76 (10:42), #77 (10:53), #79 (11:05), #80 (11:15), #82 (11:31),
+  #83 (11:41), #81 (11:53).
+- 11:57 to 12:55 changelog fragment tooling, PR #85 merged 12:55. 13:09 PR #87 (favorited folder, #86) merged.
+- 13:18 to 13:49 beta.2 preparation: fuzz clean, UAT Suite 1 clean, final review clean, release commit `585e961` (PR #88, merged 14:01). 14:08 PR #89 (the daily-history rule) merged.
+- 13:53 The owner asks for a full check of this repository ("I don't see any entries from Sunday"); four writers fill
+  the gaps. Beta.2 tag, off-box copy, deploy and GitHub Release not yet done at the time of writing.

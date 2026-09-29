@@ -140,3 +140,15 @@ retention invariants (starred, held, ledger, counters), feed delete resumption, 
 migrations 0001-0009; stats dedup, read-time caps, summary DST/week/streak arithmetic, CSV formula guard, delete scope
 (nothing else writes `stats_events`); offline queue re-read/supersede, service worker cache rules and sign-out wipe;
 keyboard typing guard, destructive-action confirmations, Wrapped share defaults (names and titles off).
+
+## Status update (added 2026-09-29, after the fact)
+
+The header above is as written on 2026-09-27. PR #26 was merged the same day at 12:20 ET, and the fixes first shipped in
+`v0.3.0-beta.1` (deployed 2026-09-27 evening; alpha.7 predates the merge). The three regression tests the audit
+left tracked as issues #27 (stats summary versus delete), #28 (image cache drop race) and #29 (duplicate status
+poll loop) were written in PR #53 and closed 21:03 ET, together with the four UAT accessibility findings. Issue #30
+(iOS `document.hasFocus()`) was closed 2026-09-27 evening on the owner's phone test, and issue #31 (feed delete with
+600k+ items can outlast the request timeout, "deliberately left" above) was closed 2026-09-29 07:24 ET as not
+planned. The audit's scoping work was itself completed by the pre-tag review, see
+[pre-tag-review-2026-09-27.md](pre-tag-review-2026-09-27.md).
+

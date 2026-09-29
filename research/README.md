@@ -1,4 +1,4 @@
-# Research reports (2026-09-24)
+# Research reports (2026-09-24, with later prework below)
 
 Primary-source findings gathered by a nine-agent research workflow before phase 1 was designed.
 Each file ends with the discrete claims it rests on (with confidence and source URL), open
@@ -25,3 +25,14 @@ two of the independent reports above.
 
 Open questions from every report are triaged in `open-questions.md` (decided / hedged-then-observed /
 verify-at-step / no action).
+
+## Later prework (2026-09-27 and 2026-09-28)
+
+Not products of the original research workflow: design-meeting prework from later sessions, without a verification pass.
+
+| File | What it settles |
+|---|---|
+| `uat-sqa-and-release-process-2026-09-27.md` | Why a third-party UAT skill was declined and Suite 1 built in-repo; the four release-process gaps; the UAT plan's shape; the SQA plan against IEEE 730; the alpha to 1.0 criteria; why iOS simulator skills do not fit Suite 3; the pipeline-skill checklist deferred to phase 6 |
+| `settings-and-layout-proposals-2026-09-28.md` | The code survey and the mockup proposals for settings grouping (#55) and layout differentiation (#57), and what was built |
+
+No new API, client or library research was produced after 2026-09-26; the Reader API, fetch and library reports above still stand. The Kipple repository gained no research files in that period.

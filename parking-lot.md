@@ -126,3 +126,18 @@ if the numbering changes; an exception to "beta adds no features", soak clock re
 - **Registries beyond GHCR until 1.0** (Docker Hub, Quay and the others listed above): still parked.
 - **Status of the setup wizard item above:** built and merged 2026-09-29 (milestone 7), unreleased; the overnight audit
   issues #124 to #135 are open in that milestone (audits/overnight-2026-09-30.md). #108 (offline queries) remains open.
+
+
+## Added 2026-09-30 (after the `v0.5.0-beta.1` release)
+
+- **Make the GHCR package public** (owner, by hand). Until then anonymous pulls of `ghcr.io/wptk/kipple:0.5.0-beta.1`
+  fail and the pull-and-run quickstart cannot work for anyone else.
+- **Repository ruleset restricting who can create `v*` tags** (owner): still not done; a pushed tag publishes a signed
+  image.
+- **rc.1** not before 2026-10-07 (soak restarted by the beta.1 deploy), with Suites 1, 2 and 4 re-verified.
+- **Release step to add:** compare the deploy host's compose file with the repository's example (build args) before a
+  tag that changes build info (CHALLENGES 47).
+- **#154:** flaky `TestApplyBudgetEndsTheRun` under `-shuffle`, open. #108 (offline queries) still not scheduled.
+- **Closed or settled:** the font question (#153; it was in the "Aa" menu all along); the commit-author name question (the
+  GitHub display name "BK" is fine); the starter feed list (#152); the wizard audit issues #124 to #149 (fixed and merged).
+- **Access rules** moved to a deterministic hook (MEETINGS 46); not to be edited by the agent.

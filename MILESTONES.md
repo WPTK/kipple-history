@@ -239,6 +239,26 @@ These four branches were cut from `main` after `v0.2.0` and are open work at the
 - The overnight audit found further defects in it (audits/overnight-2026-09-30.md); fixes were pending at the time of
   writing.
 
+## v0.5.0-beta.1 (2026-09-30, 12:21 ET, `2a2e261`, release commit #155)
+
+- Contents: the setup wizard stack (see the section above) plus the review fixes and the real starter list. Merged
+  between the stack and the tag: #137 (release workflow), #150 (backend and security), #151 (wizard frontend), #152 (the
+  real recommended feeds, pinned by a test, with a liveness script), #153 (reading-font choice back in Settings, Search
+  and the wizard), #158 (setup code always checked from a locked address; favicon candidates that do not re-parse are
+  dropped) and #155 (the release commit).
+- Pre-tag verification: 28 of 29 fuzz targets clean; the 29th (`FuzzIconLinks`) and a review found two bugs, #156 and
+  #157, both fixed in #158 before the tag.
+- First real run of the Release workflow: green (gate, CI, build amd64 and arm64, Trivy scans, smoke tests on both,
+  publish, cosign signing and provenance), 16 minutes. Image `ghcr.io/wptk/kipple:0.5.0-beta.1`, digest
+  `sha256:9dc95af346053eb0f1515fd29684676b6c2d6eb0788e83990317e071ea2da18b`. GitHub pre-release published 12:38:
+  https://github.com/WPTK/Kipple/releases/tag/v0.5.0-beta.1
+- Deployed to Host-A about 12:44, built from the tag on Host-A: `v0.5.0-beta.1`, commit `2a2e261`, schema 10, migration
+  0010 applied, healthy, existing account signs in with no wizard, still on port 7080 with the expected legacy-port
+  warning.
+- Soak for rc.1 restarts at this deploy: rc.1 not before 2026-10-07.
+- Not yet: the GHCR package is private until the owner makes it public by hand, so anonymous pulls fail; the repository
+  ruleset restricting who can create `v*` tags is still owed by him.
+
 ## Size of the repository at beta.2 prep
 
 At the beta.2 release branch: 645 commits (492 at alpha.3), 712 tracked files, about 83,800 lines of Go (about 43,200 of

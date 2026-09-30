@@ -71,3 +71,19 @@ Owner decisions this creates: confirm the #139 trade-off (a rebuilt host with an
 `KIPPLE_ADDR=:7080` hint); open mode reached by names like `nas` or `nas.local` now needs them added to allowed hosts.
 Unverified until real use: Tailscale Serve headers (from its source, not a live capture) and the Windows DACL under a
 service account. The release workflow has still never run.
+
+
+## Update, 2026-09-30 afternoon: what happened to the fix PRs, and the pre-tag pass
+
+Read from GitHub after the release. Times ET.
+
+- #151, #137 and #150 were merged by the owner at 08:34. The two open owner decisions listed above were answered by
+  merging them; the trade-offs stand as described.
+- Pre-tag verification found two more defects, both fixed before the tag. #156: the claim lockout added in #150 could be
+  starved by a noisy client on a shared gateway address (my bug). #157: `FuzzIconLinks`, a favicon candidate that does not
+  re-parse (28 of 29 fuzz targets were clean). Both fixed in #158, merged 11:05.
+- The first real Release workflow run (tag `v0.5.0-beta.1`, 12:21) was green. The "release workflow has still never run"
+  caveat above no longer applies. Unverified items from above that remain so until real use: Tailscale Serve headers and
+  the Windows token-file DACL under a service account.
+- Still open on GitHub from this audit: none of #124 to #149 remains open; the open issues are #154 (flaky test under
+  `-shuffle`), #108 and the Roadmap items.

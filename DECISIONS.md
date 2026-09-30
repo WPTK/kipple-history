@@ -846,3 +846,34 @@ Meeting 43 in [MEETINGS.md](MEETINGS.md). This records the decisions as taken; t
 
 - Same limits as earlier nights: audit and fix yes; deploy, tag and release no. Three fix agents open one PR each and
   leave it open for the owner's morning review; nothing is merged overnight.
+
+
+## Merges and the starter list (2026-09-30, morning)
+
+- The owner merged #137, #150 and #151 himself at 08:34, then #152 (the real recommended-feeds list, pinned by a test, with
+  a liveness script) and #153 (font) followed. Standing merge rule unchanged (CHALLENGES 34).
+
+## Font choice, settled (2026-09-30)
+
+- The picker was in the "Aa" menu all along (he found it). At his instruction it is also offered in Settings >
+  Appearance & Reading, in Search and in the wizard (#153). This closes the parked item from 2026-09-29.
+
+## The display name "BK" is fine (2026-09-30)
+
+- The owner clarified that the GitHub display name "BK" is fine to leave: it is not his surname or real name. This
+  settles the parked question about the commit-author name in the website repository's history. The scrub rule for
+  anything new is unchanged: no surname, no real name.
+
+## Release 0.5.0-beta.1 and the deploy (2026-09-30)
+
+- Tagged 12:21 on `2a2e261` and deployed to Host-A about 12:44, built from the tag on Host-A. Two preconditions set by the
+  owner: Host-A's compose file gets `VCS_REF` and `BUILD_DATE` build args (backup copy first), and the off-box database
+  snapshot copy is taken first. He ran the deploy commands himself.
+- The rc.1 soak restarts at this deploy: rc.1 not before 2026-10-07. Still his: make the GHCR package public by hand,
+  and a repository ruleset restricting who can create `v*` tags.
+
+## Access rules (2026-09-30, the access review)
+
+- Enforcement moves from prose to a hook: a replacement `PreToolUse` hook with an allow-list, plus allow entries and a
+  corrected `autoMode` environment (the repositories are public). The owner applied it; I do not edit permission
+  settings. Hooks are deterministic, prose rules are not. See MEETINGS.md 46 and CHALLENGES.md 48.

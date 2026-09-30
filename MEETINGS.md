@@ -457,6 +457,45 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 - He said the explanations were too wordy and full of fluff, and was frustrated that merges kept being blocked and that a
   merge order was being presented as a standing rule. Details in human-feedback/planning-and-feedback-2026-09-29.md.
 
+## 45. Fixes merged, the starter list, fonts and the beta.1 go (2026-09-30, morning)
+
+- Type: morning meeting. Messages: not counted. The time of day is not recorded; the merges happened at 08:34.
+- He reviewed and merged #137, #150 and #151 himself. Real starter feeds (#152) and the font restore (#153) followed.
+- Fonts: the picker was in the "Aa" menu all along and he found it himself. He still wanted it offered in Settings,
+  Search and the wizard, so #153 added it there.
+- Release: 0.5.0-beta.1, with the soak restarting at the deploy. He ran the deploy commands himself after two
+  preconditions: Host-A's compose file gets `VCS_REF` and `BUILD_DATE` build args, and the off-box database snapshot copy
+  comes first. See DECISIONS.md and CHALLENGES.md 47.
+- He clarified that the GitHub display name "BK" is fine (it is not the surname); see DECISIONS.md.
+
+## 46. The access review (2026-09-30, midday)
+
+- Type: review meeting on why so many of the agent's actions were blocked that morning. Messages: not counted. The time
+  is not recorded here.
+- **The catalog of blocks:**
+  - the permission classifier denied a read of data on Host-A;
+  - the classifier blocked the merges;
+  - a false positive on `bind_pr` (attaching a PR to the session);
+  - the classifier blocked the database backup copy to a backup drive;
+  - a subagent read a stored token and deleted a file, both blocked;
+  - the `PreToolUse` docker hook blocked a command because its text contained docker words, although nothing was being
+    run against docker;
+  - the harness removed a worktree.
+- **Root causes:**
+  - The classifier is not deterministic: the same action was allowed on one attempt and denied on the next.
+  - Its `autoMode` environment text was stale and said the repositories were private. They are public, so it judged
+    ordinary pushes and PR work by the wrong standard.
+  - One `soft_deny` entry flagged every `ssh` to the deploy host, including read-only ones.
+  - The docker hook was a regex matching words in the command text, not commands.
+  - Subagents run in their own context and do not see the rules and approvals of the session that spawned them.
+  - An out-of-date memory note said the `gh` CLI was missing on this machine, so work was routed around a tool that is
+    installed.
+- **The fix, applied by the owner himself:** a replacement hook with an allow-list, new allow entries, and a corrected
+  environment text. I do not edit permission settings (see CHALLENGES 41).
+- **The lesson:** hooks are deterministic, prose rules are not. The first real test was the read-only backup copy, which
+  the new hook let through.
+- His remark on the situation is in human-feedback/access-review-2026-09-30.md. Details in CHALLENGES.md item 48.
+
 ## Message estimates
 
 | Meeting | the owner's messages (approx.) |
@@ -505,5 +544,7 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 | 42 UAT round and beta.3 | 6 |
 | 43 Setup wizard and 1.0 planning | not counted |
 | 44 Read definition, fonts and merges | not counted |
+| 45 Fixes merged, the starter list, fonts and the beta.1 go | not counted |
+| 46 The access review | not counted |
 
 Estimates only. Rows are subsets of the session totals above and do not sum to them exactly.

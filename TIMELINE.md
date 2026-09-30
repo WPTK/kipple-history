@@ -280,3 +280,37 @@ Sources: diary/2026-09-30.md, audits/overnight-2026-09-30.md. Times ET; this sec
   open for the owner's morning review. At 23:02 no fix PR existed yet. Nothing deploys.
 - 03:49 The three fix PRs open: #137 release workflow, #150 backend and security, #151 frontend wizard; new issues #136
   and #138 to #149 from the re-verified first-round findings. Nothing merged or deployed.
+
+
+## 2026-09-30: merges, the real starter list, fonts, pre-tag verification, `v0.5.0-beta.1`
+
+Sources: diary/2026-09-30.md, audits/overnight-2026-09-30.md, MEETINGS.md items 45 and 46, GitHub PR, issue, release and
+Actions timestamps (UTC converted to ET). Times ET. Where a time is not in GitHub or git, a part of the day is given.
+
+- 08:34 The owner merged the three overnight fix PRs: #151 (wizard frontend), #137 (release workflow) and #150 (backend
+  and security), all within about 30 seconds of each other.
+- 09:13 to 09:26 PR #152 (the real recommended-feeds list in `starter/feeds.json`, pinned by a test, with a liveness
+  script) opened and merged.
+- Morning: the font question. The reading-font picker was in the "Aa" menu all along; the owner found it himself. He
+  still asked for it in Settings, Search and the wizard. 09:24 PR #153 opened, merged 09:38.
+- 09:51 release PR #155 (`chore(release): 0.5.0-beta.1`) opened.
+- 09:55 to 11:13 pre-tag verification. 28 of the 29 fuzz targets ran clean. Two real bugs: my own (#156, a throttle
+  starvation bug introduced by the claim lockout in #150, filed 09:55) and `FuzzIconLinks` (#157, a favicon candidate that
+  does not re-parse, filed 10:31). Both fixed in PR #158 (opened 10:52, merged 11:05); both issues closed 11:13.
+- 11:18 #155 merged: release commit `2a2e261`.
+- Midday: the access review meeting (MEETINGS.md item 46), held after a run of blocked actions. The owner applied the
+  fix himself (a replacement hook with an allow-list, allow entries, a corrected environment). The time of the meeting is
+  not recorded here.
+- 12:21 `v0.5.0-beta.1` tagged on `2a2e261`. The Release workflow started on the tag push and ran 16 minutes: gate, CI,
+  build for amd64 and arm64, Trivy scans, smoke tests on both, publish, cosign signing and provenance. Green on its first
+  real run. Image `ghcr.io/wptk/kipple:0.5.0-beta.1`, digest
+  `sha256:9dc95af346053eb0f1515fd29684676b6c2d6eb0788e83990317e071ea2da18b`.
+- 12:38 GitHub pre-release published.
+- About 12:44 deployed to Host-A. Before it, the off-box database snapshot copy was taken to a backup drive, and the
+  owner added the `VCS_REF` and `BUILD_DATE` build args to Host-A's compose file (a backup copy first), because it passed
+  only the version and commit and build date would have read "unknown". He ran the deploy commands himself. Result:
+  container reports `v0.5.0-beta.1`, commit `2a2e261`, schema 10, migration 0010 applied, healthy; the existing account
+  signs in with no wizard; still on port 7080, with the expected legacy-port warning.
+- The soak for rc.1 restarts with this deploy: rc.1 not before 2026-10-07.
+- The GHCR package is still private. Anonymous pulls fail until the owner makes it public by hand. Also still his: the
+  repository ruleset restricting who can create `v*` tags.

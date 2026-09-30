@@ -484,3 +484,52 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
 - The parent agent of the review workflow returned before its children finished, and the harness deleted its isolated
   worktree, which killed its five child review passes. The passes were relaunched from the top level and finished.
   Lesson: launch review passes from the top level rather than under a parent that can return first.
+
+
+## 44. My throttle starved the owner's correct setup code (2026-09-30, pre-tag, issue #156, fixed in #158)
+
+- The claim lockout I added in #150 was keyed by address. Behind a shared gateway address, one noisy client could take
+  every locked-out check slot, and the owner's correct setup code was then never checked. Found during pre-tag
+  verification (filed 09:55), so it never shipped. Fix in #158: a setup code is always checked, even from a locked
+  address. Lesson: a per-address limit must not gate the legitimate check; my own fix from the night before introduced
+  this, and the pre-tag pass is what caught it.
+
+## 45. `FuzzIconLinks` found a real bug (2026-09-30, pre-tag, issue #157, fixed in #158)
+
+- 28 of the 29 fuzz targets ran clean. `FuzzIconLinks` found that `iconLinks` could emit a candidate that does not
+  re-parse (`http://::`). Fix in #158: candidates that do not re-parse are dropped. Lesson: the fuzz run before a release
+  is worth doing every time; it found something on a tree that had just passed CI.
+
+## 46. The font picker that was not missing (2026-09-30, morning)
+
+- The diary had asked whether the "Aa" button was missing in the owner's build. It was not: the reading-font picker was in
+  that menu all along, and he found it himself. He still wanted it in Settings, Search and the wizard, and #153 added it
+  there at his instruction. Lesson: when a question is whether something exists in his build, ask him to look, or look,
+  before parking it as an investigation.
+
+## 47. Host-A's compose file did not pass the build args (2026-09-30, deploy)
+
+- The repository's example compose file passes `VCS_REF` and `BUILD_DATE`, but Host-A's own compose file (not in the
+  repository) passed only the version, so the deployed image would have reported commit and build date as "unknown". It
+  was caught before the deploy. The owner added the two build args to Host-A's file after making a backup copy, and ran
+  the deploy commands himself. Result: `v0.5.0-beta.1`, commit `2a2e261`, correct. Lesson: a release that adds build info
+  needs a check of the deploy host's compose file against the repository's, before the tag; add it to the release steps.
+
+## 48. The access review: a morning of blocked actions (2026-09-30)
+
+- Seven kinds of block in one morning: classifier denials on a Host-A data read; the merges; a `bind_pr` false positive;
+  the read-only database backup copy; a stored-token read and a file delete by a subagent; the `PreToolUse` docker hook
+  blocking a command because its text contained docker words; and the harness removing a worktree.
+- Root causes: a non-deterministic classifier; a stale `autoMode` environment saying the repositories were private; one
+  `soft_deny` entry flagging every `ssh` to the deploy host; a regex hook matching words; subagents running in their own
+  context without the session's rules; a stale memory note saying `gh` was missing. Meeting 46.
+- The owner applied the fix himself: a replacement hook with an allow-list, allow entries and a corrected environment.
+  Lesson: hooks are deterministic, prose rules are not. The new hook then let the read-only backup copy through, which
+  was the test that mattered. None of the blocks was worked around; each was reported and the owner decided.
+
+## 49. The GHCR package is private (2026-09-30, after the release)
+
+- The first real Release run was green and the image is published, but the GHCR package is private until the owner makes
+  it public by hand, so anonymous `docker pull` fails and the pull-and-run quickstart cannot work for anyone else yet. A
+  repository ruleset restricting who can create `v*` tags is also still his to set up, since a pushed tag now publishes
+  a signed image. Both are owner steps; neither is done.

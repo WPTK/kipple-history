@@ -435,3 +435,52 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   from the run-finished event and fixed that, but could not see how the pill could show. Before closing, I imported an
   OPML with one new feed into a seeded instance with All articles open and watched the page: no pill, no announcement.
   Lesson: when a fix addresses a nearby cause, verify the reported symptom in a running app before calling it fixed.
+
+## 38. A test failure that became a 15 minute CI hang (2026-09-29, PR #117)
+
+- The `go` job of the release-workflow PR (#111) timed out at 15 minutes inside `TestFullRefreshUpgradesPendingFlight`.
+  Two causes together, and no scheduler bug. First, the test's barrier was one round trip on a channel and did not wait
+  for the `Submit` it followed, so under `-race` on a loaded runner the check after it could run before the dispatcher
+  had upgraded the pending flight. Second, that check ran as a `require` on the dispatcher goroutine; `FailNow` there
+  exits that goroutine, `close(done)` never runs, and the test waits forever, so a plain failure became a hang.
+- Fix: the barrier loops until the dispatcher's queues are empty; a `Goexit` or panic inside the dispatcher helper is
+  re-raised on the test goroutine; the five assertions that ran there now run on the test goroutine; each rig has a
+  2 minute watchdog that dumps goroutines. A forced-interleaving test failed 10 of 10 runs before the fix and passes now.
+  The natural flake never reproduced locally without `-race` (no cgo toolchain on the dev box).
+- Same family as item 27. Lesson: never assert off the test goroutine, and read the goroutine dump before re-running.
+
+## 39. A health-check test used a port that another test had reused (2026-09-29, wizard backend branch)
+
+- A health-check test needed a "dead" port; the freed port was reused by a live test server, so the check succeeded
+  when it should have failed. Intermittent. Fixed on the backend branch (#118).
+  Lesson: a port that was free a moment ago is not a dead port.
+
+## 40. Another session removed five agent worktrees (2026-09-29, evening)
+
+- A different Claude session force-removed five of the agent worktrees while the wizard work was in flight. No work was
+  lost: everything was committed and pushed. A later check confirmed each PR head matched `origin`. The other session's
+  reason is not recorded here. Lesson: push before a session ends, and check PR heads against `origin` after anything that
+  touches worktrees.
+
+## 41. The permission classifier again, and my own habit (2026-09-29, evening)
+
+- The classifier denied a read of production data on Host-A (wanted for the stats question, item in DECISIONS.md) and,
+  at different points, merges. I did not work around either. The read was replaced by a query in the PR for the owner to
+  run on his own copy. For merges the root cause was the classifier's condition ("has gone through the project's own review
+  process"); the owner changed the rule himself.
+- His frustration was also aimed at me: I kept presenting a merge order as if it were a standing rule. It was my proposal
+  each time. Lesson: say "proposal" when it is one, and see item 34.
+
+## 42. Merge conflicts in the stacked wizard branches (2026-09-29, evening)
+
+- Resolved by merging `main` into the feature branches, never rebasing. `Dockerfile`: the release workflow (#111) and build
+  info (#114) both edited it; both sides kept, then the line breaks of the `go build` `RUN` line restored after the
+  merge joined them. `cmd/kipple/main.go` and `internal/api/api.go`: an integration merge kept both sides. #122 got `main`
+  merged in and CI re-run before it merged. Lesson: after a conflict in a build file, read the resulting file, not just
+  the diff; CI green on the combined commit is the check.
+
+## 43. A review workflow that handed back early (2026-09-29, evening)
+
+- The parent agent of the review workflow returned before its children finished, and the harness deleted its isolated
+  worktree, which killed its five child review passes. The passes were relaunched from the top level and finished.
+  Lesson: launch review passes from the top level rather than under a parent that can return first.

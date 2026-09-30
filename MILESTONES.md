@@ -221,6 +221,24 @@ These four branches were cut from `main` after `v0.2.0` and are open work at the
 - The owner decided beta.2 is next, not rc.1: the changes since beta.1 are feature-sized, and per `docs/RELEASING.md` an
   rc needs Suites 1, 2 and 4 re-verified plus a soak week.
 
+## Setup wizard stack on `main` (2026-09-29, evening, no tag)
+
+- Merged 21:40 to 22:33 ET with green CI on each exact head: design #91, test fix #117, release workflow #111, build info
+  and About screen #114, docs #121, wizard UI #119 and backend #118 (the whole stack, combined commit `c4161c3`, CI green
+  including `-race`), then the stats read-definition fix #122. `main` at `14960f2`, no open PRs. Not tagged and not
+  deployed; target is `0.5.0-beta.1` (milestone 7), and it restarts the soak.
+- Size: #118 as merged is 117 files, 9,653 lines added and 436 removed (it carries #119 and the others' base work through
+  the stacked branches; the per-PR figures are 47 files and 4,232 added for #119 as merged into its base, 11 files and 621
+  added for #121, 11 files and 514 added for #122).
+- What it contains: first-run wizard (account with optional password, theme, time zone, OPML import, starter feeds,
+  "Run setup again" in Settings), open mode (no password, refuses other LAN devices unless `security.open_lan`), migration
+  0010, a time zone resolver (new installs default to UTC), default port 1919 with existing databases keeping 7080
+  through 0.x, a release workflow that publishes a signed multi-arch image to GHCR, build info (OCI labels,
+  `kipple version -v`, About screen with copy-debug-info, stale-PWA banner, downgrade guard, what's-new after an
+  upgrade), and the new read definition for stats. No update check, by decision.
+- The overnight audit found further defects in it (audits/overnight-2026-09-30.md); fixes were pending at the time of
+  writing.
+
 ## Size of the repository at beta.2 prep
 
 At the beta.2 release branch: 645 commits (492 at alpha.3), 712 tracked files, about 83,800 lines of Go (about 43,200 of
@@ -228,8 +246,8 @@ them in test files) and about 40,000 lines under `web/src`.
 
 ## Not built yet
 
-Setup app and single pull-and-run image (#33), user-chosen Google Fonts (#34), design system, demo site and brand
+The setup wizard and pull-and-run image (#33) is now milestone 7 and on `main`, unreleased. Still post-1.0: user-chosen Google Fonts (#34), design system, demo site and brand
 identity (#35), reading stats for Reader API clients (#36), further Stats screen views (#37), filters follow-ups (#38),
-more reading layouts (#39): all labelled Roadmap, post-1.0. Before 1.0: a beta soak week with zero incidents, `-rc.1`
+more reading layouts (#39): all labelled Roadmap. Before 1.0: a beta soak week with zero incidents, `-rc.1`
 (Suites 1, 2 and 4 re-verified), Suite 3 on real devices, and the final go/no-go meeting. See
 [plans/HANDOFF-PHASE4.md](plans/HANDOFF-PHASE4.md) and [parking-lot.md](parking-lot.md).

@@ -783,3 +783,66 @@ merge them" and the "Merges of code PRs" line under "Phase 4 build decisions aft
   merges by the coordinator after a combined test run and review), because the nine fixes were independent.
 - Deferred: the offline-reads problem (every query except the article detail pauses offline) is issue #108, not part of
   beta.3.
+
+## Setup wizard planning meeting (2026-09-29, afternoon)
+
+Meeting 43 in [MEETINGS.md](MEETINGS.md). This records the decisions as taken; the earlier "Added 2026-09-29" note in
+[parking-lot.md](parking-lot.md) has the scope.
+
+- **It is called the wizard.** Account creation (username, optional password) moves into it. No password is required, with
+  a notice to keep the instance behind Tailscale or on localhost only.
+- **Default port 1919.** IANA lists it for the IBM Tivoli directory service only, no common application. Fallback 1138.
+  Considered and passed over: 1138 (THX), 2187 (Star Wars), 2063 (Star Trek), 1701, 2001, 2010, 1999, 4242, 1984.
+- **GHCR first.** Other registries (Docker Hub, Quay, Unraid Community Apps, CasaOS/Umbrel/Runtipi, awesome-selfhosted,
+  selfh.st, Portainer and TrueNAS templates) are parked until 1.0.
+- **Starter feeds live in a separate editable data file** (`starter/feeds.json`); the owner supplies the list later.
+  The recommended-feeds step and the OPML import are both skippable.
+- **The wizard asks for a time zone**, with the browser's zone preselected. Custom domain, Cloudflare OTP and other
+  settings that are env-only today are deferred to later wizard steps.
+- **Build info adopted:** OCI labels, a richer `kipple version -v`, an About screen with copy-debug-info, a stale-PWA
+  banner, a downgrade-guard message, and what's-new after an upgrade. **No update check and no phoning home**, by decision.
+- **Timing.** Built on feature branches during the beta.2 soak, target 0.5.0-beta.1. The owner approved this as an
+  exception to "beta adds no features"; the soak restarts on it.
+
+## Wizard design accepted, later answers (2026-09-29, evening)
+
+- The design document (PR #91, `docs/setup-wizard-design.md`) had five recommendations; the owner accepted all of them:
+  existing databases keep port 7080 through 0.x with a warning; Host-A builds from source for beta.1, then pulls the
+  signed GHCR image by digest from 0.5.0; open mode refuses other LAN devices by default, with `security.open_lan` as the
+  opt-in; "Run setup again" lives in Settings; new installs default to UTC. He added the time zone step. The design found
+  an in-app `tz` setting already existed and reused it.
+- Time zone Skip keeps the design's behaviour: it writes the suggested zone. The known limit that an explicit UTC choice
+  cannot be told from the default on the first run after an upgrade is left as it is.
+- Build order: release workflow (A, #111), build info (E, #114), backend (B, #118), wizard UI (C, #119), docs (D, #121).
+  Sonnet built A, E, C and D; Opus built B and did the reviews. Merged in dependency order, stacked branches first
+  (MILESTONES.md).
+
+## What counts as a read in the stats (2026-09-29, evening; issue #120, PR #122)
+
+- The owner: a "read" should be an article he clicked on and read, not one scrolled past.
+- Finding: mark-read-on-scroll and bulk mark-read never create an open event (only `POST /open` does), so scrolling was
+  already not a read. The loophole was the rule itself: 25 percent scroll counted with no time floor, and legacy opens
+  (recorded before timed rows) counted as reads.
+- **New rule, on my recommendation and approved:** read = 10 s of active reading, or 25 percent scroll plus at least 3 s.
+  Legacy opens still count, and are now counted and shown separately as `legacy_opens`. Existing history is
+  reclassified at query time, so past numbers may drop.
+- I could not measure the effect on the live Host-A data: the permission system blocked the read. The PR contains a
+  read-only SQL query for the owner to run on his own copy.
+
+## Font choice (2026-09-29, evening)
+
+- The owner asked where fonts are chosen. Answer: the "Aa" reading menu in the article header (`ReadingMenu`), never
+  Settings; the wizard's theme step is theme only. Follow-up, not decided: offer font in Settings > Appearance & Reading
+  and in the wizard, and find out whether the Aa button is actually missing somewhere in his build. Parked.
+
+## Merge condition (2026-09-29, evening)
+
+- Merges were blocked several times. Root cause: the auto-mode classifier's allow rule was conditioned on a PR "having
+  gone through the project's own review process", which it could not verify. The owner edited that rule in the local
+  settings himself; I do not edit permission settings. Standing rule unchanged (item 34 of CHALLENGES.md): merge on green
+  CI on the exact head, after discussion.
+
+## Overnight autonomy for the audit (2026-09-29 night)
+
+- Same limits as earlier nights: audit and fix yes; deploy, tag and release no. Three fix agents open one PR each and
+  leave it open for the owner's morning review; nothing is merged overnight.

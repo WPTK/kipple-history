@@ -278,3 +278,5 @@ Sources: diary/2026-09-30.md, audits/overnight-2026-09-30.md. Times ET; this sec
   settings stamped, snapshot written, integrity checks pass, rollback with the beta.3 binary works.
 - Three fix agents launched (backend and security on Opus; release workflow; frontend wizard), one PR each, to be left
   open for the owner's morning review. At 23:02 no fix PR existed yet. Nothing deploys.
+- 03:49 The three fix PRs open: #137 release workflow, #150 backend and security, #151 frontend wizard; new issues #136
+  and #138 to #149 from the re-verified first-round findings. Nothing merged or deployed.

@@ -54,3 +54,20 @@ the first run after an upgrade.
 Three fix agents were launched: backend and security (Opus), the release workflow, and the frontend wizard. Each opens one
 PR and leaves it open for the owner's morning review. Nothing is merged or deployed overnight. At 23:02 none of the three
 PRs existed; check the pull request list for their numbers and state.
+
+## Update, 2026-09-30 03:49 ET: the fix PRs exist
+
+Three fix PRs are open against `main` (`14960f2`), none merged, CI running when written. Each has a regression test per
+finding and a `/code-review high` self-review pass.
+
+| PR | Area | Covers |
+|---|---|---|
+| #137 | release workflow | #125 (image version label, build date), #126 (base digest label), #127 (floating tags moving backwards), #136 (tag race, re-pointable X.Y.Z, leading-zero tags, cosign identity) |
+| #150 | backend and security | #128 (`*.ts.net` Host skips the forwarded check), #131 (About), #124 (container name), #132 (docs drift), plus verified first-round findings: #138 (open mode allowed `.local` and single-word Hosts, medium, DNS rebinding), #139 (restore port trap), `kipple password` accepting the example password, claim lockout throttle, healthcheck Host, Windows token file DACL, tailnet peer check, event streams closed when the open gate stops passing |
+| #151 | frontend wizard | #133, #134, #135, plus first-round findings now filed as #140 to #149 (open-mode cookie loop, 404 retry, Skip/Back while saving, password left in memory, API password replaced silently, setup-code aria, OPML size, alert noise, lost user name, step 7 flash) |
+
+Owner decisions this creates: confirm the #139 trade-off (a rebuilt host with an old compose file publishing 7080 and no
+`KIPPLE_ADDR`, whose container started once before the restore, now stays on 1919; restore prints the
+`KIPPLE_ADDR=:7080` hint); open mode reached by names like `nas` or `nas.local` now needs them added to allowed hosts.
+Unverified until real use: Tailscale Serve headers (from its source, not a live capture) and the Windows DACL under a
+service account. The release workflow has still never run.

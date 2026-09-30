@@ -105,7 +105,7 @@ in the public repo. Nothing here starts without the owner asking. Roadmap items 
 Scheduled, no longer parked: first-run setup wizard plus one-command Docker install, as a beta (0.5.0-beta.1, or 0.4.1
 if the numbering changes; an exception to "beta adds no features", soak clock restarts on it).
 
-- Default port **1919** (IANA: IBM Tivoli only, no common app); fallback 1138. Ceres keeps 7080 by override.
+- Default port **1919** (IANA: IBM Tivoli only, no common app); fallback 1138. Host-A keeps 7080 by override.
 - Account creation (username, optional password) moves into the wizard. No password required, with a notice to keep it
   behind Tailscale or localhost only; passwordless mode needs Host/Origin validation. Setup claim protected by a
   one-time token in the container log.
@@ -116,3 +116,13 @@ if the numbering changes; an exception to "beta adds no features", soak clock re
   update-check (no phoning home).
 - GHCR is the first registry (multi-arch, cosign, SBOM). **Where else to host is parked until 1.0**: Docker Hub, Quay,
   Unraid Community Apps, CasaOS/Umbrel/Runtipi, awesome-selfhosted, selfh.st, Portainer/TrueNAS templates.
+
+## Added 2026-09-29 (evening)
+
+- **Font selection in Settings > Appearance & Reading and in the wizard.** Today it exists only in the "Aa" reading menu
+  in the article header (`ReadingMenu`). Also find out whether the Aa button is actually missing somewhere in the owner's
+  build. Not decided.
+- **A repository ruleset restricting who can create `v*` tags**, since a pushed tag now publishes a signed image.
+- **Registries beyond GHCR until 1.0** (Docker Hub, Quay and the others listed above): still parked.
+- **Status of the setup wizard item above:** built and merged 2026-09-29 (milestone 7), unreleased; the overnight audit
+  issues #124 to #135 are open in that milestone (audits/overnight-2026-09-30.md). #108 (offline queries) remains open.

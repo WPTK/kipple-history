@@ -18,9 +18,9 @@ paths, no email addresses, no surname, no device or tunnel names, no tokens. A p
 existed for the purpose was deleted on 2026-09-29. The code repo is `WPTK/Kipple` (public since 2026-09-26 11:03 ET).
 
 The material was assembled on 2026-09-26 from the Kipple repository history, the agent's memory notes and the
-session transcripts, and updated at each milestone. It now covers 2026-09-24 to 2026-09-29: phases 1 to 5, the public
-release, the local deep review, `v0.3.0-alpha.4` to `v0.3.0-beta.1`, the beta feedback round and `v0.3.0-beta.2` in
-preparation. Nothing was rewritten after the fact except the redactions described in this file. Sunday 2026-09-27
+session transcripts, and updated at each milestone. It now covers 2026-09-24 to the night of 2026-09-29: phases 1 to 5, the public
+release, the local deep review, `v0.3.0-alpha.4` to `v0.3.0-beta.3`, the beta feedback round, the setup wizard stack (on `main`,
+unreleased) and its overnight audit. Nothing was rewritten after the fact except the redactions described in this file. Sunday 2026-09-27
 daytime through Tuesday 2026-09-29 were added late, on 2026-09-29, after the owner noticed the gap; those entries were
 written from the transcripts, the Kipple git log and pull requests and the memory notes, not from the notes taken at the
 time. From now on this repository is updated at least daily.
@@ -32,9 +32,9 @@ Start with the synthesis documents, then drop into the sources they link to.
 | File | What it is |
 |---|---|
 | [TIMELINE.md](TIMELINE.md) | Dated chronology, hour by hour where it matters, with tags and phases |
-| [MILESTONES.md](MILESTONES.md) | Each release and phase (planning to `v0.3.0-beta.2` in preparation): what shipped, what shaped it, size in commits and lines |
+| [MILESTONES.md](MILESTONES.md) | Each release and phase (planning to `v0.3.0-beta.3` and the unreleased wizard stack): what shipped, what shaped it, size in commits and lines |
 | [MEETINGS.md](MEETINGS.md) | Every decision session: date, type, what was decided, approximate message counts |
-| [CHALLENGES.md](CHALLENGES.md) | Real problems with cause, fix and lesson (35 items) |
+| [CHALLENGES.md](CHALLENGES.md) | Real problems with cause, fix and lesson (43 items) |
 | [parking-lot.md](parking-lot.md) | Deferred ideas, follow-ups with their status, and the owner's standing rules |
 | [DECISIONS.md](DECISIONS.md) | Standing and later decisions, each with its source |
 

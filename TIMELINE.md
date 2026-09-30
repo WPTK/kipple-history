@@ -243,3 +243,38 @@ Sources: diary/2026-09-29.md, CHALLENGES.md #27. Times ET.
 - 15:30 to 17:00 UAT Suites 2, 4 and 5 re-run on beta.2; nine defects filed (#92 to #100) and the Quickstart version note (#102).
 - 17:09 to 17:13 eight fix PRs merged after a combined test run; 17:40 #115 (Cards row width); 17:53 release PR #116.
 - 18:43 `v0.3.0-beta.3` tagged on `46da6a6`; 18:44 deployed to Host-A and released on GitHub; the website updated.
+
+### 2026-09-29, evening: the setup wizard stack
+
+Sources: diary/2026-09-29.md, MEETINGS.md items 43 and 44, GitHub PR and issue timestamps. Times ET. Where a time is not
+in GitHub or git, a part of the day is given.
+
+- Afternoon (after the soak started, before 16:27): planning meeting for 1.0 work. The owner asked for a one-click
+  Docker image with setup included, a first-run wizard and an obscure four-digit default port. Decisions in
+  DECISIONS.md.
+- 16:27 PR #91 opened (`docs/setup-wizard-design.md`, written by an Opus agent). The owner accepted all five of its
+  recommendations plus a time zone step.
+- 16:53 to 20:10 build PRs opened, each on its own branch: #111 release workflow (16:53), #114 build info and About
+  screen (17:14), #117 pending-flight test flake (17:49), #118 setup-mode backend, open mode, migration 0010, time zone
+  resolver and port (19:00), #119 wizard UI (19:52), #121 docs (20:06). Issue #120 (what counts as a read) filed 19:53;
+  its fix, PR #122, opened 20:10.
+- 21:40 #91 and #117 merged; 21:41 #111; 21:53 #114; 21:54 #121 (into the base branch of #119); 22:07 #119 (into the
+  base branch of #118); 22:20 #118, the whole wizard stack, on `main` as `c4161c3`, CI green on the combined commit
+  including `-race`; 22:33 #122 (`14960f2`) after `main` was merged into it and CI re-run. #120 closed by it.
+  `main` at `14960f2`, no open PRs, none of it deployed or tagged.
+- Evening: eight finished worktrees removed (all clean), local branches deleted; GitHub had already deleted the merged
+  remote branches, one leftover remote branch deleted. kipple-website checked: already current for beta.3
+  (kipple-website#3, merged 18:47, refreshed four screenshots and `og.png`); issues #4 (skip link, small link tap
+  targets) and #5 (update when 0.5.0-beta.1 releases) filed at 22:09.
+
+## 2026-09-29 night to 2026-09-30: overnight audit of the wizard stack
+
+Sources: diary/2026-09-30.md, audits/overnight-2026-09-30.md. Times ET; this section was written at about 23:05 on
+09-29, so the fix work below was still running.
+
+- 22:48 to 22:58 the first audit findings filed as issues #123 to #135 in milestone "0.5.0 - Setup wizard and pull-and-run
+  image"; #123, #129 and #130 were closed as duplicates at 23:00 (of #131, #131 and #124).
+- During the audit, migration 0010 was rehearsed on a real schema-9 database built with `v0.3.0-beta.3`: data kept, new
+  settings stamped, snapshot written, integrity checks pass, rollback with the beta.3 binary works.
+- Three fix agents launched (backend and security on Opus; release workflow; frontend wizard), one PR each, to be left
+  open for the owner's morning review. At 23:02 no fix PR existed yet. Nothing deploys.

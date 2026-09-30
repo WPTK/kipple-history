@@ -430,6 +430,33 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
   At the end, through the question dialog: tag, deploy and release beta.3, and keep the beta.2 soak clock (earliest
   rc.1 stays 2026-10-06).
 
+## 43. Setup wizard and 1.0 planning (2026-09-29, afternoon, design accepted in the evening)
+
+- Type: planning meeting during the beta.2 soak. Messages: not counted. The design PR (#91) was opened at 16:27, so the
+  meeting fell between the soak start (about 15:30) and then; the exact time is not recorded here.
+- The owner's asks: (1) a one-click Docker image install with setup included; (2) a first-run setup flow for a single
+  user on a single Docker host, with theme selection, a skippable OPML import and skippable recommended feeds that he
+  supplies later (his personal favorites); (3) an obscure, memorable four-digit default port. He also said Phase 5 was
+  complete. That was checked against GitHub: the docs run (#42) merged, #57 and #62 closed, and #33 moved from the
+  post-1.0 Roadmap milestone to milestone 7, "0.5.0 - Setup wizard and pull-and-run image".
+- Decided in the meeting: it is called the wizard; default port 1919 (fallback 1138); GHCR first; the build-info list;
+  built on feature branches during the beta.2 soak, target 0.5.0-beta.1, as an exception to "beta adds no features".
+  See DECISIONS.md.
+- Evening: after reading the design document he accepted all five recommendations and asked for a time zone step. Later
+  answers: time zone Skip keeps the design's behaviour (writes the suggested zone); the known limit that an explicit UTC
+  choice cannot be told from the default on the first run after an upgrade stays as it is.
+
+## 44. Read definition, fonts and merges (2026-09-29, evening)
+
+- Type: ad hoc, while the wizard stack merged. Messages: not counted.
+- Stats: "Read" should mean an article he clicked on and read, not one scrolled past. He approved the recommendation
+  (issue #120, PR #122; DECISIONS.md).
+- Fonts: he asked where the font choice lives. In the "Aa" reading menu in the article header, not in Settings, and not in
+  the wizard, which has a theme step only. Follow-up parked.
+- He asked for a way to see the wizard screenshots (they had been saved to a scratch folder only); they were sent.
+- He said the explanations were too wordy and full of fluff, and was frustrated that merges kept being blocked and that a
+  merge order was being presented as a standing rule. Details in human-feedback/planning-and-feedback-2026-09-29.md.
+
 ## Message estimates
 
 | Meeting | the owner's messages (approx.) |
@@ -476,5 +503,7 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 | 40 Fragments, favorited folders, beta.2 | 3 |
 | 41 kipple-history rule | 1 |
 | 42 UAT round and beta.3 | 6 |
+| 43 Setup wizard and 1.0 planning | not counted |
+| 44 Read definition, fonts and merges | not counted |
 
 Estimates only. Rows are subsets of the session totals above and do not sum to them exactly.

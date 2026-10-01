@@ -271,3 +271,15 @@ identity (#35), reading stats for Reader API clients (#36), further Stats screen
 more reading layouts (#39): all labelled Roadmap. Before 1.0: a beta soak week with zero incidents, `-rc.1`
 (Suites 1, 2 and 4 re-verified), Suite 3 on real devices, and the final go/no-go meeting. See
 [plans/HANDOFF-PHASE4.md](plans/HANDOFF-PHASE4.md) and [parking-lot.md](parking-lot.md).
+
+
+## Since `v0.5.0-beta.1`: unreleased on `main` (2026-09-30 to 2026-10-01)
+
+- `main` is at `aec4961`, past the beta.1 release commit. Changes: #159 (docs), #160 and #161 (badges, Scorecard workflow,
+  Codecov upload), #162 (`CONTRIBUTING.md`), #163 (solid cover for the iOS status-bar strip; the only behaviour change,
+  with a changelog fragment) and #164 (the Best Practices badge).
+- Repository protection: tag ruleset "Protect Release Tags" and branch ruleset "Protect main" in force (DECISIONS.md).
+- OpenSSF Best Practices passing badge earned 2026-10-01 (project 15120). Scorecard was 7.1, then 7.3 on the owner's
+  reading; Branch-Protection scores 3 of 10 and cannot go higher without a second reviewer.
+- The GHCR package is public (anonymous manifest fetch returns 200 on 10-01).
+- Not tagged. The #163 fix would go into beta.2.

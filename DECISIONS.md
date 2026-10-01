@@ -877,3 +877,42 @@ Meeting 43 in [MEETINGS.md](MEETINGS.md). This records the decisions as taken; t
 - Enforcement moves from prose to a hook: a replacement `PreToolUse` hook with an allow-list, plus allow entries and a
   corrected `autoMode` environment (the repositories are public). The owner applied it; I do not edit permission
   settings. Hooks are deterministic, prose rules are not. See MEETINGS.md 46 and CHALLENGES.md 48.
+
+
+## Badges and the Scorecard (2026-09-30 to 2026-10-01)
+
+- Goal set by the owner: raise the OpenSSF Scorecard (7.1, then 7.3) where it can honestly be raised. Fixable: pinned
+  actions, token permissions, a security policy, SAST (CodeQL), fuzzing, a signed release, the Best Practices badge. Not
+  fixable for a one-person project: Code-Review and the higher Branch-Protection tiers (both need a second person).
+- Badge refresh (#160, #161): Go Report Card not added (the service is retired); ghcr-badge `latest_tag` (shows a
+  signature tag) and `size` (errors on a multi-arch image) not usable, so the tags badge is used. The views counter is
+  hits.sh, chosen after testing four services; it is a third-party image, served through GitHub's image proxy, and the
+  count is approximate. One line to remove.
+- The SemVer badge was removed in #160 and restored at the owner's request; it stays.
+- Coverage goes to Codecov with the token as a repository secret the owner added; the uploads are skipped when the secret
+  is empty and `codecov.yml` is informational, so nothing CI gates on changed.
+- SemVer 2.0.0 versus 2.0.0-rc.2: no practical difference for Kipple. The differences are build metadata (SHOULD be
+  ignored in rc.2, MUST in 2.0.0), leading-zero rules, empty identifiers and the BNF. Stay on 2.0.0.
+
+## Rulesets (2026-09-30)
+
+- "Protect Release Tags" (created 13:17): `v*` tags, creation, update, deletion and force-push blocked, repository admin
+  bypass only. Closes the parked item.
+- "Protect main" (created 15:08, target fixed 15:13): deletion and non-fast-forward blocked, required status checks go,
+  web, security and docker, pull request required with 0 approvals. Zero approvals is deliberate: there is no second
+  reviewer. Scorecard scores that tier, 3 of 10; the higher tiers need a second reviewer and stay out of reach. No
+  `SCORECARD_TOKEN` is needed for the check on a public repository (CHALLENGES 51).
+
+## OpenSSF Best Practices: silver and gold not pursued (2026-10-01)
+
+- Passing earned 2026-10-01 (project 15120). Silver is feasible (55 criteria, 7 already met) but `access_continuity` and
+  `bus_factor` need a named second person. Gold is not realistic for one person (`two_person_review`, unassociated
+  contributors, hardened site headers that GitHub Pages cannot set). At silver the Scorecard CII check gains about 0.05.
+  The owner chose to forget silver and gold; parked in parking-lot.md.
+- The two claims only the owner could make (`know_secure_design`, `know_common_errors`) were asserted by him, not by me.
+
+## The status-bar cover (2026-10-01)
+
+- iOS softens the status-bar strip from whatever sits at the top edge of the page. Kipple draws no blur and
+  `theme-color` already equals the background for all 20 schemes, so the fix is a solid fixed element, `#kp-top-cover`
+  (#163). Verified by the owner on his iPhone before the PR was opened. Unreleased; goes into beta.2.

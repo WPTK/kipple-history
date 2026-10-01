@@ -18,7 +18,7 @@ paths, no email addresses, no surname, no device or tunnel names, no tokens. A p
 existed for the purpose was deleted on 2026-09-29. The code repo is `WPTK/Kipple` (public since 2026-09-26 11:03 ET).
 
 The material was assembled on 2026-09-26 from the Kipple repository history, the agent's memory notes and the
-session transcripts, and updated at each milestone. It now covers 2026-09-24 to 2026-09-30: phases 1 to 5, the public
+session transcripts, and updated at each milestone. It now covers 2026-09-24 to 2026-10-01: phases 1 to 5, the public
 release, the local deep review, `v0.3.0-alpha.4` to `v0.3.0-beta.3`, the beta feedback round, the setup wizard stack (on `main`,
 unreleased at the time) and its overnight audit, then the review fixes and `v0.5.0-beta.1` (tagged, released and deployed
 2026-09-30). Nothing was rewritten after the fact except the redactions described in this file. Sunday 2026-09-27

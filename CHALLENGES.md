@@ -533,3 +533,45 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   it public by hand, so anonymous `docker pull` fails and the pull-and-run quickstart cannot work for anyone else yet. A
   repository ruleset restricting who can create `v*` tags is also still his to set up, since a pushed tag now publishes
   a signed image. Both are owner steps; neither is done.
+
+
+## 50. The branch ruleset that protected nothing (2026-09-30, afternoon)
+
+- The owner created "Protect main" at 15:08 and saved it with an empty target, so it matched no branch. Nothing flagged
+  it; the ruleset showed as active. Found when its target was read back through the API; 15:13 the default branch was
+  added. Lesson: after a protection is created, read its conditions back, and test it against a real push or a Scorecard
+  rerun, not just "active".
+
+## 51. My Scorecard estimates were wrong (2026-09-30)
+
+- I estimated the Branch-Protection score too high, and said a `SCORECARD_TOKEN` is needed. Both were wrong. Scorecard's
+  own documentation says tier 1 is what this ruleset reaches (3 of 10) and that the higher tiers need a second reviewer;
+  no token is needed for this check on this repository. Corrected in the same exchange. Lesson:
+  quote the tool's own documentation for a score, not memory.
+
+## 52. The release lost its pre-release flag (2026-09-30)
+
+- After the beta.1 release the GitHub release object showed as Latest and not as a pre-release. Cause not established.
+  Fixed with `gh release edit`; it is a pre-release again. Lesson: check the release object after the workflow, not only
+  the workflow's result.
+
+## 53. Filling the Best Practices form (2026-10-01)
+
+- An agent had drafted 67 passing-level answers (62 met, 3 unmet, 2 N/A). The three unmet were closed by `CONTRIBUTING.md`
+  (#162). Claude in Chrome was not connected, so the form was filled in the app's browser pane through the owner's own
+  signed-in session; he signed in himself. The page's CSP blocked fetching the answers from a local helper server, so they
+  were pasted in parts. Saved at 97%; 100% once he asserted `know_secure_design` and `know_common_errors`, which are claims
+  only he can make. Lesson: a criterion that asks for the owner's own assertion goes to him, not into a draft.
+
+## 54. A password in a file he could not read (2026-10-01)
+
+- To check the iOS fix on his phone I stood up a throwaway preview instance bound to the Tailscale address on port 7083
+  (new `KIPPLE_DEV_HOST` option in `web/scripts/seed.mjs`), and told him the dev password was in a repo file. He cannot
+  read a repo file from a phone, and he was annoyed. The credential should have been given in the message that asked him to
+  sign in. Lesson: say what the person needs on the device they are holding.
+
+## 55. A push CI run failed after a green PR run (2026-09-30, 20:07)
+
+- The CI run on the push of #163 (`d218798`) failed in the go job: `TestServeRefusesWhenTheLockIsHeld` in `cmd/kipple`.
+  The PR run on its head was green, as is every later run. Observed here, not investigated, no issue filed at the time of
+  writing. Whether it is related to #154 (a flaky test under `-shuffle`) is not known.

@@ -10,3 +10,4 @@ The owner's testing notes and reports, in order.
 | [soak-reports-2026-09-28-29.md](soak-reports-2026-09-28-29.md) | Defects reported during the beta.1 soak (#71, #72, #78, #86), README direction, process requests |
 | [planning-and-feedback-2026-09-29.md](planning-and-feedback-2026-09-29.md) | The wizard asks, the stats read-definition and font questions, and his feedback on wordiness and blocked merges |
 | [access-review-2026-09-30.md](access-review-2026-09-30.md) | The access review: what he said, what changed in the permission setup |
+| [scorecard-and-badges-2026-10-01.md](scorecard-and-badges-2026-10-01.md) | The Scorecard, rulesets, Best Practices and iOS strip asks, and his feedback on the dev password |

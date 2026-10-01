@@ -496,6 +496,21 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
   the new hook let through.
 - His remark on the situation is in human-feedback/access-review-2026-09-30.md. Details in CHALLENGES.md item 48.
 
+## 47. Scorecard, rulesets and the Best Practices badge (2026-09-30 to 2026-10-01)
+
+- Type: a run of linked exchanges rather than one sitting: the owner's request to improve the Scorecard, then the rulesets,
+  the badge, the iOS strip and the access follow-through. Messages: not counted. Times are in TIMELINE.md.
+- **Scorecard:** the analysis of checks and weights (DECISIONS.md). Badge refresh #160 and #161. He asked for the SemVer
+  badge back, and asked whether SemVer 2.0.0-rc.2 differs from 2.0.0 for Kipple: no practical difference, stay on 2.0.0.
+- **Rulesets:** he created "Protect main" himself with an empty target; fixed by adding the default branch. My Scorecard
+  estimates were wrong and were corrected (CHALLENGES 50 and 51).
+- **Best Practices:** passing earned 2026-10-01. He asked about silver and gold; silver needs a second person, gold is not
+  realistic. His decision: forget both (DECISIONS.md, parking-lot.md).
+- **iOS blur:** diagnosed and fixed in #163, verified on his iPhone ("That fixes it"). He was annoyed that the dev password
+  was in a file he could not read from a phone (CHALLENGES 54).
+- **Access follow-through:** he applied the script from meeting 46 (hook plus allow entries). The new hook allowed the
+  read-only backup copy, and later read-only `ssh` calls worked. Claude in Chrome was not connected, so the browser pane
+  was used.
 ## Message estimates
 
 | Meeting | the owner's messages (approx.) |
@@ -546,5 +561,6 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 | 44 Read definition, fonts and merges | not counted |
 | 45 Fixes merged, the starter list, fonts and the beta.1 go | not counted |
 | 46 The access review | not counted |
+| 47 Scorecard, rulesets and the Best Practices badge | not counted |
 
 Estimates only. Rows are subsets of the session totals above and do not sum to them exactly.

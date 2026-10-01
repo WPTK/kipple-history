@@ -141,3 +141,15 @@ if the numbering changes; an exception to "beta adds no features", soak clock re
 - **Closed or settled:** the font question (#153; it was in the "Aa" menu all along); the commit-author name question (the
   GitHub display name "BK" is fine); the starter feed list (#152); the wizard audit issues #124 to #149 (fixed and merged).
 - **Access rules** moved to a deterministic hook (MEETINGS 46); not to be edited by the agent.
+
+
+## Added 2026-10-01
+
+- **OpenSSF Best Practices silver (and gold): evaluated, parked.** Passing earned 2026-10-01 (project 15120). Silver needs
+  a named second person for `access_continuity` and `bus_factor`; gold is not realistic for one person. Revisit only if a
+  second maintainer exists. The Scorecard CII check gains about 0.05 at silver.
+- **hits.sh views counter** in the README: a third-party image through GitHub's proxy, approximate count, chosen after
+  testing four services. One line to remove if it is not wanted.
+- **Closed:** the `v*` tag ruleset (created 2026-09-30 13:17) and the GHCR package visibility (public; anonymous manifest
+  fetch returns 200).
+- **To look at:** the failed push CI run of 2026-09-30 20:07 (`TestServeRefusesWhenTheLockIsHeld`); #154 still open.

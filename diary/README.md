@@ -31,6 +31,9 @@ Entries:
 - [2026-09-29](2026-09-29.md): the beta-feedback PRs land, the imgproxy CI hang, the review that found ten defects in the
   day's own merges, merging under the new rule, changelog fragments, `beta.2` preparation, and this repository's audit.
 
+- [2026-09-30](2026-09-30.md): the overnight audit, the fixes merged, `v0.5.0-beta.1` released and deployed.
+- [2026-10-01](2026-10-01.md): badges, the Scorecard, rulesets, the Best Practices badge and the iOS status-bar fix.
+
 The split of the two 2026-09-27 files: the first is the session that ran from Saturday about 19:17 to Sunday about 11:00, so
 it is mostly Saturday night; the second starts at the 08:32 Sunday morning meeting (held in the tail of that first session) and covers the rest of the day.
 

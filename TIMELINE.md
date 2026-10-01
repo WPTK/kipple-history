@@ -314,3 +314,34 @@ Actions timestamps (UTC converted to ET). Times ET. Where a time is not in GitHu
 - The soak for rc.1 restarts with this deploy: rc.1 not before 2026-10-07.
 - The GHCR package is still private. Anonymous pulls fail until the owner makes it public by hand. Also still his: the
   repository ruleset restricting who can create `v*` tags.
+
+
+## 2026-09-30 afternoon to 2026-10-01: badges, rulesets, Scorecard, Best Practices, the iOS strip
+
+Sources: diary/2026-10-01.md, MEETINGS.md item 47, `git log` and GitHub PR, ruleset, release and Actions data (UTC
+converted to ET). Times ET. Where a time is not in GitHub or git, a part of the day is given.
+
+- 12:47 to 13:15 PR #159 (docs: the image is published; the `VCS_REF` and `BUILD_DATE` build args lesson), merged 13:15.
+- 13:17 The tag ruleset "Protect Release Tags" created by the owner: `v*` tags, creation, update, deletion and force-push
+  blocked, repository admin bypass only. This closes the item parked since 09-29.
+- Afternoon: the owner asked what could raise the OpenSSF Scorecard (7.1, then 7.3 after the first changes). Analysis of
+  the checks, weights and what is fixable; the badge list. 13:21 PR #160 (README badge refresh; the SemVer badge removed,
+  the views counter added) merged 13:40; the owner had the SemVer badge put back, kept in #161.
+- 14:24 PR #161 (three badge rows, `scorecard.yml`, Codecov upload in `ci.yml`, `codecov.yml` informational) merged 14:49.
+  The owner added `CODECOV_TOKEN` as a repository secret.
+- 15:08 The owner saved the branch ruleset "Protect main" (deletion, non-fast-forward, required status checks go, web,
+  security and docker, pull request with 0 approvals) with an empty target, so it protected nothing. 15:13 the default
+  branch was added to its target. Scorecard's Branch-Protection check then scored 3 of 10 (CHALLENGES 50 and 51).
+- After the release: the `v0.5.0-beta.1` release object had lost its pre-release flag and showed as Latest; fixed with
+  `gh release edit`. It is a pre-release again (CHALLENGES 52).
+- 15:19 PR #162 (`CONTRIBUTING.md`, linked from the README) opened, merged 15:31. It closed the three unmet Best
+  Practices answers. 15:32 the Scorecard workflow was run once by hand (`workflow_dispatch`), green.
+- Evening: the iOS blur above the list header investigated; 19:54 PR #163 (a solid cover for the status-bar strip, plus
+  `KIPPLE_DEV_HOST` in the seed script) opened after the owner verified it on his iPhone; merged 20:07. The push CI run
+  on that merge failed once in `TestServeRefusesWhenTheLockIsHeld` (CHALLENGES 55).
+- 2026-10-01, daytime: the Best Practices form filled and saved at 97%, then 100% once the owner asserted his own two
+  claims: passing badge earned (project 15120). Exact time not recorded; before 18:26.
+- 18:26 PR #164 (the Best Practices badge in the README) opened, merged 18:39 (`aec4961`); CI, Scorecard and CodeQL green
+  on `main`.
+- Cleanup: all worktrees and local branches removed; `main` only. GitHub has a single branch. Anonymous pull of the
+  `0.5.0-beta.1` manifest from GHCR returns 200 (checked 19:02 on 10-01), so the package is public now.

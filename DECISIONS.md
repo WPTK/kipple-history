@@ -916,3 +916,10 @@ Meeting 43 in [MEETINGS.md](MEETINGS.md). This records the decisions as taken; t
 - iOS softens the status-bar strip from whatever sits at the top edge of the page. Kipple draws no blur and
   `theme-color` already equals the background for all 20 schemes, so the fix is a solid fixed element, `#kp-top-cover`
   (#163). Verified by the owner on his iPhone before the PR was opened. Unreleased; goes into beta.2.
+
+## 2026-10-02: root causes, not band-aids; 0.6.0 and 0.7.0
+
+Owner review: stop building workarounds (shims, warnings, fallbacks, flags); fix the cause. A whole-codebase review followed
+(plans/0.6-0.7-1.0-plan.md). Decided: no setup code; open mode like Sonarr's "Disabled for Local Addresses" with one rule;
+next release 0.6.0-beta.1 (0.5.0 never ships stable); 0.7.0 carries the auth changes; docs written for a stranger, not for
+the owner's machines. Design rules recorded in the assistant's memory and proposed for the project instructions.

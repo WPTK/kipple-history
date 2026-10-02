@@ -345,3 +345,12 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
   on `main`.
 - Cleanup: all worktrees and local branches removed; `main` only. GitHub has a single branch. Anonymous pull of the
   `0.5.0-beta.1` manifest from GHCR returns 200 (checked 19:02 on 10-01), so the package is public now.
+- 2026-10-01, evening: #154 (flaky budget test, #168), #108 (offline queries and writes, #167) and #165 (`time.Local`
+  race, #166: the health check leaked a keep-alive connection) merged, each on green CI. A final check of `main`
+  (29 fuzz targets, Suite 1, wizard and offline suites, delta review since beta.1) found nothing.
+- 2026-10-02: release commit #169 (`acef001`) merged; tag `v0.5.0-beta.2` pushed, Release workflow green on the
+  first run, image `ghcr.io/wptk/kipple:0.5.0-beta.2` (digest `sha256:8890f124...82bb0`), GitHub pre-release created by
+  hand with `--prerelease --latest=false`. Off-box copy of the nightly snapshot to `P:\GileadBackups\kipple-pre-0.5.0-beta.2\`
+  (sizes matched). Deployed to Host-A ~07:10 ET from the tag (compose build args set); `version -v` shows v0.5.0-beta.2,
+  commit `acef001`, schema 10, healthy, no migration. Fix-only beta; the rc.1 soak clock stays from beta.1 (not before
+  2026-10-07).

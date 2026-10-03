@@ -153,3 +153,18 @@ if the numbering changes; an exception to "beta adds no features", soak clock re
 - **Closed:** the `v*` tag ruleset (created 2026-09-30 13:17) and the GHCR package visibility (public; anonymous manifest
   fetch returns 200).
 - **To look at:** the failed push CI run of 2026-09-30 20:07 (`TestServeRefusesWhenTheLockIsHeld`); #154 still open.
+
+## Added 2026-10-03
+
+- **Closed:** #154 flaky budget test, #108 offline queries, #165 `time.Local` race, #172, #173 and #175 (fixed in the 0.6
+  integration), the `v*` tag ruleset (it existed), the website's install text for 0.7.0-beta.1.
+- **To do next:** the website's setup screenshots still show the setup-code flow (`wizard-code.webp` and friends); recapture
+  from a fresh instance. Decide what comes after 0.7.0-beta.1: another beta, rc.1 (the 2026-10-07 gate was set for the
+  0.5 soak, which the 0.6/0.7 plan ended), then the 1.0 steps (the server pulls the signed image by digest, first stable
+  tag publishes `latest`, docs run, go/no-go).
+- **Not run in UAT:** Suite 5 Run D (arm64), the README's exact `cosign verify` line, Reader client connection (A10), the
+  manual browser steps, Suite 2 agent-driven scenarios on the 0.7 build, Suite 3 on his devices.
+- **Open question:** 19 logged messages came from a Haiku model; the source is not traced (CHALLENGES 64).
+- **Still parked:** roadmap #34 to #39; OpenSSF Silver and Gold; other registries; user-chosen Google Fonts (2.0.0);
+  triage of zizmor's findings before it becomes a gate; `TestSearchTypingParam` failed once and was not reproduced.
+- **Tracker:** #179 stays open until 1.0.

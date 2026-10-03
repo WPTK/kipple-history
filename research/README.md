@@ -36,3 +36,4 @@ Not products of the original research workflow: design-meeting prework from late
 | `settings-and-layout-proposals-2026-09-28.md` | The code survey and the mockup proposals for settings grouping (#55) and layout differentiation (#57), and what was built |
 
 No new API, client or library research was produced after 2026-09-26; the Reader API, fetch and library reports above still stand. The Kipple repository gained no research files in that period.
+| `usage-and-cost-2026-10-03.md` | Tokens and API-equivalent cost of the whole project, by model, and what was changed to reduce it |

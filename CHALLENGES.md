@@ -575,3 +575,65 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
 - The CI run on the push of #163 (`d218798`) failed in the go job: `TestServeRefusesWhenTheLockIsHeld` in `cmd/kipple`.
   The PR run on its head was green, as is every later run. Observed here, not investigated, no issue filed at the time of
   writing. Whether it is related to #154 (a flaky test under `-shuffle`) is not known.
+
+## 56. The `time.Local` race (2026-10-01)
+
+- `-race` CI failed in `TestServeRefusesWhenTheLockIsHeld` (issue #165). My first reading blamed the test's zone swap. The
+  cause was upstream: the health check built a new HTTP connection per probe and never closed it, so keep-alive goroutines
+  outlived `runServe` and raced with the write to `time.Local`. Fixed in the probe (keep-alives off) and in how tests swap
+  the zone (#166); production behaviour unchanged. Lesson: a race report names the victim, not the culprit.
+
+## 57. Two flaky tests with one root (2026-10-01)
+
+- `TestApplyBudgetEndsTheRun` (#154) depended on a wall-clock budget shared across servers; the budget became a per-server
+  field the test sets to zero (#168). The same class later hit `TestRepairIsLinearAndCapped` and a Busy test in the 0.6 line
+  and was replaced by step counters and huge waits (#193). Rule kept: assert a property, never elapsed time.
+
+## 58. Offline: the loading screen that never ended (2026-10-01)
+
+- Issue #108. With TanStack's default network mode, a query fired offline paused forever, so screens sat loading. The fix
+  (#167) makes queries and mutations run in "always" mode, so they reach the service worker or fail with their normal
+  error, and opened or starred articles are saved to the offline queue and sent later. A review checked for double sends
+  and refetch storms and found none. Accepted trade: a screen with nothing cached now shows an error with Try again, where
+  it used to show a skeleton for ever.
+
+## 59. A shared checkout switched under an edit (2026-10-02)
+
+- Two Claude sessions worked in the same working tree. While I was rewriting `CLAUDE.md` uncommitted, the other session
+  switched the branch, and my file on disk became its version. I noticed only because a size check did not match. The
+  edit was recovered from my pushed commit and rebuilt on top of the other session's rewrite in a separate worktree.
+  Rules saved: edit in your own worktree, push early, never leave work uncommitted in the shared tree, leave another
+  session's branches and worktrees alone, and message that session by name before touching shared state.
+
+## 60. Squash merge versus the branch that kept the history (2026-10-03)
+
+- Main held a squashed copy of the 0.6 integration, while `release/0.7` carried its full history, so merging 0.7 into main
+  conflicted in 28 files. All of those were the same content. Resolved with a merge that kept `release/0.7`'s tree
+  (`-s ours`), then re-applied the one real change that existed only on main (the `CLAUDE.md` trim); #202 and #201.
+  Lesson: after a squash into the base, bring the base back into the long branch as a merge before the next integration.
+
+## 61. A UAT failure that was a stale assertion (2026-10-03)
+
+- The wizard script failed on `ui.font_body is vollkorn, expected Vollkorn`. The server has stored font ids, not display
+  names, since 0.6; the script still asserted the name. Fixed the script (#199). The agent that ran it also stopped its
+  seed server with `taskkill /IM kipple.exe`, which killed two other Kipple processes it did not own. Rule: stop a server
+  by its process id, never by image name.
+
+## 62. The 0.6.0-beta.1 release had no GitHub release (2026-10-03)
+
+- The tag, signed image and deploy were done, but the release workflow does not create the GitHub release and nobody had.
+  Created by hand with the notes and the image block, marked a pre-release. The release checklist already says every tag
+  has one; the miss was a hand-off between two sessions.
+
+## 63. My own wrong test case in Suite 5 (2026-10-03)
+
+- I used the five-character password "short" as the "too short" case. Five is the minimum, so Kipple correctly accepted it,
+  and that consumed the account claim for the volume. Redone on a fresh volume with four characters. Not a defect.
+
+## 64. First cost estimate used guessed prices (2026-10-03)
+
+- Asked to compute the project's cost, I first priced it from the public rates of earlier models and said so. The owner
+  asked for the real figure; the official price list gave very different cache-read rates for the newest models (Fable 5.1
+  and Opus 5.5 read cache at 2.5% and 5% of input), which moved the total from about $3,170 to about $2,100. The token
+  counts were right both times. Lesson: fetch the price list first. Still open: 19 messages in the logs came from a
+  Haiku model, against the never-Haiku rule; where they came from was not traced.

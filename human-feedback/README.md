@@ -11,3 +11,4 @@ The owner's testing notes and reports, in order.
 | [planning-and-feedback-2026-09-29.md](planning-and-feedback-2026-09-29.md) | The wizard asks, the stats read-definition and font questions, and his feedback on wordiness and blocked merges |
 | [access-review-2026-09-30.md](access-review-2026-09-30.md) | The access review: what he said, what changed in the permission setup |
 | [scorecard-and-badges-2026-10-01.md](scorecard-and-badges-2026-10-01.md) | The Scorecard, rulesets, Best Practices and iOS strip asks, and his feedback on the dev password |
+| [usage-and-release-2026-10-02-03.md](usage-and-release-2026-10-02-03.md) | Cost and token questions, the instruction files, the account-security decision, UAT and website asks |

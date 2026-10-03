@@ -1,6 +1,6 @@
 # Timeline
 
-Dated chronology of building Kipple with an AI coding agent, 2026-09-24 to 2026-09-29.
+Dated chronology of building Kipple with an AI coding agent, 2026-09-24 to 2026-10-03.
 
 Sources: `git log --date=iso` in the Kipple repo (times are the author's local clock, US Eastern, UTC-4),
 annotated tags, the diary in [diary/](diary/), and the session transcripts. The diary and the transcripts
@@ -348,10 +348,10 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
 - 2026-10-01, evening: #154 (flaky budget test, #168), #108 (offline queries and writes, #167) and #165 (`time.Local`
   race, #166: the health check leaked a keep-alive connection) merged, each on green CI. A final check of `main`
   (29 fuzz targets, Suite 1, wizard and offline suites, delta review since beta.1) found nothing.
-- 2026-10-02: release commit #169 (`acef001`) merged; tag `v0.5.0-beta.2` pushed, Release workflow green on the
+- 2026-10-01, 20:45: release commit #169 (`acef001`) merged; 22:41 tag `v0.5.0-beta.2` pushed, Release workflow green on the
   first run, image `ghcr.io/wptk/kipple:0.5.0-beta.2` (digest `sha256:8890f124...82bb0`), GitHub pre-release created by
-  hand with `--prerelease --latest=false`. Off-box copy of the nightly snapshot to `P:\GileadBackups\kipple-pre-0.5.0-beta.2\`
-  (sizes matched). Deployed to Host-A ~07:10 ET from the tag (compose build args set); `version -v` shows v0.5.0-beta.2,
+  hand with `--prerelease --latest=false`. Off-box copy of the nightly snapshot to the dev machine's backup drive
+  (sizes matched). Deployed to the Kipple server on 10-02 at 07:10 ET from the tag (compose build args set); `version -v` shows v0.5.0-beta.2,
   commit `acef001`, schema 10, healthy, no migration. Fix-only beta; the rc.1 soak clock stays from beta.1 (not before
   2026-10-07).
 - 2026-10-03: 0.7.0-beta.1 built and shipped. Pre-tag gates on `release/0.7` (go tests twice, 28 fuzz targets, web
@@ -359,6 +359,14 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
   whole-diff review). Review findings fixed in #198, a stale wizard assertion in #199, release commit #200, integration
   into main #201 (with #202 to resolve main's squashed copy of 0.6). Tag `v0.7.0-beta.1` on `28768e2`, Release workflow
   green, image digest `sha256:f729ef46...5ff72`, pre-release created by hand. Off-box copy of the nightly snapshot to
-  `P:\GileadBackups\kipple-pre-0.7.0-beta.1\`. Deployed to the Kipple server ~09:38 ET: schema 11 (migration 0011
+  the dev machine's backup drive. Deployed to the Kipple server at 09:38 ET: schema 11 (migration 0011
   applied), healthy, listening on 1919. UAT Suite 5 on the published image is not yet run (needs a separate Linux host;
   the owner's UAT session).
+- 2026-10-02, 18:22: `v0.6.0-beta.1` tagged on `a51fd07` (the 0.6 integration, #186) and deployed at 18:35 (the 0.6/0.7
+  session; see its diary and plans/0.6-0.7-1.0-plan.md). It superseded beta.2 on the server after about 11 hours.
+- 2026-10-03, 09:22: `v0.7.0-beta.1` tagged on `28768e2`; deployed 09:38. Release workflow green; pre-release created by
+  hand (the workflow does not create it); off-box copy of the nightly snapshot first.
+- 2026-10-03, after the deploy: UAT Suite 5 (fresh-install walkthrough, API level) run against the published image on the
+  Kipple server's Docker with throwaway containers: no failures (recorded in the Kipple repo's `docs/uat-plan.md`, #203);
+  one log-line fix from it (#204). All finished worktrees and merged branches removed. Website moved to 0.7.0-beta.1
+  (website PR #8); the wizard screenshots are the next website job.

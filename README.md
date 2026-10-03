@@ -33,9 +33,9 @@ Start with the synthesis documents, then drop into the sources they link to.
 | File | What it is |
 |---|---|
 | [TIMELINE.md](TIMELINE.md) | Dated chronology, hour by hour where it matters, with tags and phases |
-| [MILESTONES.md](MILESTONES.md) | Each release and phase (planning to `v0.5.0-beta.1`): what shipped, what shaped it, size in commits and lines |
+| [MILESTONES.md](MILESTONES.md) | Each release and phase (planning to `v0.7.0-beta.1`): what shipped, what shaped it, size in commits and lines |
 | [MEETINGS.md](MEETINGS.md) | Every decision session: date, type, what was decided, approximate message counts |
-| [CHALLENGES.md](CHALLENGES.md) | Real problems with cause, fix and lesson (49 items) |
+| [CHALLENGES.md](CHALLENGES.md) | Real problems with cause, fix and lesson (64 items) |
 | [parking-lot.md](parking-lot.md) | Deferred ideas, follow-ups with their status, and the owner's standing rules |
 | [DECISIONS.md](DECISIONS.md) | Standing and later decisions, each with its source |
 
@@ -46,7 +46,7 @@ Primary sources:
 | [diary/](diary/) | The agent's engineering diary, one file per day, written for the article |
 | [human-feedback/](human-feedback/) | the owner's testing notes and evidence (Reeder sync log) |
 | [audits/](audits/) | The 285-item docs-versus-code audit, the `CLAUDE.md` proposals, the local deep review with its second round, and later audits and reviews |
-| [research/](research/) | 21 research reports and design-meeting prework (client behaviour, libraries, UI, colour) |
+| [research/](research/) | 22 research reports and design-meeting prework (client behaviour, libraries, UI, colour) |
 | [plans/](plans/) | Current plan, design, UI decisions, phase 3 and phase 4 handoffs, both kickoff briefs, `CLAUDE.md`, changelog |
 | [plans/history/](plans/history/) | Earlier revisions of plan, design and `CLAUDE.md`, and the first kickoff prompt, named `<doc>-<date>-<shortsha>.md` |
 

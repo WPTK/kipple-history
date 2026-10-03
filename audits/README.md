@@ -19,6 +19,7 @@ Eastern.
 | [review-high-2026-09-29.md](review-high-2026-09-29.md) | 2026-09-29 | Ten-finding review of `v0.3.0-beta.1..main`, the reviews of its fixes, and later reviews the same day |
 | [release-readiness-beta2-2026-09-29.md](release-readiness-beta2-2026-09-29.md) | 2026-09-29 | Pre-tag checks for v0.3.0-beta.2 and the state of the promotion gates |
 | [overnight-2026-09-30.md](overnight-2026-09-30.md) | 2026-09-30 | Overnight audit of the setup wizard stack: issues #124 to #135, the migration 0010 rehearsal, fix PRs pending |
+| [0.7-pre-tag-review-2026-10-03.md](0.7-pre-tag-review-2026-10-03.md) | 2026-10-03 | Gates, Opus review and Suite 5 for v0.7.0-beta.1 |
 
 A proposed `CLAUDE.md` edits file that used to sit here was removed on 2026-09-27 at the owner's request (it is in
 this repository's git history).

@@ -273,7 +273,7 @@ more reading layouts (#39): all labelled Roadmap. Before 1.0: a beta soak week w
 [plans/HANDOFF-PHASE4.md](plans/HANDOFF-PHASE4.md) and [parking-lot.md](parking-lot.md).
 
 
-## Since `v0.5.0-beta.1`: unreleased on `main` (2026-09-30 to 2026-10-01)
+## Since `v0.5.0-beta.1` (2026-09-30 to 2026-10-01): released as `v0.5.0-beta.2` below
 
 - `main` is at `aec4961`, past the beta.1 release commit. Changes: #159 (docs), #160 and #161 (badges, Scorecard workflow,
   Codecov upload), #162 (`CONTRIBUTING.md`), #163 (solid cover for the iOS status-bar strip; the only behaviour change,
@@ -283,3 +283,32 @@ more reading layouts (#39): all labelled Roadmap. Before 1.0: a beta soak week w
   reading; Branch-Protection scores 3 of 10 and cannot go higher without a second reviewer.
 - The GHCR package is public (anonymous manifest fetch returns 200 on 10-01).
 - Not tagged. The #163 fix would go into beta.2.
+
+## v0.5.0-beta.2 (2026-10-01, tag 22:41 ET, `acef001`, release commit #169)
+
+- Fix-only: the iOS status-bar cover (#163), offline queries and writes reach the service worker (#167, closes #108),
+  a deterministic budget test (#168, closes #154), and the `time.Local` race (#166, closes #165: the health check leaked
+  a keep-alive connection per probe, and the leftover goroutines raced with the zone write).
+- Pre-tag: 29 fuzz targets clean, UAT Suite 1, wizard and offline suites clean, delta review since beta.1 clean.
+- Release workflow green on the first run; image digest `sha256:8890f124...82bb0`; GitHub pre-release created by hand.
+  Deployed 10-02 at 07:10 ET (off-box copy first); live about 11 hours, then superseded.
+
+## v0.6.0-beta.1 (2026-10-02, 18:22 ET, `a51fd07`, integration #186)
+
+- By the 0.6/0.7 session. "Remove and fix": the port-7080 fallback and its shim gone (#171), the web login lockout that
+  strangers could use against the owner replaced by pacing and one client-address resolver (#183), dead settings and one
+  time zone owner (#184), release hardening (sign before tag, example-version check, weekly fuzz; #181), small audit
+  fixes (#180), offline unread overlay (#182), docs written for a stranger (#187). Release commit #192; the first run where
+  signing happens before the tag. Deployed 18:35; the owner moved the tunnel origin to port 1919 afterwards.
+
+## v0.7.0-beta.1 (2026-10-03, 09:22 ET, `28768e2`, release commit #200, integration #201)
+
+- Contents: no setup code (the first screen creates the account, #188), open mode as one rule with `security.open_lan`
+  deleted (#191), migration 0011 (schema 11: dead settings rows, and the dead keys inside device profiles), six review
+  fixes (#198), a stale wizard UAT assertion (#199), deterministic timing tests (#193, #197).
+- Gates: go tests twice with shuffle, 28 fuzz targets, web lint/tsc/Vitest/build, UAT Suite 1, wizard and offline suites,
+  an Opus whole-diff review (no P0), and a migration rehearsal on a copy of the live snapshot (schema 10 to 11, integrity
+  ok, 136 feeds and 12,165 items intact, dead keys removed from device profiles).
+- Release workflow green; image digest `sha256:f729ef46...5ff72`; provenance verifies against the release workflow;
+  deployed 09:38 (healthy, schema 11, listening on 1919). Suite 5 afterwards: no failures.
+- After the tag on `main`: #203 (Suite 5 record), #204 (the no-account log line no longer names the in-container port).

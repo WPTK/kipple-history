@@ -511,6 +511,25 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 - **Access follow-through:** he applied the script from meeting 46 (hook plus allow entries). The new hook allowed the
   read-only backup copy, and later read-only `ssh` calls worked. Claude in Chrome was not connected, so the browser pane
   was used.
+## 48. Beta.2, usage and cost, the instruction files, 0.7.0-beta.1 (2026-10-01 evening to 2026-10-03)
+
+- Type: a run of linked exchanges. The owner approved each tag and deploy ("Go"), asked for the website to follow each
+  release, and asked for the total tokens and cost of the whole project. The answer is in
+  research/usage-and-cost-2026-10-03.md; the follow-up ("How do I reduce this token usage?") led to the Working economy
+  rules in `CLAUDE.md` (#195), a smaller memory index, and a split of his global instructions so the server-operations
+  manual loads only in sessions started in its own folder. His rule: no limit on subagents.
+- Coordination: when the 0.6/0.7 session finished he said I was the only session and to do everything, and asked
+  whether UAT was necessary now (answer: automated gates and the migration rehearsal yes, Suite 5 on the published image
+  yes, full agent walkthroughs no, because only first run and sign-in changed). He believed the `v*` tag rule was done;
+  it was (ruleset created 2026-09-30).
+- Decision: no extra guard on first-account creation through a proxy (DECISIONS.md, 2026-10-03). He told me to run Suite 5
+  on the Kipple server's Docker, and to fix what it found.
+
+## 49. The 0.6, 0.7 and 1.0 plan (2026-10-02, another session)
+
+- Recorded in diary/2026-10-02.md, DECISIONS.md and plans/0.6-0.7-1.0-plan.md by the session that ran it: a whole-codebase
+  review for workarounds, then no setup code, open mode as one rule, docs for a stranger, and the port decision.
+
 ## Message estimates
 
 | Meeting | the owner's messages (approx.) |
@@ -562,5 +581,7 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 | 45 Fixes merged, the starter list, fonts and the beta.1 go | not counted |
 | 46 The access review | not counted |
 | 47 Scorecard, rulesets and the Best Practices badge | not counted |
+| 48 Beta.2, usage and cost, the instruction files, 0.7.0-beta.1 | not counted |
+| 49 The 0.6, 0.7 and 1.0 plan (another session) | not counted |
 
 Estimates only. Rows are subsets of the session totals above and do not sum to them exactly.

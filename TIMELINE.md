@@ -369,4 +369,5 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
 - 2026-10-03, after the deploy: UAT Suite 5 (fresh-install walkthrough, API level) run against the published image on the
   Kipple server's Docker with throwaway containers: no failures (recorded in the Kipple repo's `docs/uat-plan.md`, #203);
   one log-line fix from it (#204). All finished worktrees and merged branches removed. Website moved to 0.7.0-beta.1
-  (website PR #8); the wizard screenshots are the next website job.
+  (website PR #8). Later that day the website's wizard screenshots and First run text were redone for the no-code flow
+  (website PR #9); issues #172, #173 and #175 closed; history brought fully up to date at the owner's request.

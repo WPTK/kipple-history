@@ -158,8 +158,9 @@ if the numbering changes; an exception to "beta adds no features", soak clock re
 
 - **Closed:** #154 flaky budget test, #108 offline queries, #165 `time.Local` race, #172, #173 and #175 (fixed in the 0.6
   integration), the `v*` tag ruleset (it existed), the website's install text for 0.7.0-beta.1.
-- **To do next:** the website's setup screenshots still show the setup-code flow (`wizard-code.webp` and friends); recapture
-  from a fresh instance. Decide what comes after 0.7.0-beta.1: another beta, rc.1 (the 2026-10-07 gate was set for the
+- **Done the same day:** the website's setup screenshots showed the setup-code flow; recaptured from a fresh instance (account,
+  time zone, look and feel) and the First run text rewritten (website PR #9).
+- **To do next:** decide what comes after 0.7.0-beta.1: another beta, rc.1 (the 2026-10-07 gate was set for the
   0.5 soak, which the 0.6/0.7 plan ended), then the 1.0 steps (the server pulls the signed image by digest, first stable
   tag publishes `latest`, docs run, go/no-go).
 - **Not run in UAT:** Suite 5 Run D (arm64), the README's exact `cosign verify` line, Reader client connection (A10), the

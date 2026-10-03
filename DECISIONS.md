@@ -923,3 +923,11 @@ Owner review: stop building workarounds (shims, warnings, fallbacks, flags); fix
 (plans/0.6-0.7-1.0-plan.md). Decided: no setup code; open mode like Sonarr's "Disabled for Local Addresses" with one rule;
 next release 0.6.0-beta.1 (0.5.0 never ships stable); 0.7.0 carries the auth changes; docs written for a stranger, not for
 the owner's machines. Design rules recorded in the assistant's memory and proposed for the project instructions.
+
+## 2026-10-03: no extra guard on first account creation
+
+A review of 0.7 noted that without a setup code, anyone who can reach a brand-new instance through a tunnel or proxy
+(before the account exists) could create the account; the Host gate is the only barrier on that path. Options were to
+refuse forwarded account creation or to document it. The owner decided to do neither: people run this in Docker on a
+home machine and the account is created within minutes of the first start, so the extra rule is more complexity than
+the risk deserves. Revisit only if a real report appears.

@@ -354,3 +354,11 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
   (sizes matched). Deployed to Host-A ~07:10 ET from the tag (compose build args set); `version -v` shows v0.5.0-beta.2,
   commit `acef001`, schema 10, healthy, no migration. Fix-only beta; the rc.1 soak clock stays from beta.1 (not before
   2026-10-07).
+- 2026-10-03: 0.7.0-beta.1 built and shipped. Pre-tag gates on `release/0.7` (go tests twice, 28 fuzz targets, web
+  suite, UAT Suite 1, wizard and offline suites, Suite 4 migration rehearsal on a copy of the live snapshot, Opus
+  whole-diff review). Review findings fixed in #198, a stale wizard assertion in #199, release commit #200, integration
+  into main #201 (with #202 to resolve main's squashed copy of 0.6). Tag `v0.7.0-beta.1` on `28768e2`, Release workflow
+  green, image digest `sha256:f729ef46...5ff72`, pre-release created by hand. Off-box copy of the nightly snapshot to
+  `P:\GileadBackups\kipple-pre-0.7.0-beta.1\`. Deployed to the Kipple server ~09:38 ET: schema 11 (migration 0011
+  applied), healthy, listening on 1919. UAT Suite 5 on the published image is not yet run (needs a separate Linux host;
+  the owner's UAT session).

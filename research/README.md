@@ -37,3 +37,4 @@ Not products of the original research workflow: design-meeting prework from late
 
 No new API, client or library research was produced after 2026-09-26; the Reader API, fetch and library reports above still stand. The Kipple repository gained no research files in that period.
 | `usage-and-cost-2026-10-03.md` | Tokens and API-equivalent cost of the whole project, by model, and what was changed to reduce it |
+| `pre-1.0-1…5-*-2026-10-03.md` | Five pre-1.0 research reports: the owner's five release-readiness articles; how Go, Rust, Immich, Mealie, Jellyfin and others reached a stable release; security and supply chain (OpenSSF, SLSA, OWASP, SBOM); docs, upgrades and operations; the product baseline of a 1.0 RSS reader. Kipple gaps ranked in each. Rulings that followed are in plans/0.8-1.0-plan.md |

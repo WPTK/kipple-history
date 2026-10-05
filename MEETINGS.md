@@ -560,6 +560,18 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 - Housekeeping done the same day: stale worktrees and junk removed, the Kipple repo's ignored planning docs archived in
   this repository (plans/), the history brought up to date.
 
+## 52. Marketing and launch meeting (2026-10-05)
+
+- Type: planning and research only; nothing started. Full notes in
+  [research/marketing-and-launch-2026-10-05.md](research/marketing-and-launch-2026-10-05.md).
+- Brief: get Kipple seen for free, not only by posting on social media or Discord, and not only by asking friends. No
+  monetization.
+- Findings: the license is already Blue Oak 1.0.0 (OSI-approved), so no license change helps; awesome-selfhosted needs a
+  first release over four months old and bans machine-generated contributions to its list; Show HN needs something
+  people can run; install-base stores (Unraid, Umbrel, CasaOS, Runtipi, TrueNAS) each have a documented submission path.
+- Rulings: launch at 1.0; say openly that Kipple is also an experiment in working with coding agents; keep the license;
+  the demo comes later; research the stores, then record it here.
+
 ## Message estimates
 
 | Meeting | the owner's messages (approx.) |
@@ -615,5 +627,6 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 | 49 The 0.6, 0.7 and 1.0 plan (another session) | not counted |
 | 50 The 0.8.0-beta.1 answers | not counted |
 | 51 Issue and housekeeping meeting | not counted |
+| 52 Marketing and launch meeting | not counted |
 
 Estimates only. Rows are subsets of the session totals above and do not sum to them exactly.

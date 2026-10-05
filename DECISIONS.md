@@ -973,3 +973,15 @@ the risk deserves. Revisit only if a real report appears.
 - The feed title is fetched automatically on add; the first fetch names the feed (#255, PR #261).
 - `/code-review high` runs on every PR before merge, not only before a deploy. Any order of merging is fine once a PR is
   reviewed and CI is green.
+
+## 2026-10-05, evening: marketing and launch rulings
+
+- Launch publicly at 1.0, not at a beta or release candidate.
+- Be open, on the site and README, that Kipple is also an experiment in working with coding agents.
+- Keep Blue Oak Model License 1.0.0; it is already permissive and OSI-approved.
+- The demo is wanted but deferred, no date.
+- Install-base stores (Unraid, Umbrel, CasaOS, Runtipi, TrueNAS) are researched, not submitted to. Submissions wait for 1.0,
+  when `latest` starts to move, and each store's policy on agent-built packages is read first.
+- awesome-selfhosted waits until the first release is over four months old (about February 2027) and the agent-disclosure
+  question is settled.
+- Detail: [research/marketing-and-launch-2026-10-05.md](research/marketing-and-launch-2026-10-05.md).

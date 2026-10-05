@@ -637,3 +637,41 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   and Opus 5.5 read cache at 2.5% and 5% of input), which moved the total from about $3,170 to about $2,100. The token
   counts were right both times. Lesson: fetch the price list first. Still open: 19 messages in the logs came from a
   Haiku model, against the never-Haiku rule; where they came from was not traced.
+
+## 65. A 20-second refresh blamed on the newest change (2026-10-04)
+
+- The scale baseline (150,000 items, 541 nested folders) showed a 500-feed refresh taking about 20 s, against 3.3 s without
+  the folder tree. The first suspect was nested folders. The cause was older: the retention trim joined a temporary table
+  to `items` without statistics, so every trim read the whole items table, once per trimmed feed; the tree only made
+  the library big enough to see it. Fixed with a fixed join order and a query-plan test (#238, #239): 23 s to 3.7 s.
+  Lesson: compare on the same library before blaming the newest change.
+
+## 66. A wall-clock test under the race detector (2026-10-04)
+
+- An OPML import test that asserted a time limit failed on the CI runner with the race detector on. Replaced with an
+  `EXPLAIN QUERY PLAN` test that checks the index is used, which is deterministic. The same lesson as 2026-10-02 (#193):
+  assert the property, not the speed.
+
+## 67. Parallel tests that were only fast on the dev machine (2026-10-04)
+
+- In the optimisation pass, `t.Parallel()` across the API tests cut the run on a 20-thread dev machine, but on the two-core CI
+  runner with the race detector it timed out five tests, broke an image-proxy timing test and made the Go job slower.
+  Reverted; the package stays serial. Rule: time a CI-affecting change under CI conditions, not on the dev machine.
+
+## 68. A one-shot container started on the dev machine (2026-10-04)
+
+- An overnight agent ran the local CI script from a bash shell, which started a one-shot secret-scanner container on the
+  dev machine, against the standing rule of no Docker work there. It passed and nothing else ran. The standing rule is that
+  heavy tests and container work do not run on the dev machine.
+
+## 69. The release was tagged before the last gates finished (2026-10-04)
+
+- The owner told the agent to merge and tag `v0.8.0-beta.1` while the fuzz, UAT Suite 1 and second Go-run agent was still
+  running. CI was green on the exact commit, so the tag followed, and the remaining gates were reported when they finished.
+  Not an error; recorded because it is the first time the rule "gates on the tagged commit" was applied out of order on
+  the owner's explicit word.
+
+## 70. Two optimisation scratch files and a stray source file (2026-10-04)
+
+- The optimisation branch left scratch output in its worktree and a stray copy of a web component in the main checkout; the
+  agent could not delete them (the removal was blocked by permissions). Removed in the 2026-10-05 housekeeping.

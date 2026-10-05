@@ -931,3 +931,31 @@ A review of 0.7 noted that without a setup code, anyone who can reach a brand-ne
 refuse forwarded account creation or to document it. The owner decided to do neither: people run this in Docker on a
 home machine and the account is created within minutes of the first start, so the extra rule is more complexity than
 the risk deserves. Revisit only if a real report appears.
+
+## 2026-10-04: answers at the morning meeting
+
+- Web sessions keep their sliding 90-day life (#223 closed; no absolute lifetime). A flat Reader API client deleting a folder
+  also deletes its subfolders: fine. Deprecations are removed only in a major release (written into the compatibility
+  document). The iOS 27 installed-app status-bar blur is a WebKit bug, not Kipple's CSS; dropped. 0.8.0-beta.1 is a full
+  release, not a pre-release, and is deployed after the gates.
+- The five findings of the delta review were filed (#241 to #245), not fixed in the release.
+
+## 2026-10-05: issue and housekeeping rulings
+
+- #241 fixed now: cap a folder label's length before the path is resolved.
+- #244: OPML export matches the web order, subfolders first, and the order is documented.
+- #229: full-text search stops at 75,000 matching documents. One variable, refused at once with 422. A common single word on a
+  150,000-item library is now always refused; before, such a search passed or was refused as too broad depending on load,
+  and the fixed limit makes the answer the same every time.
+- Docs-only issues #242, #243 and #245 are batched in the milestone "0.8.0-beta.3 - Reader API docs" and done after beta.3.
+- #33 closed. #179 stays open as the 1.0.0 tracker, with its two follow-ups tracked as #252 (zizmor as a CI gate) and #253
+  (offline bootstrap unread counts). #236 and the roadmap issues wait for the next housekeeping agenda. Milestone 5
+  closed; 6 onward stay open.
+- Order of releases: beta.2 stays perf-only and is tagged and deployed first (schema 13). Beta.3 is #241, #244, #229 and two
+  new issues, #254 (open mode accepts any private hostname, not only `.localhost` and `.ts.net`, because not everyone
+  uses Tailscale) and #255 (fetch the feed title automatically when adding a feed). Then the docs run. The beta.1 soak
+  needs only about 24 hours because the build is heavily used.
+- `/code-review high` is always run before a deploy (already in the project instructions; restated).
+- Client policy: Kipple supports any RSS reader client that speaks the Reader API. No named app is referenced or
+  special-cased in code, docs or tests, and new text says "Reader API clients". Earlier entries in this repository that name
+  apps are left as they were. #256 tracks a protocol-level conformance suite.

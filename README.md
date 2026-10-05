@@ -18,10 +18,11 @@ paths, no email addresses, no surname, no device or tunnel names, no tokens. A p
 existed for the purpose was deleted on 2026-09-29. The code repo is `WPTK/Kipple` (public since 2026-09-26 11:03 ET).
 
 The material was assembled on 2026-09-26 from the Kipple repository history, the agent's memory notes and the
-session transcripts, and updated at each milestone. It now covers 2026-09-24 to 2026-10-01: phases 1 to 5, the public
-release, the local deep review, `v0.3.0-alpha.4` to `v0.3.0-beta.3`, the beta feedback round, the setup wizard stack (on `main`,
-unreleased at the time) and its overnight audit, then the review fixes and `v0.5.0-beta.1` (tagged, released and deployed
-2026-09-30). Nothing was rewritten after the fact except the redactions described in this file. Sunday 2026-09-27
+session transcripts, and updated at each milestone. It now covers 2026-09-24 to 2026-10-05: phases 1 to 5, the public
+release, the local deep review, `v0.3.0-alpha.4` to `v0.3.0-beta.3`, the beta feedback round, the setup wizard stack and its
+overnight audit, `v0.5.0-beta.1` and `-beta.2`, the 0.6 and 0.7 root-cause work (`v0.6.0-beta.1`, `v0.7.0-beta.1` and `-beta.2`),
+nested folders and the scale work (`v0.8.0-beta.1`), the perf-only `v0.8.0-beta.2` (tag and deploy 2026-10-05) and the issue and
+housekeeping meeting of 2026-10-05. Nothing was rewritten after the fact except the redactions described in this file. Sunday 2026-09-27
 daytime through Tuesday 2026-09-29 were added late, on 2026-09-29, after the owner noticed the gap; those entries were
 written from the transcripts, the Kipple git log and pull requests and the memory notes, not from the notes taken at the
 time. From now on this repository is updated at least daily.
@@ -33,9 +34,9 @@ Start with the synthesis documents, then drop into the sources they link to.
 | File | What it is |
 |---|---|
 | [TIMELINE.md](TIMELINE.md) | Dated chronology, hour by hour where it matters, with tags and phases |
-| [MILESTONES.md](MILESTONES.md) | Each release and phase (planning to `v0.7.0-beta.1`): what shipped, what shaped it, size in commits and lines |
+| [MILESTONES.md](MILESTONES.md) | Each release and phase (planning to `v0.8.0-beta.2`): what shipped, what shaped it, size in commits and lines |
 | [MEETINGS.md](MEETINGS.md) | Every decision session: date, type, what was decided, approximate message counts |
-| [CHALLENGES.md](CHALLENGES.md) | Real problems with cause, fix and lesson (64 items) |
+| [CHALLENGES.md](CHALLENGES.md) | Real problems with cause, fix and lesson (70 items) |
 | [parking-lot.md](parking-lot.md) | Deferred ideas, follow-ups with their status, and the owner's standing rules |
 | [DECISIONS.md](DECISIONS.md) | Standing and later decisions, each with its source |
 
@@ -46,11 +47,11 @@ Primary sources:
 | [diary/](diary/) | The agent's engineering diary, one file per day, written for the article |
 | [human-feedback/](human-feedback/) | the owner's testing notes and evidence (Reeder sync log) |
 | [audits/](audits/) | The 285-item docs-versus-code audit, the `CLAUDE.md` proposals, the local deep review with its second round, and later audits and reviews |
-| [research/](research/) | 22 research reports and design-meeting prework (client behaviour, libraries, UI, colour) |
-| [plans/](plans/) | Current plan, design, UI decisions, phase 3 and phase 4 handoffs, both kickoff briefs, `CLAUDE.md`, changelog |
+| [research/](research/) | 26 research reports (plus two colour-scheme data files) and design-meeting prework (client behaviour, libraries, UI, colour) |
+| [plans/](plans/) | Current plans (`0.6-0.7-1.0-plan.md`, `0.8-1.0-plan.md`), the original plan, design, UI decisions, the setup wizard design, phase 3 and phase 4 handoffs, both kickoff briefs, `CLAUDE.md`, changelog; the documents that were removed from the Kipple repo carry a "historical snapshot" header |
 | [plans/history/](plans/history/) | Earlier revisions of plan, design and `CLAUDE.md`, and the first kickoff prompt, named `<doc>-<date>-<shortsha>.md` |
 
-The documents in `plans/` and `plans/history/` are snapshots (refreshed 2026-09-29, at `v0.3.0-beta.2` preparation; earlier revisions are in `plans/history/`); the
+The documents in `plans/` and `plans/history/` are snapshots (most refreshed 2026-09-29, at `v0.3.0-beta.2` preparation; the plan, the handoffs and the setup wizard design were archived 2026-10-05 and are no longer in the Kipple repo; earlier revisions are in `plans/history/`); the
 living copies stay in the Kipple repo.
 
 ## Conventions
@@ -73,6 +74,11 @@ six, 2026-09-29): 645 commits, twelve tags (`v0.3.0-beta.1` is the latest; alpha
 712 tracked files, about 83,800 lines of Go (about 43,200 of them tests) and about 40,000 lines under `web/src`; 44
 pull requests merged since alpha.3. See [MILESTONES.md](MILESTONES.md) for the breakdown and what the counts do and do
 not mean.
+
+At `origin/main` on 2026-10-05 (after `v0.8.0-beta.1`, with the `v0.8.0-beta.2` release commit merged): 739 commits, twenty
+tags pushed (`v0.8.0-beta.1` is the latest; `v0.8.0-beta.2` follows on 2026-10-05), 833 tracked files, about 96,800
+lines of Go (about 50,800 of them tests, 432 Go files) and about 47,000 lines under `web/src`. Schema 13 with migration 0013
+(the perf build).
 
 ## Redaction note
 

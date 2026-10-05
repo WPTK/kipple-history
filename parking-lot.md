@@ -169,3 +169,12 @@ if the numbering changes; an exception to "beta adds no features", soak clock re
 - **Still parked:** roadmap #34 to #39; OpenSSF Silver and Gold; other registries; user-chosen Google Fonts (2.0.0);
   triage of zizmor's findings before it becomes a gate; `TestSearchTypingParam` failed once and was not reproduced.
 - **Tracker:** #179 stays open until 1.0.
+
+## Update 2026-10-05
+
+- #33 (setup wizard and pull-and-run image) is closed; it shipped. Roadmap work now lives in issue #207 and the milestone
+  "Roadmap (post-1.0)": #246 restore a backup from the web app, #247 move command-line-only features into the web app,
+  #236 folder move as one transaction (on the next housekeeping agenda). #34 user-chosen Google Fonts stays for 2.0.0.
+- 1.0.0 follow-ups from the #179 check: #252 (make zizmor a CI gate), #253 (offline bootstrap unread counts ignore queued
+  changes), #256 (a protocol-level conformance suite for Reader API clients; no named app is referenced or special-cased).
+- Next release, beta.3: #241, #244, #229, #254, #255. Then the docs batch (#242, #243, #245).

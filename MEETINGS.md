@@ -22,6 +22,7 @@ Session totals from the transcripts, the owner's own typed messages (a pasted pr
 | Beta.1 feedback, Monday morning meeting, Monday | 2026-09-27 22:06 to 09-29 07:18 | about 16 |
 | README session | 2026-09-28 07:46 to 09:18 | 8 |
 | Tuesday: morning meeting, merge permission, beta.2 | 2026-09-29 07:23 to 13:53 (still running) | about 17, plus 2 dialog answers |
+| Later sessions, 2026-09-29 to 2026-10-05 | from the afternoon of 2026-09-29 | not counted (the later sessions are recorded in the diary and DECISIONS.md) |
 
 Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](plans/ui-decisions.md),
 [diary/](diary/).
@@ -530,6 +531,31 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 - Recorded in diary/2026-10-02.md, DECISIONS.md and plans/0.6-0.7-1.0-plan.md by the session that ran it: a whole-codebase
   review for workarounds, then no setup code, open mode as one rule, docs for a stranger, and the port decision.
 
+## 50. The 0.8.0-beta.1 answers (2026-10-04, morning)
+
+- Type: a list of open questions answered in one message, then a go. Recorded in DECISIONS.md (2026-10-04).
+- Answers: keep the 90-day sliding sessions (#223); subtree delete for flat Reader API clients is fine; deprecations are
+  removed only in a major release; the iOS 27 installed-app blur is a WebKit bug, dropped; beta.1 is a full release,
+  deployed after the gates. On the review's five P2 findings: file them, do not fix them (#241 to #245). He also asked
+  for the README to be rewritten plainer, and for roadmap issues #246 and #247.
+
+## 51. Issue and housekeeping meeting (2026-10-05)
+
+- Type: a walk through every open issue with a recommendation for each, then housekeeping.
+- Rulings (details in DECISIONS.md, 2026-10-05): #241 fix now; #244 OPML export matches the web order, documented; #229
+  search scan limit of 75,000 matching documents, one variable, refused at once with 422; docs-only issues #242, #243 and
+  #245 batched in the milestone "0.8.0-beta.3 - Reader API docs"; #33 closed; #179 checked and left open, with #252 (zizmor
+  gate) and #253 (offline bootstrap unread counts) split out; #236 and the roadmap issues on the next housekeeping agenda;
+  milestone 5 closed, 6 onward open.
+- Release order: beta.2 stays perf-only and goes first (tag and deploy, schema 13); beta.3 is #241, #244, #229 plus new
+  #254 (open mode accepts any private hostname; not everyone uses Tailscale) and #255 (fetch the feed title automatically
+  when adding a feed); then the docs run. The beta.1 soak needs only about 24 hours because the build is heavily used.
+  "Always run /code-review high before deploy."
+- Client policy: any RSS reader that speaks the Reader API is supported; named apps are not referenced or special-cased
+  (#256, a protocol-level conformance suite).
+- Housekeeping done the same day: stale worktrees and junk removed, the Kipple repo's ignored planning docs archived in
+  this repository (plans/), the history brought up to date.
+
 ## Message estimates
 
 | Meeting | the owner's messages (approx.) |
@@ -583,5 +609,7 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 | 47 Scorecard, rulesets and the Best Practices badge | not counted |
 | 48 Beta.2, usage and cost, the instruction files, 0.7.0-beta.1 | not counted |
 | 49 The 0.6, 0.7 and 1.0 plan (another session) | not counted |
+| 50 The 0.8.0-beta.1 answers | not counted |
+| 51 Issue and housekeeping meeting | not counted |
 
 Estimates only. Rows are subsets of the session totals above and do not sum to them exactly.

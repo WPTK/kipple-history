@@ -1,6 +1,6 @@
 # Timeline
 
-Dated chronology of building Kipple with an AI coding agent, 2026-09-24 to 2026-10-03.
+Dated chronology of building Kipple with an AI coding agent, 2026-09-24 to 2026-10-05.
 
 Sources: `git log --date=iso` in the Kipple repo (times are the author's local clock, US Eastern, UTC-4),
 annotated tags, the diary in [diary/](diary/), and the session transcripts. The diary and the transcripts
@@ -23,10 +23,18 @@ Tags in the Kipple repo (dates are the commit dates the tag points at; deploy ti
 | `v0.3.0-alpha.4` | 2026-09-26 22:26 | `56fc6ad` | 497 |
 | `v0.3.0-alpha.7` | 2026-09-27 02:26 | `00510e3` | 529 |
 | `v0.3.0-beta.1` | 2026-09-27 21:12 | `12121c7` | 599 |
+| `v0.3.0-beta.2` | 2026-09-29 14:08 | `0fa8450` | 647 |
+| `v0.3.0-beta.3` | 2026-09-29 17:53 | `46da6a6` | 660 |
+| `v0.5.0-beta.1` | 2026-09-30 11:18 | `2a2e261` | 673 |
+| `v0.5.0-beta.2` | 2026-10-01 20:45 | `acef001` | 683 |
+| `v0.6.0-beta.1` | 2026-10-02 18:17 | `a51fd07` | 684 |
+| `v0.7.0-beta.1` | 2026-10-03 09:12 | `28768e2` | 712 |
+| `v0.7.0-beta.2` | 2026-10-03 21:34 | `1425347` | 717 |
+| `v0.8.0-beta.1` | 2026-10-04 08:00 | `4110a8d` | 737 |
 
 `v0.3.0-alpha.5` and `v0.3.0-alpha.6` were merged (PRs #20 and #22) but never tagged; they shipped inside alpha.7. The
 tag objects were created a little after these commits: alpha.4 at 22:36, alpha.7 at 08:55 and beta.1 at 21:35. Beta.2's
-release commit (`585e961`, 2026-09-29 13:49, PR #88) merged at 14:01 (squash commit `95173b8`); not yet tagged at the time of writing.
+release commit (`585e961`, 2026-09-29 13:49, PR #88) merged at 14:01 (squash commit `95173b8`); tagged at 14:08 as `v0.3.0-beta.2`.
 
 ## 2026-09-24 (Thursday): planning and research
 
@@ -371,3 +379,38 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
   one log-line fix from it (#204). All finished worktrees and merged branches removed. Website moved to 0.7.0-beta.1
   (website PR #8). Later that day the website's wizard screenshots and First run text were redone for the no-code flow
   (website PR #9); issues #172, #173 and #175 closed; history brought fully up to date at the owner's request.
+
+## 2026-10-03 evening: 0.7.0-beta.2
+
+- Dependabot PRs #205 (feed parser and SQLite driver) and #206 (six npm packages) merged after tests, `govulncheck`, `npm audit` and
+  green CI on each head; roadmap tracker #207 opened. Release commit #208 (`1425347`, 21:34); tag `v0.7.0-beta.2`; Release workflow
+  green; full GitHub release created by hand at the owner's request; snapshot copied off the Kipple server; deployed 22:33
+  by digest (the first run of the published image there; schema 11, healthy). The 1.0 plan (`plans/0.8-1.0-plan.md`) was
+  agreed the same evening.
+
+## 2026-10-04 (Sunday): nested folders, scale, 0.8.0-beta.1, the optimisation pass
+
+- Overnight, unattended: merged #226 (SBOM attached to the release), #227 (nested folders, model and Reader API mapping, schema 12),
+  #230 and #231 (Firefox and WebKit runs; focus return after Escape, a real defect in all three engines), #232 (client and
+  browser compatibility matrix), #233 (OPML keeps the tree), #234 (a 150,000-item, 541-folder synthetic library and scale
+  baseline), #235 (the folder tree in the web app), #238 and #239 (retention trim). The scale run showed a 500-feed refresh
+  taking 20 s; the cause was the trim, not nesting (CHALLENGES 65).
+- Morning: the owner answered the open questions (90-day sessions stay, subtree delete for flat clients is fine, the iOS 27
+  installed-app blur is a WebKit bug and is dropped) and said 0.8.0-beta.1 is a full release followed by a deploy. Opus
+  whole-diff review of the delta: no P0 or P1, five P2, filed as #241 to #245 (the owner: file, do not fix). README rewritten.
+- 08:00 release commit #240 (`4110a8d`) tagged `v0.8.0-beta.1` (tag pushed about 08:28); Release workflow
+  green, signature verified, SBOM attached, snapshot copied off the server, deployed by digest: schema 12, healthy. The
+  fuzz and UAT gate agent was still running when the tag was pushed, at the owner's instruction; CI was green on the
+  exact commit.
+- Daytime: roadmap issues #246 (restore from the web app) and #247 (command-line features in the web app); #248 (docs-only
+  audit). The optimisation audit (PR #249, perf only): seven narrow Opus reviews found no blocking bug; release commit
+  #250 (`48a405f`, merged 11:55), version 0.8.0-beta.2, not yet tagged.
+
+## 2026-10-05 (Monday): issue meeting, housekeeping, beta.2
+
+- Morning: the owner worked through the open issues (MEETINGS 51); new issues #252 to #256 filed from it; PR #251 (label cap,
+  OPML export order, search scan limit) opened for beta.3.
+- Beta.2 (perf only, schema 13, migration 0013) is tagged and deployed today, before the fixes. Rollback to beta.1 needs
+  the pre-migration snapshot.
+- Housekeeping: stale worktrees and junk removed, the Kipple repo's ignored planning docs archived here, scrub grep of
+  every tracked file; the diary, timeline, milestones and the other records brought up to date.

@@ -312,3 +312,57 @@ more reading layouts (#39): all labelled Roadmap. Before 1.0: a beta soak week w
 - Release workflow green; image digest `sha256:f729ef46...5ff72`; provenance verifies against the release workflow;
   deployed 09:38 (healthy, schema 11, listening on 1919). Suite 5 afterwards: no failures.
 - After the tag on `main`: #203 (Suite 5 record), #204 (the no-account log line no longer names the in-container port).
+
+## v0.7.0-beta.2 (2026-10-03, 21:34 ET, `1425347`, release commit #208)
+
+- Dependency updates only (feed parser 1.5.0: an author written as `Name <email>` is read into name and email, and the
+  response size limit is enforced to the end of the body; SQLite driver 1.60.1) plus the no-account log line from #204.
+  11 files changed, 248 added and 461 removed lines since beta.1 (the removals are mostly lock files).
+- Gates: CI only for the dependency PRs (tests, `govulncheck`, `npm audit` on each head), per the new risk-scaled gate
+  rule. Release workflow green; image digest `sha256:bc91fad4...84148`; a full (not pre-release) GitHub release created
+  by hand at the owner's request; deployed 22:33 by digest, the first run of the published image on the Kipple server
+  (schema 11, healthy). This is the rollback target for the 0.8 builds.
+
+## v0.8.0-beta.1 (2026-10-04, `4110a8d`, release commit #240, schema 12)
+
+- Nested folders (#209, three PRs: #227 model, single writer, scopes and the Reader API mapping; #233 OPML import and
+  export keep the tree; #235 the folder tree in the web app). Up to 8 levels. A folder's list, search, mark-all-read,
+  unread count and filters cover its subfolders. Reader API clients see each nested folder as one folder named by its full
+  path, holding its own feeds; deleting a folder deletes its subfolders. A library without nested folders looks exactly as
+  before. Migration 0012 raises the schema to 12.
+- Also: focus returns to the opener when a dialog or menu closes with Escape (#231, a defect in all three engines found
+  by the new Firefox and WebKit runs, #230); the retention trim no longer reads the whole items table (#237, #228: a 500-feed
+  refresh in a 150,000-item library went from about 23 s to under 4 s, trimming 36,000 items from 75 s to 24 s); the
+  browser and client compatibility matrix (#232); a synthetic large-library generator and scale baseline (#234); the
+  1.0 groundwork merged the day before (compatibility promise, SECURITY.md, SSRF matrix, sanitizer corpus, session tests,
+  threat model, proxy recipes, SBOM on the release).
+- Gates: two Go runs, fuzz, UAT Suite 1 with the folder and keyboard suites, and an Opus whole-diff review of the delta
+  (no P0, no P1, five P2, filed as #241 to #245). The owner told the agent to merge and tag before the fuzz and Suite 1
+  agent finished; CI was green on the exact commit, and the remaining gates were reported separately.
+- Size: 737 commits at the tag (717 at beta.2); 129 files changed, 10,466 added and 1,032 removed lines since beta.2
+  (includes docs, tests and the generator).
+- Release workflow green, signature verified, SBOM attached, a full GitHub release, snapshot copied off the server, deployed
+  by digest `sha256:cfe291f0...3e29`: schema 12, migration 0012 applied, healthy. Rollback: put the beta.2 digest back in
+  the compose `image:` line and bring up only the `kipple` service; because the migration raised the schema, the
+  pre-migration snapshot is the safe restore.
+
+## v0.8.0-beta.2 (perf only; release commit #250 `48a405f` merged 2026-10-04, tag and deploy 2026-10-05, schema 13)
+
+- No new features. The optimisation pass (#249): each item was found by an audit and measured on a seeded database
+  (200,000 items). The feed list's starred counts 647 ms to 2.7 ms (a correlated subquery that read every item row),
+  folder card lists 145 and 71 ms to under 0.5 ms (a deferred join sorts the narrow table first), the starred page and
+  the mark-all-read ledger select from 45 and 19 ms to under 0.5 ms (two small partial indexes), a fetch commit no longer
+  runs the retention count for a feed under its cap, outgoing connections are reused, `rewriteDecl` stops copying the body
+  (271 KB and 4 allocations to 65 bytes and 1), word counting allocates nothing, the list redraws one row instead of all
+  on a mark-read (one unstable prop), and shutdown waits for thumbnail jobs.
+- Seven narrow Opus reviews (connection reuse, retention skip, SQL, charset, shutdown, list pane, CI) found no blocking bug.
+  Declined on the evidence: PGO, a JSON library swap, response compression, skipping stored items at ingest. Tried and
+  reverted: parallel API tests (they timed out on the two-core race-detector runner).
+- 53 files changed, 736 added and 122 removed lines at the PR (mostly tests); no workaround added.
+- Migration 0013 (two additive `IF NOT EXISTS` partial indexes) raises the schema to 13. An older binary refuses a newer
+  schema, so rolling back to beta.1 needs the pre-migration snapshot the first start writes, not only the old image.
+- Open after it: #251 (beta.3 fixes: #241, #244, #229), then the docs batch. The 0.8.0-beta.1 soak was cut to about 24 hours
+  because the build is in daily use.
+
+Update 2026-10-05: the "Not built yet" list above was written at beta.2 (0.3.0) preparation. Since then the wizard (#33,
+closed 2026-10-05) shipped, and the roadmap items now live in issue #207 and milestone "Roadmap (post-1.0)".

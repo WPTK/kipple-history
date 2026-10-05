@@ -46,7 +46,7 @@ someone testing Dependabot PRs #1 and #7); `phase4-stats-export` gained local co
   `docs/HANDOFF-PHASE3.md` and `docs/plan.md` are in `.gitignore`. Suggested PR change, `.gitignore`, under
   "Internal session notes": add `docs/HANDOFF-PHASE4.md` and `docs/parking-lot.md` (or `docs/HANDOFF-*.md`), so a
   fresh clone cannot commit them by accident.
-- Identity: 489 commits author/committer `WPTK <98435705+WPTK@users.noreply.github.com>`; 3 with committer
+- Identity: 489 commits author/committer `WPTK <GitHub no-reply address>`; 3 with committer
   GitHub; 13 PR merge commits made in the web UI carry the GitHub profile display name (initials only) as author;
   7 Dependabot. No personal email anywhere.
 - Messages: every non-merge commit is Conventional Commits. Trailers: Sonnet 5 (434), Opus 5.5 1M (32),

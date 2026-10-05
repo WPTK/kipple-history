@@ -1,3 +1,5 @@
+> **Historical snapshot, archived 2026-10-05.** The original master plan, last edited 2026-09-26 (refreshed here 2026-09-29). It is not kept up to date; the Kipple repository no longer carries it. Anything it says about ports, the setup code or the setup flow is superseded: Kipple now listens on 1919 by default and a new install has no setup code (the first screen creates the account). Host names, addresses and personal names were scrubbed.
+
 # Kipple — master plan (2026-09-24)
 
 **Status (as of 2026-09-26):** phase 1 is done (v0.1.0, 2026-09-25). Phase 2 alpha 2 (v0.2.0-alpha.2) is
@@ -29,7 +31,7 @@ Companion documents (written this session, to be committed under `docs/`):
 
 | Item | Fact |
 |---|---|
-| Repo | `C:\kipple`; `main` now has one commit (`.gitignore`); PR #1 (`docs/claude-md`) adds CLAUDE.md. Remote `https://github.com/WPTK/Kipple.git`, private, default branch `main`. Git identity WPTK / `98435705+WPTK@users.noreply.github.com`; pushes work via Git Credential Manager. `gh` is **not** installed; PRs are created through the GitHub REST API (see memory `host-b-gh-cli-missing`). Windows checkout has `core.autocrlf` on — phase 1 scaffold adds `.gitattributes` (`* text=auto eol=lf`). |
+| Repo | `C:\kipple`; `main` now has one commit (`.gitignore`); PR #1 (`docs/claude-md`) adds CLAUDE.md. Remote `https://github.com/WPTK/Kipple.git`, private, default branch `main`. Git identity WPTK / the GitHub no-reply address; pushes work via Git Credential Manager. `gh` is **not** installed; PRs are created through the GitHub REST API (see memory `host-b-gh-cli-missing`). Windows checkout has `core.autocrlf` on — phase 1 scaffold adds `.gitattributes` (`* text=auto eol=lf`). |
 | Host-B toolchain | Go 1.27.0, Node v22.23.2, npm 10.9.8, Docker 29.7.2. |
 | Host-A | Ubuntu 24.04, x86_64, 4 cores, 32 GB RAM, 811 GB free. Docker 29.8.1, Compose v5.5.1, buildx v0.37.1. No Go/Node. zsh. ssh alias `host-a` works non-interactively from Host-B. Tailscale present (`host-a.tailnet.example`, Let's Encrypt cert kept fresh at `/home/user/stack/tls` by `tls/yarr-cert.sh`, cron 04:20). |
 | Host-A GitHub access | **None** — no `~/.ssh/*.pub`, `ssh -T git@github.com` denied, `/home/user/kipple` absent. |

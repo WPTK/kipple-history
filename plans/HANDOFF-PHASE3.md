@@ -1,3 +1,5 @@
+> **Historical snapshot, archived 2026-10-05.** The phase 3 handoff, written 2026-09-26. It is not kept up to date; the Kipple repository no longer carries it. Anything it says about ports, the setup code or the setup flow is superseded: Kipple now listens on 1919 by default and a new install has no setup code (the first screen creates the account). Host names, addresses and personal names were scrubbed.
+
 > STATUS 2026-09-26 evening: everything below is DONE and released (v0.3.0-alpha.2 and alpha.3, deployed). Superseded by
 > docs/HANDOFF-PHASE4.md. Kept for history.
 

@@ -1,3 +1,5 @@
+> **Historical snapshot, archived 2026-10-05.** The phase 4 handoff, written 2026-09-26. It is not kept up to date; the Kipple repository no longer carries it. Anything it says about ports, the setup code or the setup flow is superseded: Kipple now listens on 1919 by default and a new install has no setup code (the first screen creates the account). Host names, addresses and personal names were scrubbed.
+
 # Handoff: phase 4, the stats UI (local, private notes; git-ignored, copy kept in WPTK/kipple-history)
 
 Written 2026-09-26 evening, after `v0.3.0-alpha.3` shipped. Read this, `CLAUDE.md`, and the memory index

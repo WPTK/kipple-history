@@ -553,6 +553,10 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
   "Always run /code-review high before deploy."
 - Client policy: any RSS reader that speaks the Reader API is supported; named apps are not referenced or special-cased
   (#256, a protocol-level conformance suite).
+- Later the same day (rulings in DECISIONS.md, "2026-10-05, later"): open-mode Host gate option A (#259); Reader API client
+  compatibility is a 1.0 requirement, with a conformance suite (#264), CORS on Reader API routes, gzip and discovery (#266);
+  one `api` stats value (#267); reachability settings move into the app (#265); automatic feed title (#261); review every PR
+  with `/code-review high`; merge in any order once reviewed and green. Beta.2 was deployed about 10:40.
 - Housekeeping done the same day: stale worktrees and junk removed, the Kipple repo's ignored planning docs archived in
   this repository (plans/), the history brought up to date.
 

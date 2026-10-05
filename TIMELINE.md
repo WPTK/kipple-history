@@ -410,7 +410,9 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
 
 - Morning: the owner worked through the open issues (MEETINGS 51); new issues #252 to #256 filed from it; PR #251 (label cap,
   OPML export order, search scan limit) opened for beta.3.
-- Beta.2 (perf only, schema 13, migration 0013) is tagged and deployed today, before the fixes. Rollback to beta.1 needs
-  the pre-migration snapshot.
+- Beta.2 (perf only) tagged, released as a full release and deployed by digest at about 10:40 (schema 13, healthy); details in
+  MILESTONES.md. Rollback to beta.1 needs the pre-migration snapshot.
 - Housekeeping: stale worktrees and junk removed, the Kipple repo's ignored planning docs archived here, scrub grep of
   every tracked file; the diary, timeline, milestones and the other records brought up to date.
+- Later: PRs for beta.3 and the compatibility work opened (#259 open-mode hosts, #261 feed title on add, #264 conformance suite,
+  #267 one stats value for all Reader API clients); issues #265 and #266 filed (see DECISIONS.md, 2026-10-05, later).

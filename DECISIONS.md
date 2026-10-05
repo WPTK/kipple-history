@@ -959,3 +959,17 @@ the risk deserves. Revisit only if a real report appears.
 - Client policy: Kipple supports any RSS reader client that speaks the Reader API. No named app is referenced or
   special-cased in code, docs or tests, and new text says "Reader API clients". Earlier entries in this repository that name
   apps are left as they were. #256 tracks a protocol-level conformance suite.
+
+## 2026-10-05, later: open-mode hosts, client compatibility, stats, reachability
+
+- Open-mode Host gate (#254, PR #259): option A. Accept IP literals, `localhost`, `.localhost`, `.ts.net`, the public URL's
+  host, listed names, and the name used when open mode was chosen in the wizard. A broad list (`.local`, `.lan`, any single-word
+  name) was rejected after review showed the README's default publish on 127.0.0.1 would then be exposed to DNS rebinding.
+- Compatibility with any Reader API client is a 1.0 requirement, resolved now (#256, #266): a protocol-level conformance suite
+  (PR #264), CORS on the Reader API routes only, `content.content` and response gzip, feed discovery on the first fetch when a
+  page URL is given, smoother feed adding.
+- All Reader API clients collapse to one `api` stats value, with a migration (schema 14 or 15, PR #267).
+- `KIPPLE_PUBLIC_URL` and the other reachability environment variables move into setup and Settings (#265).
+- The feed title is fetched automatically on add; the first fetch names the feed (#255, PR #261).
+- `/code-review high` runs on every PR before merge, not only before a deploy. Any order of merging is fine once a PR is
+  reviewed and CI is green.

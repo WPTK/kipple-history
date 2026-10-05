@@ -346,7 +346,7 @@ more reading layouts (#39): all labelled Roadmap. Before 1.0: a beta soak week w
   the compose `image:` line and bring up only the `kipple` service; because the migration raised the schema, the
   pre-migration snapshot is the safe restore.
 
-## v0.8.0-beta.2 (perf only; release commit #250 `48a405f` merged 2026-10-04, tag and deploy 2026-10-05, schema 13)
+## v0.8.0-beta.2 (perf only; release commit #250 `48a405f`, tagged and deployed 2026-10-05, schema 13)
 
 - No new features. The optimisation pass (#249): each item was found by an audit and measured on a seeded database
   (200,000 items). The feed list's starred counts 647 ms to 2.7 ms (a correlated subquery that read every item row),
@@ -363,6 +363,7 @@ more reading layouts (#39): all labelled Roadmap. Before 1.0: a beta soak week w
   schema, so rolling back to beta.1 needs the pre-migration snapshot the first start writes, not only the old image.
 - Open after it: #251 (beta.3 fixes: #241, #244, #229), then the docs batch. The 0.8.0-beta.1 soak was cut to about 24 hours
   because the build is in daily use.
+- Released 2026-10-05: annotated tag `e9be5e08` on `48a405f`, Release workflow green, signed with cosign and verified by hand,  SBOM sha256 `a755c738...`, a full GitHub release marked Latest, image digest `sha256:31eedc0b...432dd6`. Gates: a second Go run,  30 fuzz targets clean, UAT Suite 1 clean, a migration rehearsal on a copy of the live snapshot (137 feeds, 12,649 items,  healthy after 2.7 s) and two Opus reviews with no blocking findings. Off-box snapshot first (schema 12); deployed by digest  at about 10:40 ET, migration 0013 applied, schema 13, healthy, the public URL and the Reader API endpoint answer, about 46 MiB.  Rollback: the beta.1 digest `sha256:cfe291f0...`, with the pre-migration snapshot restored because the schema is now 13.
 
 Update 2026-10-05: the "Not built yet" list above was written at beta.2 (0.3.0) preparation. Since then the wizard (#33,
 closed 2026-10-05) shipped, and the roadmap items now live in issue #207 and milestone "Roadmap (post-1.0)".

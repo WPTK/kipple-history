@@ -21,7 +21,7 @@ The material was assembled on 2026-09-26 from the Kipple repository history, the
 session transcripts, and updated at each milestone. It now covers 2026-09-24 to 2026-10-05: phases 1 to 5, the public
 release, the local deep review, `v0.3.0-alpha.4` to `v0.3.0-beta.3`, the beta feedback round, the setup wizard stack and its
 overnight audit, `v0.5.0-beta.1` and `-beta.2`, the 0.6 and 0.7 root-cause work (`v0.6.0-beta.1`, `v0.7.0-beta.1` and `-beta.2`),
-nested folders and the scale work (`v0.8.0-beta.1`), the perf-only `v0.8.0-beta.2` (tag and deploy 2026-10-05) and the issue and
+nested folders and the scale work (`v0.8.0-beta.1`), the perf-only `v0.8.0-beta.2` (tagged and deployed 2026-10-05, schema 13) and the issue and
 housekeeping meeting of 2026-10-05. Nothing was rewritten after the fact except the redactions described in this file. Sunday 2026-09-27
 daytime through Tuesday 2026-09-29 were added late, on 2026-09-29, after the owner noticed the gap; those entries were
 written from the transcripts, the Kipple git log and pull requests and the memory notes, not from the notes taken at the
@@ -76,7 +76,7 @@ pull requests merged since alpha.3. See [MILESTONES.md](MILESTONES.md) for the b
 not mean.
 
 At `origin/main` on 2026-10-05 (after `v0.8.0-beta.1`, with the `v0.8.0-beta.2` release commit merged): 739 commits, twenty
-tags pushed (`v0.8.0-beta.1` is the latest; `v0.8.0-beta.2` follows on 2026-10-05), 833 tracked files, about 96,800
+tags pushed (`v0.8.0-beta.1` is the latest; `v0.8.0-beta.2` was tagged 2026-10-05, so 21 tags then), 833 tracked files, about 96,800
 lines of Go (about 50,800 of them tests, 432 Go files) and about 47,000 lines under `web/src`. Schema 13 with migration 0013
 (the perf build).
 

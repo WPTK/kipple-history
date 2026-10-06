@@ -428,3 +428,9 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
   minutes for the Go job on a code pull request. Four review rounds, three designs.
 - Working economy decisions recorded (DECISIONS.md, 2026-10-06). Plan: soak beta.3, #253, `rc.1`, #248, 1.0.0. Three design
   sessions (#39, #37 with #36, #246) are planned. Details in [diary/2026-10-06.md](diary/2026-10-06.md).
+
+## 2026-10-06 (Tuesday), evening: 0.8.0-beta.4
+
+- Restore in the setup wizard (Kipple PR #288) and reset from Settings (PR #290) merged after review rounds; review fixes #294,
+  #295, #296; release commit #293. Tag `v0.8.0-beta.4` on `3996d2b`, image signed, deployed by digest. See
+  [diary/2026-10-06.md](diary/2026-10-06.md).

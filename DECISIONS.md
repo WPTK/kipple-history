@@ -1008,3 +1008,16 @@ the risk deserves. Revisit only if a real report appears.
 - Plan: soak beta.3, #253, `rc.1` (bugs only), #248 after `rc.1`, 1.0.0. Separate design sessions for #39, #37 with #36, and
   #246; they write only `docs/ui-decisions.md` and their issues. A lanes file will list each session's issue, branch and
   owned files; shared files (changelog fragments, `docs/design.md`, `go.mod`, `package.json`) are held by one session at a time.
+
+## 2026-10-06, evening: restore in the setup wizard, reset, no schema numbers
+
+- Restore from the web app exists only in the setup wizard, on an instance with no account. Restoring over a populated library
+  stays `kipple restore`; its web twin is "Reset Kipple and start over" in Settings, which returns the instance to setup.
+- Anything the command line does must also be possible in the web app. Exception: recovering from a start that fails.
+- The product never shows schema numbers; they live on the About page only. Operators still see them in refusal messages
+  because a rollback needs them.
+- A server's address settings (public URL, allowed host names, trusted proxies, Cloudflare Access) describe the server, not
+  the library: a restore or reset keeps this server's own, never the backup's.
+- A reset ignores `KIPPLE_USERNAME` and `KIPPLE_PASSWORD` until a new account exists, because a restart reuses the same
+  container environment.
+- Reviews are fixed completely, and a finding about the check is fixed in the check, not waived.

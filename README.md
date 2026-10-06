@@ -18,7 +18,7 @@ paths, no email addresses, no surname, no device or tunnel names, no tokens. A p
 existed for the purpose was deleted on 2026-09-29. The code repo is `WPTK/Kipple` (public since 2026-09-26 11:03 ET).
 
 The material was assembled on 2026-09-26 from the Kipple repository history, the agent's memory notes and the
-session transcripts, and updated at each milestone. It now covers 2026-09-24 to 2026-10-05: phases 1 to 5, the public
+session transcripts, and updated at each milestone. It now covers 2026-09-24 to 2026-10-06: phases 1 to 5, the public
 release, the local deep review, `v0.3.0-alpha.4` to `v0.3.0-beta.3`, the beta feedback round, the setup wizard stack and its
 overnight audit, `v0.5.0-beta.1` and `-beta.2`, the 0.6 and 0.7 root-cause work (`v0.6.0-beta.1`, `v0.7.0-beta.1` and `-beta.2`),
 nested folders and the scale work (`v0.8.0-beta.1`), the perf-only `v0.8.0-beta.2` (tagged and deployed 2026-10-05, schema 13), `v0.8.0-beta.3` (tagged and deployed 2026-10-05, schema 16) and the issue and
@@ -36,7 +36,7 @@ Start with the synthesis documents, then drop into the sources they link to.
 | [TIMELINE.md](TIMELINE.md) | Dated chronology, hour by hour where it matters, with tags and phases |
 | [MILESTONES.md](MILESTONES.md) | Each release and phase (planning to `v0.8.0-beta.3`): what shipped, what shaped it, size in commits and lines |
 | [MEETINGS.md](MEETINGS.md) | Every decision session: date, type, what was decided, approximate message counts |
-| [CHALLENGES.md](CHALLENGES.md) | Real problems with cause, fix and lesson (70 items) |
+| [CHALLENGES.md](CHALLENGES.md) | Real problems with cause, fix and lesson (73 items) |
 | [parking-lot.md](parking-lot.md) | Deferred ideas, follow-ups with their status, and the owner's standing rules |
 | [DECISIONS.md](DECISIONS.md) | Standing and later decisions, each with its source |
 

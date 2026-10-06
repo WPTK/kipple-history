@@ -675,3 +675,21 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
 
 - The optimisation branch left scratch output in its worktree and a stray copy of a web component in the main checkout; the
   agent could not delete them (the removal was blocked by permissions). Removed in the 2026-10-05 housekeeping.
+
+## 71. Prose-only pull requests ran the whole CI (2026-10-06)
+
+- Cause: no job looked at what a diff touched, so a docs edit paid for the 11 to 17 minute Go job. Two first designs (a
+  denylist of docs that tests read, then an allowlist with a name scanner) were found fail-open or incomplete in review.
+- Fix: a `changes` job classifies the diff and fails closed; on code, CI deletes the listed prose files before the code jobs so
+  any hidden reader fails its own test. Live proof: about 22 seconds, required checks satisfied.
+- Lesson: make the unsafe case fail loudly instead of trying to enumerate it.
+
+## 72. A whole-diff review handed back incomplete and was run twice (2026-10-06)
+
+- Cause: the reviewer was not told to finish alone, so the same diff was reviewed again at Opus prices.
+- Fix: reviewers work alone, hand back at most 15 lines, and nothing else starts on that diff meanwhile.
+
+## 73. UAT locators went stale after an accessible-label rename (2026-10-05)
+
+- Cause: a changed `aria-label` was still used in `web/uat`; the beta.3 UAT run failed on it.
+- Fix: the `uat-labels.mjs` guard fails when a removed or changed label is still referenced there.

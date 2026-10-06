@@ -994,3 +994,17 @@ the risk deserves. Revisit only if a real report appears.
 - The 14 "decisions made for the owner" in #274 (docs/ui-decisions.md) are approved.
 - For this release, tagging, releasing and deploying no longer need a per-step ask ("just do it"). This does not carry over to later releases.
 - Standing: always run `/code-review high` before merge; fix every finding; one session per release.
+
+## 2026-10-06: working economy and session coordination
+
+- Batch related small pull requests into one. Run cheap checks first and the expensive gates once, on the commit being tagged.
+- The auto-fix monitor is only for pull requests that touch code, workflows or dependencies.
+- One task or release per session. Reviewers (Opus, read-only) work alone and hand back at most 15 lines; authors (Sonnet)
+  stop at a pushed branch.
+- Models: Opus for review, root-causing and design; Sonnet for the rest; never Haiku. Unused connectors are off by default.
+- Owner-specific values stay in untracked files (`scripts/local/`, `.scrub-terms.local`); tooling must be repairable by a
+  session that did not write it.
+- CI skips the heavy jobs for prose-only pull requests, fail closed, with the prose files deleted before the code jobs run.
+- Plan: soak beta.3, #253, `rc.1` (bugs only), #248 after `rc.1`, 1.0.0. Separate design sessions for #39, #37 with #36, and
+  #246; they write only `docs/ui-decisions.md` and their issues. A lanes file will list each session's issue, branch and
+  owned files; shared files (changelog fragments, `docs/design.md`, `go.mod`, `package.json`) are held by one session at a time.

@@ -37,6 +37,7 @@ Entries:
 - [2026-10-03](2026-10-03.md): `v0.7.0-beta.1` and `v0.7.0-beta.2`, Suite 5, the cost report, the route to 1.0.
 - [2026-10-04](2026-10-04.md): nested folders, the scale baseline and `v0.8.0-beta.1`, then the optimisation pass.
 - [2026-10-05](2026-10-05.md): the issue and housekeeping meeting, the perf-only `v0.8.0-beta.2`, the archive of the planning docs.
+- [2026-10-06](2026-10-06.md): release tooling, CI that skips heavy jobs for prose-only pull requests, the working economy decisions and the plan to 1.0.
 
 The split of the two 2026-09-27 files: the first is the session that ran from Saturday about 19:17 to Sunday about 11:00, so
 it is mostly Saturday night; the second starts at the 08:32 Sunday morning meeting (held in the tail of that first session) and covers the rest of the day.

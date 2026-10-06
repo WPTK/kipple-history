@@ -419,3 +419,12 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
 - Evening: seven PRs merged after high-effort Opus reviews (#268, #270 to #276), the release gate (about 17 findings fixed), and
   `v0.8.0-beta.3` tagged on `2896ded` (release PR #276); Release workflow green with the first real signed SBOM step; published as a
   pre-release and deployed by digest at about 21:09, schema 13 to 16, healthy, about 55 MiB. The owner is away for a while.
+
+## 2026-10-06 (Tuesday): tooling, CI and economy
+
+- Overnight and morning: release tooling merged (Kipple PR #281, `350242d`): four PowerShell scripts, the `uat-labels.mjs`
+  guard, Pester and PSScriptAnalyzer in CI, saved reviewer and author agents, two flaky-test fixes.
+- CI docs-skip merged (PR #278, `a5ca37f`): prose-only pull requests skip the heavy jobs; about 22 seconds against 11 to 17
+  minutes for the Go job on a code pull request. Four review rounds, three designs.
+- Working economy decisions recorded (DECISIONS.md, 2026-10-06). Plan: soak beta.3, #253, `rc.1`, #248, 1.0.0. Three design
+  sessions (#39, #37 with #36, #246) are planned. Details in [diary/2026-10-06.md](diary/2026-10-06.md).

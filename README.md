@@ -12,8 +12,8 @@ before the scrub was finished, and `DECISIONS.md` carried two real server hostna
 name. That was found on 2026-09-28, the current files were scrubbed the same night, and the whole git history was
 rewritten and force-pushed with the owner's go-ahead on the morning of 2026-09-28 (see item 26 of
 [CHALLENGES.md](CHALLENGES.md)). Anyone who cloned or viewed it before the rewrite may still have the old text; a
-rewrite cannot undo that. The rule stands for everything added here: use Host-A (deploy target) and Host-B
-(dev and admin machine), `rss.example.com` for the public hostname, no IP addresses, no Windows account name or profile
+rewrite cannot undo that. The rule stands for everything added here: use "the Kipple server" (deploy target) and "the dev machine"
+(admin machine), `rss.example.com` for the public hostname, no IP addresses, no Windows account name or profile
 paths, no email addresses, no surname, no device or tunnel names, no tokens. A private duplicate of the repository that
 existed for the purpose was deleted on 2026-09-29. The code repo is `WPTK/Kipple` (public since 2026-09-26 11:03 ET).
 

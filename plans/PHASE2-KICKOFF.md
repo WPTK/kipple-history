@@ -6,7 +6,7 @@ Paste everything below the line into a fresh Claude Code session in `C:\kipple`
 ---
 
 Start Kipple phase 2 (the reading UI). Phase 1 is merged to `main`, deployed on Host-A, and in daily
-use: Reeder Classic and NetNewsWire sync through `https://rss.example.com/api/greader.php`. Work on a
+use: client A and client B sync through `https://rss.example.com/api/greader.php`. Work on a
 new branch `phase-2` cut from `main`.
 
 **Read first:** CLAUDE.md; docs/plan.md ("Phase 2", "Deployment and cutover", "Model and effort for
@@ -16,10 +16,10 @@ never whole. Phase 2 uses §7 (UI API), §5 (restore), §7.4 image proxy, §7.5 
 stats recorder hooks), and §6.9 for feed add/unsubscribe semantics.
 
 **Step 0, before any code: ask the owner for his day-of-use feedback.** Do not start until he has answered.
-Ask for: anything broken or annoying in Reeder or NetNewsWire; whether read/star changes propagate
+Ask for: anything broken or annoying in client A or client B; whether read/star changes propagate
 between the two apps; and whether the retention and OPML round-trip checks passed (lower a feed's cap
 and confirm a starred old item survives; export OPML and re-import). Then read the Host-A request log
-(debug level) if the owner turned it on, to settle the open Reeder questions in
+(debug level) if the owner turned it on, to settle the open client A questions in
 docs/research/open-questions.md (the `mark-all-as-read` `ts` unit above all). Update the design or
 plan if the answers change anything.
 
@@ -45,7 +45,7 @@ tests, before or alongside the UI it serves.
 - No feed-URL editing exists. 10 feeds sit behind temporary (302/307) redirects and NPR (timeout) and
   the FAA (HTTP 403) are failing. `PATCH /api/feeds/{id}` should let the owner change a feed's URL; the
   feed editor in phase 2 covers it.
-- Settings validation: `retention.restore_days` is clamped to 0–180 on read (the nightly purge drops
+- Settings validation: `retention.restore_days` is clamped to 0-180 on read (the nightly purge drops
   ledger rows at 180 days); the settings PATCH must enforce the same range.
 - The stats recorder does not exist, so the Reader API's edit-tag writes no `star`/`unstar` rows
   (design §8). Build the recorder with the UI API; web opens are the only read signal (read inference

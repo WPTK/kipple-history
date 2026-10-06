@@ -30,7 +30,7 @@ it on the PR.
 
 1. **Image proxy: private-network grant covered every redirect hop** (medium, reproduced with a scratch test).
    `imgproxy/upstream.go` built one client with the granted transport; `CheckRedirect` only stripped Referer. A
-   feed-host image that 302s to `http://192.168.1.1/...` was fetched. Fixed: a per-hop `hopScoped` RoundTripper sends
+   feed-host image that 302s to `http://192.168.1[.]1/...` was fetched. Fixed: a per-hop `hopScoped` RoundTripper sends
    hops off the image's host (`fetch.FeedHostVariant`) through the guarded transport. Test `redirectscope_test.go`.
 2. **Images: "allow insecure TLS" never scoped** (low). Third-party images in an insecure-TLS feed were fetched with
    verification off. Fixed in `api/image.go` (`scopePrivateNet` now clears both flags); design §7.4 flags text updated.
@@ -55,7 +55,7 @@ it on the PR.
    `feeddelete_test.go`.
 8. **Folder merge by rename dropped folder filters** (low). `RenameLabel` onto an existing name cascaded the old
    folder's filters away; they now move to the target. Test `renamemerge_test.go`.
-9. **Batch `subscription/edit` with one title renamed every feed** (low, latent: NNW and Reeder edit one feed at a
+9. **Batch `subscription/edit` with one title renamed every feed** (low, latent: NNW and client A edit one feed at a
    time). One title now applies only to a single-feed edit. Test in `subs_test.go`.
 10. **Scheduler run table** (low). A second import/retention run replaced the first in `s.runs[kind]`: the first
     vanished from status, lost progress events, and `Busy()` could go false mid-run. Runs are keyed by id. Test

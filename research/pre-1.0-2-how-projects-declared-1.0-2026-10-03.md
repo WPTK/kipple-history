@@ -14,7 +14,7 @@ SemVer 2.0.0 (https://semver.org/, read):
 Keep a Changelog 1.1.0 (https://keepachangelog.com/en/1.1.0/, read): six change types (Added, Changed, Deprecated, Removed, Fixed, Security); newest first, dated, an Unreleased section; yanked releases get a [YANKED] tag; say whether you follow SemVer; breaking changes must be prominent. Kipple's fragment-based flow already satisfies this. It has no Deprecated-then-Removed habit and no YANKED convention written down.
 
 What a 1.0 commitment implies for Kipple (my reading, not a source):
-- Public API: Google Reader endpoints under /api/greader.php as clients (Reeder, NetNewsWire) use them; HTTP/web UI routes are not API unless declared.
+- Public API: Google Reader endpoints under /api/greader.php as clients (client A, client B) use them; HTTP/web UI routes are not API unless declared.
 - Data format: SQLite schema is internal but migrations must be forward-only and safe; the backup zip/snapshot format and `kipple restore` are the user-facing data contract.
 - Settings keys and env vars (KIPPLE_*): once 1.0, rename or removal needs deprecation then major.
 - Docker tags: X.Y.Z immutable (already done); `latest`, `X`, `X.Y` start meaning something only after a stable tag exists. Document that 1.x pulls on `1` are safe.
@@ -62,7 +62,7 @@ Credible evidence for one dogfooder, in my judgement:
 - Calendar time with real feeds covering the periodic events: at least one full backup/restore rehearsal, one upgrade-with-migration from the previous tag, one image pull by digest, and a refresh loop through feed failures. Duration matters less than having exercised each lifecycle path once.
 - Restore test on a clean machine (a stranger's path): pull image, run wizard, import OPML, restore a backup.
 - Upgrade matrix: previous beta to rc with real data; rollback via snapshot.
-- Reader clients: Reeder and NetNewsWire sync after upgrade.
+- Reader clients: client A and client B sync after upgrade.
 - Zero P0/P1 over the window, plus a record (in kipple-history) of what was exercised, so "soak" is a log not a feeling.
 - Unlike the multi-user cases, there is no cohort of other people's data. Fuzz, UAT suites and a synthetic large-data seed (many feeds, 100k+ items) substitute for tester diversity.
 

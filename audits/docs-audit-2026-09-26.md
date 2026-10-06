@@ -1,6 +1,6 @@
 # Kipple docs-versus-code audit, 2026-09-26
 
-Audited tree: `origin/phase-2` at `f72fc84` ("docs: human feedback folder, Reeder evidence, basic README"), read in a scratch worktree. Nothing in the code was changed. `go build ./...` passes. All evidence paths are relative to the repo root; line numbers refer to that commit.
+Audited tree: `origin/phase-2` at `f72fc84` ("docs: human feedback folder, client A evidence, basic README"), read in a scratch worktree. Nothing in the code was changed. `go build ./...` passes. All evidence paths are relative to the repo root; line numbers refer to that commit.
 
 **Severity.** WRONG: misleads an implementer or operator. STALE: outdated or superseded but harmless. MISSING: shipped behavior that is not documented.
 
@@ -356,7 +356,7 @@ Verified as matching (not listed): DSN and pragmas, pool sizes, cache sizes, sel
   - Fix: "empty or whitespace-only body" and "...and an HTML `Content-Type`".
 
 - [ ] **STALE** design.md §4.4 (lines 879, 881): SSRF ranges and proxy
-  - Code does: also blocks `0.0.0.0/8`, `192.0.0.0/24`, `198.18.0.0/15`, `240.0.0.0/4`, `64:ff9b:1::/48`, Teredo `2001::/32`, `100::/64`; the transport sets no `Proxy`. (evidence: internal/fetch/ssrf.go:16-50; internal/fetch/client.go:89-98)
+  - Code does: also blocks `0.0.0[.]0/8`, `192.0.0[.]0/24`, `198.18.0[.]0/15`, `240.0.0[.]0/4`, `64:ff9b:1::/48`, Teredo `2001::/32`, `100::/64`; the transport sets no `Proxy`. (evidence: internal/fetch/ssrf.go:16-50; internal/fetch/client.go:89-98)
   - Fix: list the extra ranges; add "No `Proxy` (environment proxies would bypass the dial guard)."
 
 - [ ] **STALE** design.md §4.4 (lines 891-896): charset decoding
@@ -782,7 +782,7 @@ Verified as matching (not listed): caps, TTLs, budgets, CSP string, key and sign
   - Fix: add to the `a[href]` row: "The client drops `target` on devices set to open links in the same tab (default on Apple touch devices)."
 
 - [ ] **MISSING** design.md §8 (lines 1952-1957): ingest limits and checks
-  - Code does: body capped at 64 KiB, batch at 200 events (extra dropped) (internal/api/items.go:27-28, 607-617); only `read_time`, `scroll`, `open_original`, `share` accepted; values truncated to integers; every kind requires the item in `items` or `trimmed_items` (internal/stats/stats.go:87-93; internal/store/stats.go:54-75); `client` must be one of web, pwa, reeder, netnewswire, unread, api (stats.go:29, 83).
+  - Code does: body capped at 64 KiB, batch at 200 events (extra dropped) (internal/api/items.go:27-28, 607-617); only `read_time`, `scroll`, `open_original`, `share` accepted; values truncated to integers; every kind requires the item in `items` or `trimmed_items` (internal/stats/stats.go:87-93; internal/store/stats.go:54-75); `client` must be one of web, pwa, client-a, client-b, unread, api (stats.go:29, 83).
   - Fix: add these as bullets under rule 4.
 
 
@@ -799,7 +799,7 @@ Verified as matching (not listed): caps, TTLs, budgets, CSP string, key and sign
   - Fix: §11: "Pending the owner's decision. The `greader.subscribe_fetch_now` key is reserved but not implemented: there is no synchronous path yet." §12 #35: "...The synchronous path is not built; the reserved key is a no-op pending the owner (decision 33)."
 
 - [ ] **WRONG** design.md §11 (line 2331), §10 (lines 2231, 2260), §12 #24 (line 2388): API `open` inference not implemented
-  - Doc says: with `stats.api_single_read_is_open` on, a single-id `edit-tag a=read` stores 1 inferred `open`; the Reeder contract step 9 and the structural-rule test check this.
+  - Doc says: with `stats.api_single_read_is_open` on, a single-id `edit-tag a=read` stores 1 inferred `open`; the client A contract step 9 and the structural-rule test check this.
   - Code does: edit-tag records stats only for star/unstar; nothing reads the setting; nothing writes `inferred=1` (internal/greader/h_edit.go:92-98; internal/api/settingsmeta.go:343; internal/store/uibootstrap.go:34).
   - Fix: §11: "Not implemented: the reserved key `stats.api_single_read_is_open` is a no-op, so no API read ever becomes an `open`." §10: remove the "with the setting on -> 1 inferred `open`" clauses or mark "(when inference is built)". §12 #24: the default is effectively permanent until inference is built.
 
@@ -881,7 +881,7 @@ Verified as matching (not listed): caps, TTLs, budgets, CSP string, key and sign
   - Fix: change "user_version=1" to "user_version = latest (5)"; mark each missing item "TODO" (or write the tests).
 
 - [ ] **STALE** design.md §10 (lines 2134-2143, 2160-2166, 2252, 2263-2274): other promised tests missing or partial
-  - Code does: **absolutize:** inline, not golden (internal/sanitize/absolutize_test.go); no `xml:base` test and no code for xml:base; the end-to-end `/wp-content/x.jpg` fixture through `stream/items/contents` and `GET /api/items/{id}` does not exist. **Shutdown:** TestShutdownDuringLargeRun (internal/sched/sched_test.go:616) covers < 15 s, fetch_log commits, waiting handlers returning; not "SSE subscribers return before Shutdown" (partly internal/api/api_test.go:592) or "`wal_checkpoint` runs"; waiters get `ErrStopped` -> 503 "shutting_down" (internal/api/feeds.go:147). **Phase-1 gate:** no captured-traffic golden sequences under internal/greader (only docs/HF/evidence/reeder-alpha2-2026-09-26.log). **Stats:** no Recorder-error rollback test, no concurrent-batch cap test, no stats DST test, no views/CSV tests (not built).
+  - Code does: **absolutize:** inline, not golden (internal/sanitize/absolutize_test.go); no `xml:base` test and no code for xml:base; the end-to-end `/wp-content/x.jpg` fixture through `stream/items/contents` and `GET /api/items/{id}` does not exist. **Shutdown:** TestShutdownDuringLargeRun (internal/sched/sched_test.go:616) covers < 15 s, fetch_log commits, waiting handlers returning; not "SSE subscribers return before Shutdown" (partly internal/api/api_test.go:592) or "`wal_checkpoint` runs"; waiters get `ErrStopped` -> 503 "shutting_down" (internal/api/feeds.go:147). **Phase-1 gate:** no captured-traffic golden sequences under internal/greader (only docs/HF/evidence/client-a-alpha2-2026-09-26.log). **Stats:** no Recorder-error rollback test, no concurrent-batch cap test, no stats DST test, no views/CSV tests (not built).
   - Fix: mark each "TODO" (views/CSV "phase 4"); state the Phase-1 gate status.
 
 - [ ] **MISSING** design.md §2.6 (lines 716-718), §9: CLI subcommands `import`, `api-password`, `version`
@@ -1334,11 +1334,11 @@ Verified: env var list at lines 211-215 matches config.go (13 vars); lockout 10/
 - [ ] **WRONG** open-questions.md #44 (line 76): HTTPS listener does not exist
   - Doc says: "Kipple serves HTTPS on 7443 with the Tailscale Let's Encrypt cert".
   - Code does: HTTP only (cmd/kipple/main.go:205-229).
-  - Fix: "Decided: Kipple is HTTP-only on 7080; HTTPS comes from the tunnel. LAN tests use NetNewsWire over http (ATS allows it); Reeder is tested through the tunnel."
+  - Fix: "Decided: Kipple is HTTP-only on 7080; HTTPS comes from the tunnel. LAN tests use client B over http (ATS allows it); client A is tested through the tunnel."
 
 - [ ] **STALE** open-questions.md #2 and #6 (lines 19, 23): the alpha.2 log answers them
-  - Evidence: `Reeder/5060003` calls `GET /reader/api/0/token` and sends `T` on `edit-tag` (keys T,a,i) and on `POST stream/items/contents` (keys T,i,output) (docs/HF/evidence/reeder-alpha2-2026-09-26.log:23; docs/HF/evidence/README.md:25-28).
-  - Fix: #2 -> "Answered (2026-09-26): Reeder Classic (UA Reeder/5060003) fetches `/token` and sends a real `T` on POSTs; the header-or-T rule stays for other clients." #6 -> note "Reeder sends `output=json` and `T` on the contents POST (same log)".
+  - Evidence: `client A/5060003` calls `GET /reader/api/0/token` and sends `T` on `edit-tag` (keys T,a,i) and on `POST stream/items/contents` (keys T,i,output) (docs/HF/evidence/client-a-alpha2-2026-09-26.log:23; docs/HF/evidence/README.md:25-28).
+  - Fix: #2 -> "Answered (2026-09-26): client A (UA client A/5060003) fetches `/token` and sends a real `T` on POSTs; the header-or-T rule stays for other clients." #6 -> note "client A sends `output=json` and `T` on the contents POST (same log)".
 
 - [ ] **STALE** open-questions.md #27 (line 49): the ledger is now purged
   - Doc says: "No purge in phase 1... Revisit with real numbers after a month."

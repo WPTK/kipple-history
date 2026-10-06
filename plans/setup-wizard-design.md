@@ -168,7 +168,7 @@ so after the row exists they answer `404 not_found` forever (same body as an unk
 
 | Route | Auth | Request | Response and errors |
 |---|---|---|---|
-| `GET /api/setup/state` | Host gate | — | `{claimed: bool (this browser holds a valid setup cookie), access: {enabled, verified}, token_hint: "printed in the container log at <start time>"}`. `no-store`. |
+| `GET /api/setup/state` | Host gate | - | `{claimed: bool (this browser holds a valid setup cookie), access: {enabled, verified}, token_hint: "printed in the container log at <start time>"}`. `no-store`. |
 | `POST /api/setup/claim` | Host gate, same-origin, setup lockout | `{token}` (spaces, dashes and case ignored) | `204` + `kipple_setup` cookie (32 random bytes, HttpOnly, `SameSite=Strict`, `Path=/api/setup`, `Max-Age=3600`, Secure by effective scheme). A new claim replaces the previous setup session (the token holder is the authority). `403 bad_token` (counted), `429 locked` + `Retry-After`, `403 host`, `403 origin`. |
 | `POST /api/setup/account` | Host gate, same-origin, `kipple_setup` cookie | `{username, password?, passwordless?: "access"\|"open", acknowledge_open?: bool}`; exactly one of `password` and `passwordless` | `201 {username, auth_mode}` + `kipple_session` cookie (a normal 90-day session), `kipple_setup` cleared. `409 already_set_up` (lost the race; the SPA reloads into the login screen), `400 bad_username`, `400 bad_new_password`, `400 ack_required`, `403 access_required` / `503 access_unavailable` (for `"access"`, via the existing `accessProof`), `403 open_refused` (for `"open"`, the request fails the open gate: choosing open mode must happen from a place where open mode would work), `401 setup_session`. |
 
@@ -280,9 +280,9 @@ The **open gate**, checked by `POST /api/auth/open`, by switching to open mode, 
    send during PR B; the rule is written against their documented behavior.)
 3. **Peer class.** One rule, no setting (superseded 2026-10-02: `security.open_lan` was removed; owner decision, "no
    passwords on my network", as Sonarr and Radarr treat local addresses). The TCP peer must be loopback, link-local,
-   RFC 1918 or ULA, or Tailscale (`100.64.0.0/10`, `fd7a:115c:a1e0::/48`) arriving on this machine's own Tailscale
+   RFC 1918 or ULA, or Tailscale (`100.64.0[.]0/10`, `fd7a:115c:a1e0::/48`) arriving on this machine's own Tailscale
    address or reaching a private-range local address (the address it was addressed to: a LAN address or a container's
-   bridge); never one that reached a CGNAT, public or unknown local address, because `100.64.0.0/10` is also shared
+   bridge); never one that reached a CGNAT, public or unknown local address, because `100.64.0[.]0/10` is also shared
    carrier-grade NAT and cloud overlay space. "Reached" is the destination address, not the interface: on a host with
    both a WAN or CGNAT interface and a LAN address the OS may accept packets for the LAN address from the WAN side,
    which Kipple cannot see. In a container Docker delivers even a `-p 127.0.0.1:...` connection from the bridge
@@ -678,7 +678,7 @@ in the browser pane as well (CLAUDE.md: UI phases are verified at the mobile pre
 
 **UAT Suite 5 rewrite:** the literal fresh-machine walkthrough becomes: install Docker, paste the README compose
 file (or the one-line `docker run`), `docker compose up -d`, `docker logs` for the code, open the address, finish the
-wizard, add a feed, connect NetNewsWire with the generated API password, take a backup. Run once on amd64 and once
+wizard, add a feed, connect client B with the generated API password, take a backup. Run once on amd64 and once
 on an arm64 machine or VM, as a single-host user. A second pass uses `cosign verify` exactly as the README shows.
 The build-from-source path moves to a shorter "For developers" check.
 

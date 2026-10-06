@@ -2,7 +2,7 @@
 
 Research only: no code changes. This turns the owner's round-1 answers (`docs/ui-decisions.md` on branch
 `design/ui-round-1`) and the audit (`docs/research/design-audit-2026-09-25.md`, same branch) into backend specs.
-Checked against `phase-2` at 90450e9 (migrations 0001–0003, `internal/`, `cmd/kipple`).
+Checked against `phase-2` at 90450e9 (migrations 0001-0003, `internal/`, `cmd/kipple`).
 
 **Conventions for everything below.**
 
@@ -12,7 +12,7 @@ Checked against `phase-2` at 90450e9 (migrations 0001–0003, `internal/`, `cmd/
   additive or rebuild-only. The runner already takes `VACUUM INTO pre-migration-3-5-*.db` before applying them (§2.5).
   Rollback means restoring that snapshot, which the owner accepted (audit Q7).
 - The image cache index is a **separate** SQLite file (`/data/imgcache/index.db`), not a migration of `kipple.db`.
-- Effort: **S** is about half a day, **M** is 1–2 days, **L** is 3 days or more, for one Sonnet step with tests.
+- Effort: **S** is about half a day, **M** is 1-2 days, **L** is 3 days or more, for one Sonnet step with tests.
 
 ---
 
@@ -30,7 +30,7 @@ UI without knowing that filters exist.
 |---|---|---|
 | `scope` | `global` \| `folder` \| `feed` | The folder is resolved at match time through the feed's *current* folder |
 | `kind` | `text` \| `regex` | `text` matches literal terms. A multi-word term is a phrase: the words in order, with any whitespace between them |
-| `terms` | 1–50 strings | Any one of them matches. `text`: each 1–100 runes. `regex`: 1–5 patterns, each ≤ 256 bytes |
+| `terms` | 1-50 strings | Any one of them matches. `text`: each 1-100 runes. `regex`: 1-5 patterns, each ≤ 256 bytes |
 | `fields` | a subset of `title`, `author`, `content`, `url`, `category` | Default `["title"]`. `content` is `content_text` (the first 32 KB for `text`, the first 8 KB for `regex`) |
 | `case_sensitive` | bool, default false | |
 | `whole_word` | bool, default true (`text` only) | The runes on each side of the match must not be letters or digits (Unicode classes) |
@@ -60,7 +60,7 @@ Every enabled rule in scope is evaluated, and the results combine as a set:
 
 **Decision: mark muted items read at ingest, and flag them with `items.muted_by`.**
 
-- **Reader API.** No change. Muted items are ordinary read items, so they drop out of Reeder's and NNW's unread lists
+- **Reader API.** No change. Muted items are ordinary read items, so they drop out of client A's and NNW's unread lists
   and `unread-count` with no special-casing. They stay in `reading-list` as read items. Hiding them there too would make
   items vanish from a list after a retroactive apply, which gains nothing.
 - **Web lists.** `view=all` and feed or folder views add `AND i.muted_by IS NULL`. The unread view needs nothing,
@@ -107,7 +107,7 @@ Every enabled rule in scope is evaluated, and the results combine as a set:
 
 | Method and path | Request | Response |
 |---|---|---|
-| `GET /api/filters` | — | `{filters:[Filter]}` |
+| `GET /api/filters` | - | `{filters:[Filter]}` |
 | `POST /api/filters` | `Filter` without `id`, plus optional `apply_existing:{include_read:bool}` | `201 {filter, applied:{changed:n}}` |
 | `PATCH /api/filters/{id}` | any `Filter` field | `filter`. Never retroactive by itself |
 | `DELETE /api/filters/{id}` | `?unmute=keep\|read\|unread` | `{changed:n}` |
@@ -213,23 +213,23 @@ preview-first UI, hit counts, the Muted view, and the rule that a restore is one
 
 | # | Feature | Value | Effort | Mechanism | Fit | Recommendation |
 |---|---|---|---|---|---|---|
-| F1 | **Keyword mute / mark read / auto-star** | High | L | §1.2–1.9 | OK | **Phase 2** |
+| F1 | **Keyword mute / mark read / auto-star** | High | L | §1.2-1.9 | OK | **Phase 2** |
 | F2 | **Per-feed "only show matching"** | High | 0 | `invert` on a mute rule | OK | **Phase 2** (free with F1) |
 | F3 | **Keyword highlights** | Med | S | `highlight` action, client-side | OK | **Phase 2** |
 | F4 | **Saved searches / smart views** | High | S | Setting `library.saved_searches`: ≤ 50 entries of `{id, name, q, view, feed_id\|folder_id, order}`, listed in the sidebar. Counts on demand only | OK | **Phase 2** |
-| F5 | **Auto-mark-read after N days unread** | High (keeps unread under Reeder's 10,000-id limit) | M | §1.13 | OK | **Phase 2** |
+| F5 | **Auto-mark-read after N days unread** | High (keeps unread under client A's 10,000-id limit) | M | §1.13 | OK | **Phase 2** |
 | F6 | **Reading-time filter** ("quick reads under 5 min") | Med | S | `min_minutes`/`max_minutes` on `/api/items` → `word_count BETWEEN` (230 wpm) | OK | **Phase 2** |
 | F7 | Per-feed or per-folder layout, view and order | Med | S | `ui.layouts` values become `{layout, view, order}` (audit U2). Stored per device (§4) | OK | **Phase 2** (the frontend drives it) |
 | F8 | Cross-feed duplicate collapsing (same article via an aggregator and its source) | Med | M | At ingest, an exact normalized-URL match against items of other feeds in the last 14 days marks the later copy read with `dup_of`. Needs `idx_items_url`. Deterministic only; no fuzzy or ML similarity | OK | **Later** (phase 3+) |
-| F9 | Snooze / read later with resurfacing | Med | M | `snoozed_until`: the item is marked read now and flipped unread by the maintenance job. Reeder sees it come back in its unread list (no notification) | OK | **Later**. "Starred = read later" covers the need now (audit) |
+| F9 | Snooze / read later with resurfacing | Med | M | `snoozed_until`: the item is marked read now and flipped unread by the maintenance job. client A sees it come back in its unread list (no notification) | OK | **Later**. "Starred = read later" covers the need now (audit) |
 | F10 | Daily digest view ("since yesterday", grouped by feed, top 3 each) | Med | S (backend) | `since=` on `/api/items` plus client grouping | OK | **Later** (phase 3 UI) |
-| F11 | Source priority / pinned feeds | Low–Med | S | `feeds.priority` ordering the sidebar, plus a "Priority" smart view (F4 with a feed set) | OK | **Later** |
+| F11 | Source priority / pinned feeds | Low-Med | S | `feeds.priority` ordering the sidebar, plus a "Priority" smart view (F4 with a feed set) | OK | **Later** |
 | F12 | Quiet hours per feed (hold delivery) | Low | M | Would delay visibility by clock time | **Scope creep**: it is delivery scheduling, the notifications family | **Reject** |
-| — | "Trending", "popular with others", AI summaries or clustering | — | — | — | **Non-goals** (social, AI) | **Reject** |
+| - | "Trending", "popular with others", AI summaries or clustering | - | - | - | **Non-goals** (social, AI) | **Reject** |
 
 ### 1.13 Auto-mark-read after N days (F5)
 
-- **Setting.** `library.auto_read_days` (0 = off, the default; else 1–365). Per feed, `feeds.auto_read_days` (NULL
+- **Setting.** `library.auto_read_days` (0 = off, the default; else 1-365). Per feed, `feeds.auto_read_days` (NULL
   inherits, 0 = off for this feed) is added in 0004. Folders get "apply to all feeds in folder" (audit: no inheritance
   level).
 - **Semantics.** "Unread for longer than N days *in Kipple*": crawl time, `id`. Each item crosses the threshold
@@ -513,7 +513,7 @@ full-text responses. Stored HTML and Reader API output stay unchanged, as today.
 
 **Ingest pre-pass (new items only).** A non-YouTube `iframe` becomes `<p><a href="src">Embedded content from
 host</a></p>` before bluemonday runs. Today it is dropped silently. Vimeo `player.vimeo.com/video/ID` is kept like
-YouTube and served click-to-load with `?dnt=1`. This improves Reeder and NNW output too.
+YouTube and served click-to-load with `?dnt=1`. This improves client A and NNW output too.
 
 **Tests.**
 
@@ -538,7 +538,7 @@ image, an embed and a footnote, and check that the console shows no CSP violatio
 | **Why zip** | The iOS Files app and Windows Explorer open it natively. The stdlib `archive/zip` streams it |
 | **Response** | `{token, filename, bytes, expires_at}`. `token` is 128-bit random, valid 15 min, reusable within that window (iOS may re-request) |
 | **Download** | `GET /api/backup/{token}` with a session plus `Sec-Fetch-Site` ∈ {`same-origin`, `none`}, or a matching `Origin`. No `X-Kipple-Client` is needed, so a plain link and `<a download>` work in iOS standalone. `http.ServeContent` gives `Content-Length`, Range and resume, plus `Content-Disposition: attachment`. The file is deleted when the token expires; at most 2 kept |
-| **Size** | Roughly 30–40 % of the DB: stubs dominate at about 270 MB after 90 days, so the zip is about 100 MB. The UI shows the size |
+| **Size** | Roughly 30-40 % of the DB: stubs dominate at about 270 MB after 90 days, so the zip is about 100 MB. The UI shows the size |
 | **Sensitivity** | The file holds password hashes, `account.secret` and feeds' `http_auth`. The UI says "Contains your password hashes and feed logins: keep it private". No redaction option: a restore needs the secret |
 | **Same fix for other downloads (audit U11)** | `GET /api/opml` and `GET /api/stats/export.csv` accept the same `Sec-Fetch-Site`/`Origin` rule without `X-Kipple-Client`. A cross-origin page cannot read a response anyway, and these GETs have no side effects |
 
@@ -612,7 +612,7 @@ kept pre-restore copy make it reversible.
   the rank cursors keep working unchanged.
 
 - **Cost on the live DB.** `rebuild` re-tokenizes every `content_text`: about 35k items × about 6 KB is roughly 200 MB
-  of text, estimated 20–60 s on Host-A at startup. The migration holds `BEGIN IMMEDIATE`, so there is no serving
+  of text, estimated 20-60 s on Host-A at startup. The migration holds `BEGIN IMMEDIATE`, so there is no serving
   meanwhile and Cloudflare returns 502. The WAL grows by about the index size (tens of MB) and is truncated at the next
   checkpoint (`journal_size_limit` 64 MB). The pre-migration snapshot is taken first. **Test it first on a copy of the
   real snapshot** (§6 off-box copy) and record the time in the RUNBOOK. Index size stays about the same.
@@ -659,7 +659,7 @@ sync when back online.
 | **Quotas and eviction** | One cache `kipple-offline-v<api>` plus an IndexedDB LRU index. Default budget 200 MB, shown with `navigator.storage.estimate()`. Call `navigator.storage.persist()` at install (Safari 17+ supports it; granted heuristically). LRU evicts details and images beyond the budget; the shell is never evicted |
 | **"Downloaded for offline"** | An explicit action per feed, folder or view: "Download newest 50 unread". Backend: `GET /api/items?…&include=content` returns cards plus serve-transformed `content_html` (and full text when effective). Limit 50 per page, 2 MB per item (longer is cut, with a "continue on site" link). The client then fetches the images, which is where the imgcache pays off |
 | **Queued writes** | IndexedDB outbox `{op_id (uuid), kind: read\|unread\|star\|unstar, ids, at (client unix s), attempts}`. Replayed on `online`, on app focus, and after the SSE reconnects. No Background Sync on iOS. Ops older than 14 days are dropped with a toast. Filters, settings and feed edits are **not** queued; they are disabled offline |
-| **Idempotency and conflicts** | Endpoints set state rather than toggle it, so a replay is naturally idempotent (the `WHERE read = 0` guards). Conflict rules:<br>• `read`, `unread`: last delivered wins.<br>• `star`: always applies.<br>• `unstar`: applies only if `starred_at ≤ at` (new optional `at` on `PUT /api/items/{id}/star`), so a stale offline unstar never removes a star made later on Reeder.<br>No idempotency-key table is needed, because only these four ops queue |
+| **Idempotency and conflicts** | Endpoints set state rather than toggle it, so a replay is naturally idempotent (the `WHERE read = 0` guards). Conflict rules:<br>• `read`, `unread`: last delivered wins.<br>• `star`: always applies.<br>• `unstar`: applies only if `starred_at ≤ at` (new optional `at` on `PUT /api/items/{id}/star`), so a stale offline unstar never removes a star made later on client A.<br>No idempotency-key table is needed, because only these four ops queue |
 | **Delta sync** | The SSE hub seeds `seq` from boot microseconds (`events/hub.go:59`), so a `Last-Event-ID` from before a restart or outside the 500-event ring gets `resync`. No persistent changes feed is added. On `resync`, the client refetches bootstrap, the visible lists, and `GET /api/items?ids=` (≤ 100 per call) for its cached items to refresh their flags |
 | **Offline at launch** | If `navigator.onLine` is false or bootstrap fails with a network error or timeout: render from the cached bootstrap with the banner "Offline: showing downloaded articles. Changes will sync when you're back." A 401 when online shows the login and keeps the outbox |
 | **API version handshake** | Bootstrap returns `api_version` (an integer, bumped only on a breaking change), `min_client_api` and `version`. The client sends `X-Kipple-API: <n>`. When n < `min_client_api`, the server answers `409 {"error":"client_outdated"}`, and the client drops its caches (keeping the outbox), reloads and replays. The four outbox shapes plus `GET /api/items?ids=` are **frozen**: they never break without a version bump |
@@ -675,7 +675,7 @@ sync when back online.
 - Root static routes are served with the correct types and cache headers.
 - `resync` after a hub restart (the existing hub test, extended).
 
-**Effort M** (phase 3). **Risk:** a stale offline `read` overwrites a later Reeder mark-unread. This is rare and
+**Effort M** (phase 3). **Risk:** a stale offline `read` overwrites a later client A mark-unread. This is rare and
 accepted: read state has no per-change timestamp, and adding one would mean a write on every state change.
 
 ---
@@ -686,13 +686,13 @@ Resolutions for a later `design.md` update step. "Code" means a change in the im
 
 | # | Topic | Resolution | Code? |
 |---|---|---|---|
-| C4 | Health status vocabulary | One Go function, `store.FeedStatus(row, hostUntil, now)`, used by bootstrap and health. Values in precedence order: `archive`, `dead` (was `gone`), `disabled` (was `user`, and also `enabled=0` without a reason), `failing` (≥ 14 consecutive failures), `erroring` (1–13), `throttled` (host deadline in the future), `redirecting` (**permanent redirect pending only**; a temporary redirect is a notice with status `ok`, which removes the noise from 10 feeds), `silent` (healthy, no new items for 90 d), `ok`. The UI is not built yet, so renaming is free | Yes |
+| C4 | Health status vocabulary | One Go function, `store.FeedStatus(row, hostUntil, now)`, used by bootstrap and health. Values in precedence order: `archive`, `dead` (was `gone`), `disabled` (was `user`, and also `enabled=0` without a reason), `failing` (≥ 14 consecutive failures), `erroring` (1-13), `throttled` (host deadline in the future), `redirecting` (**permanent redirect pending only**; a temporary redirect is a notice with status `ok`, which removes the noise from 10 feeds), `silent` (healthy, no new items for 90 d), `ok`. The UI is not built yet, so renaming is free | Yes |
 | C5 | `/api/health/feeds` fields | Add `snapshot:{last_at,last_error}`, `clock:{ahead_s}`, and per feed `host_throttled_until`. Rename `migrated` to `redirect_pending`. Add `db:{db_bytes, wal_bytes, backup_bytes, imgcache_bytes}` (audit D7) | Yes |
 | C6 | Time zone source | One source: the **`tz` setting**, for the nightly job and stats. `maint.go:124,197` loads it per run (a change takes effect at the next due-check). The env `TZ` only sets `time.Local` for log timestamps. The help text becomes "Used for daily statistics and the nightly maintenance job". The UI shows times in the **device** zone (`Intl.DateTimeFormat`) | Yes |
 | C7 | Retention help text | "Only the newest N articles per feed are kept, read or unread. Starred articles are always kept." Add: "Muted articles are removed first" | Yes |
 | C1 | §13 | Rewrite as a status table. 1: built. 2 (startup FTS/json self-check): **build**, S. 3: built as `last_new_items_at`. 4: **drop** `image_count` and 265 wpm; keep 230. 5: **superseded by §7** (porter + `bm25(4,2,1)`). 6: superseded by `ua_fallback` (0002). 7 (Retry-After HTTP-date relative to `Date`): **build**, S. 8: **drop** for redirects; keep for manual URL edits (already `feedadmin.go:202`). 9 (skip a malformed item): **build**, S. 10 (dedupe enclosures by URL): **build**, S. 11 (normalized-link uids): **drop** (it would re-key live items). 12 (slow-stage WARN): **drop** (log noise, no monitoring) | Partly |
 | C2 | §11 inline full-text row | Replace it with: "The in-memory full-text queue (500) is lost on restart (the items fall back to on-demand extraction)" and "The Reader full-text hold can delay an item by ≤ 30 s" | Docs |
-| C3 | §2.2 DDL | §2.2 becomes exactly `0001_init.sql`. Add §2.2a with a delta list for 0002–0005 | Docs |
+| C3 | §2.2 DDL | §2.2 becomes exactly `0001_init.sql`. Add §2.2a with a delta list for 0002-0005 | Docs |
 | C8 | §4.3 AssignUIDs wording | "Keys every occurrence and never drops" | Docs |
 | C9 | Research docs vs design | Add the banner "Superseded by design.md where they differ" and fix open-questions #16, #20, #26, #27, #32, #33 | Docs |
 | C10 | `GET /api/stats/export.csv` | Tag it phase 4 | Docs |
@@ -716,7 +716,7 @@ Resolutions for a later `design.md` update step. "Code" means a change in the im
 | File | Contents | Live-data impact |
 |---|---|---|
 | `0004_filters_devices.sql` | `filters`; `items.muted_by` + `idx_items_muted`; `item_content`/`trimmed_content.categories_json`; `feeds.auto_read_days`; `devices` | Additive, O(1) column adds, empty indexes. Seconds |
-| `0005_fts_porter.sql` | Drop and recreate `items_fts` with porter, persistent `bm25` rank, `rebuild` | 20–60 s rebuild at startup (measure on a snapshot copy first) |
+| `0005_fts_porter.sql` | Drop and recreate `items_fts` with porter, persistent `bm25` rank, `rebuild` | 20-60 s rebuild at startup (measure on a snapshot copy first) |
 | (none) | `/data/imgcache/index.db` | New, separate, disposable |
 
 - Both files ship in one deploy if possible, which means one `pre-migration-3-5-*` snapshot.
@@ -740,7 +740,7 @@ Resolutions for a later `design.md` update step. "Code" means a change in the im
 | 4 | **Ordering and mark above/below** | `order=oldest` + tagged cursor; `bound`, `scope.q`; `min_minutes`/`max_minutes` (F6) | Property pagination, the 8-way bound table, `max_id` guard, plans | Low: bulk-mark bugs are covered by tests and undo |
 | 5 | **Backup export + download token** | `POST /api/backup`, `GET /api/backup/{token}`, zip, shared snapshot mutex | Concurrency consistency, free-space refusal, token rules | Read-only on the DB; disk space |
 | 6 | **CLI: `password`, `restore`, serve lock** | `cmd/kipple`; `/data/kipple.lock` | Lock refusal, restore round trip, sessions revoked | Restore replaces the DB (guarded, with a pre-restore copy) |
-| 7 | **Ship 1–6** | `/code-review high`, deploy, then **take an off-box export** | Release checklist plus the CSP console check | — |
+| 7 | **Ship 1-6** | `/code-review high`, deploy, then **take an off-box export** | Release checklist plus the CSP console check | - |
 | 8 | **Migration 0004 (schema only)** | The SQL of §1.8, §1.13 and §4, plus store copies of `categories_json` in trim and restore | The migration test on a fresh DB and on a **copy of the real Host-A export**; `foreign_key_check`; plan suite | **Live migration**: pre-migration snapshot; rehearse on the copy |
 | 9 | **`internal/filter` engine (pure)** | Compile, validate, evaluate; RE2 limits; word-set matcher | Table tests, fuzzing, benchmark ceilings | None |
 | 10 | **Filters at ingest + mute semantics** | Hook in `applyItems`; `SetRead`/`SetStarred` clear `muted_by`; trim order; full-text skip; fetch_log note; `fetch.done` fields; categories parse | Reader `unread-count`/`xt=read` agree, invariant scan, trim order | Changes ingest: rules start empty, so there is no effect until the owner adds one |
@@ -751,10 +751,10 @@ Resolutions for a later `design.md` update step. "Code" means a change in the im
 | 15 | **Thumbnails** | `FlagThumb`, `x/image` (webp, draw), one transcoder, card rewrite | Sizes, fallbacks, memory ceiling | Memory (pixel cap) |
 | 16 | **Migration 0005 + query builder v2** | Porter, `bm25`, rebuild; phrases, columns, NOT, as-you-type prefix, zero-result fallback | Stemming, fuzzing, migration on a populated DB, timing | **Startup rebuild downtime**: planned window, snapshot, rehearse on a copy |
 | 17 | **Auto-read after N days (F5) + saved searches (F4)** | Maintenance job with window semantics, preview and catch-up; `library.saved_searches` setting | Window and DST, manual unread sticks, catch-up = preview | Marks read in bulk: off by default, confirm dialog |
-| 18 | **Ship 8–17** | `/code-review high`; deploy 0004 and 0005 together after rehearsal | Release checklist plus the Reeder/NNW sanity pass on muted and search | Covered above |
+| 18 | **Ship 8-17** | `/code-review high`; deploy 0004 and 0005 together after rehearsal | Release checklist plus the client A/NNW sanity pass on muted and search | Covered above |
 | 19 | **Phase 3 backend** | Root static files, `include=content`, `X-Kipple-API` handshake + 409, star `at`, `sw.js` headers | §8 tests | None |
 
-Steps 9, 13 and 15 can run in parallel with anything; they are pure packages or a new directory. Steps 10–11 need 8
+Steps 9, 13 and 15 can run in parallel with anything; they are pure packages or a new directory. Steps 10-11 need 8
 and 9. Step 14 needs 13, step 15 needs 14, and step 16 needs 4 (the `scope.q` builder). Keep one writer on Host-A at a
 time for 7 and 18.
 
@@ -762,9 +762,9 @@ time for 7 and 18.
 
 ## 12. Decisions still needed from the owner
 
-1. **Which family features go into phase 2.** The recommendation is F1–F7 now (mute, mark read, auto-star, only-show-
+1. **Which family features go into phase 2.** The recommendation is F1-F7 now (mute, mark read, auto-star, only-show-
    matching, highlights, saved searches, auto-read after N days, reading-time filter, per-feed view and order), with
-   F8–F11 later and F12 rejected. Auto-read (F5) is the one real addition to the product rather than a UI nicety.
+   F8-F11 later and F12 rejected. Auto-read (F5) is the one real addition to the product rather than a UI nicety.
 2. **Image cache size and scope.** Is a **1 GiB** default cap right for Host-A's free disk (what is free on its root
    volume)? And is "all images through Kipple" OK as the default, meaning inline images too, not just lead images?
    That default is what allows the strict CSP.

@@ -5,8 +5,8 @@ Research date 2026-09-25. Read-only research; no source changes. Agenda 5 (gestu
 Evidence labels: **S** = cited web source fetched or returned by search this session; **K** = background knowledge of the apps (not re-verified this session, treat as "believed", check before relying). Sources are thin for per-app details: search returned few forum threads. Gaps are called out rather than papered over.
 
 Sources used:
-- Swipe-actions in Reeder are user-configurable (read / star / send-to): https://www.macworld.com/article/218111/substantial_reeder_update_brings_new_ui_gestures.html and https://www.macsparky.com/blog/2021/03/why-im-switching-to-reeder-5/
-- Two-finger swipe for mark above/below in Reeder 3: https://www.redmondpie.com/reeder-3.0-for-iphone-released-with-brand-new-ui-gestures-and-more-hands-on-review/
+- Swipe-actions in client A are user-configurable (read / star / send-to): see the macworld and macsparky coverage of client A 5
+- Two-finger swipe for mark above/below in client A 3: https://www.redmondpie.com/client-a-3.0-for-iphone-released-with-brand-new-ui-gestures-and-more-hands-on-review/
 - Article-swipe complaint ("a feature that fires by accident 100% of the time"): https://www.goodreads.com/author_blog_posts/7972124-swipe-right-to-read-something-else
 - Swipe/scroll mark-read is a recurring feature request and design tension: https://github.com/pietheinstrengholt/rssmonster/issues/277
 - Undo-window approach to accidental swipes (The Current): https://www.terrygodier.com/current
@@ -14,7 +14,7 @@ Sources used:
 - Feedly view modes (title-only, magazine, cards, full article; per-feed view; mobile density compact/comfortable): https://docs.feedly.com/article/276-how-do-i-change-the-views-of-my-feeds-and-source , https://devhd.wordpress.com/2013/11/14/the-new-title-only-and-card-views/
 - Inoreader views (card, list, expanded, magazine, column): https://www.inoreader.com/blog/2015/04/presenting-magazine-view-clear-all.html , https://www.inoreader.com/blog/2015/02/inoreader-for-ios-30-debuting-card-view.html
 - Readwise Reader mobile toolbar (swipe between documents vs classic triage buttons): https://docs.readwise.io/reader/docs/faqs/navigation , https://docs.readwise.io/reader/docs/faqs/appearance
-- Existing repo research on Reeder Classic sync behaviour: `docs/research/reeder-classic.md`
+- Existing repo research on client A sync behaviour: `docs/research/client-a.md`
 
 ---
 
@@ -34,23 +34,23 @@ Discoverability: H high, M medium, L low. Accident risk: same scale.
 
 | Pattern | What it does | Who uses it | Disc. | Accident risk | Accessible alternative | Known complaints |
 |---|---|---|---|---|---|---|
-| Row swipe, partial reveal (buttons appear, tap to commit) | Reveals 1-3 action buttons | iOS Mail/Messages/Notes, Reeder (K), NNW (K), Gmail (K, full swipe only) | M (M/H after first use; peek-on-first-run helps) | Low: commit needs second tap | VoiceOver custom actions, long-press menu, toolbar buttons | Few; mostly "too many buttons" |
-| Row full swipe (past threshold commits, no tap) | One-shot destructive-ish action, e.g. archive, mark read | Mail, Gmail, Reeder, Inoreader, Feedly mobile (K), Apollo (K) | M | Medium-high on scroll flicks, especially diagonal scrolling | Same as above + undo toast | Undo missing is the complaint; The Current uses a few-second undo window (S) |
-| Article horizontal swipe (next/prev article) | Advance/return between articles | Feedly mobile, Reeder (K), Pocket/Reader in some modes (S: Readwise "swipe between documents" option) | L-M | **High**: collides with horizontal scroll in code blocks/tables/images, with edge back gesture, and with text selection | Next/prev buttons, `j`/`k`, toolbar arrows | The "annoying" one: "fires by accident 100% of the time" (S, goodreads blog). the owner's own annoyance matches |
+| Row swipe, partial reveal (buttons appear, tap to commit) | Reveals 1-3 action buttons | iOS Mail/Messages/Notes, client A (K), NNW (K), Gmail (K, full swipe only) | M (M/H after first use; peek-on-first-run helps) | Low: commit needs second tap | VoiceOver custom actions, long-press menu, toolbar buttons | Few; mostly "too many buttons" |
+| Row full swipe (past threshold commits, no tap) | One-shot destructive-ish action, e.g. archive, mark read | Mail, Gmail, client A, Inoreader, Feedly mobile (K), Apollo (K) | M | Medium-high on scroll flicks, especially diagonal scrolling | Same as above + undo toast | Undo missing is the complaint; The Current uses a few-second undo window (S) |
+| Article horizontal swipe (next/prev article) | Advance/return between articles | Feedly mobile, client A (K), Pocket/Reader in some modes (S: Readwise "swipe between documents" option) | L-M | **High**: collides with horizontal scroll in code blocks/tables/images, with edge back gesture, and with text selection | Next/prev buttons, `j`/`k`, toolbar arrows | The "annoying" one: "fires by accident 100% of the time" (S, goodreads blog). the owner's own annoyance matches |
 | Swipe from edge = back | Return to list | iOS system (Safari, apps), Apollo (K) | H | System-owned; can't change | Back button in header | Web apps cannot suppress it (S). Double navigation when app also handles the swipe (S) |
 | Tap header/status bar = scroll to top | Scroll to top | iOS system on status bar; Twitter/X, Apple News (K) | M | Low | "Top" button on long lists; `g g` / Home key | Web: iOS does not deliver status-bar tap to web content in a PWA reliably (K) |
-| Pull to refresh | Refresh | Universal (Mail, Twitter/X, Reddit, Reeder, Feedly) | H | Low-medium (accidental at top, cost small) | Refresh button; `r` key... see key map | Custom PTR jank in PWAs (S, iOS constraints) |
-| Long-press context menu | Menu with all actions | iOS system (context menus), Twitter/X, Apple Mail (K), Reeder (K) | L-M | Low (haptic + preview) | Same actions in overflow menu | Conflicts with text selection in article body; only use on list rows, not article text |
-| Double-tap | Like/star, zoom | Instagram/Twitter like (K); Reeder no | L | Medium (tap-then-navigate delay: single-tap must wait ~300 ms, hurting responsiveness) | Star button | Adds latency to every single-tap; not recommended on rows |
+| Pull to refresh | Refresh | Universal (Mail, Twitter/X, Reddit, client A, Feedly) | H | Low-medium (accidental at top, cost small) | Refresh button; `r` key... see key map | Custom PTR jank in PWAs (S, iOS constraints) |
+| Long-press context menu | Menu with all actions | iOS system (context menus), Twitter/X, Apple Mail (K), client A (K) | L-M | Low (haptic + preview) | Same actions in overflow menu | Conflicts with text selection in article body; only use on list rows, not article text |
+| Double-tap | Like/star, zoom | Instagram/Twitter like (K); client A no | L | Medium (tap-then-navigate delay: single-tap must wait ~300 ms, hurting responsiveness) | Star button | Adds latency to every single-tap; not recommended on rows |
 | Tap zones (left/right/center) | Page turn, chrome toggle | Kindle, Apple Books, Kobo (K); Readwise (K for EPUB) | M | Low for paginated content; high for scrolling text (taps on links) | Buttons; volume keys not available to web | Left-handed users want configurable zones; accidental page turns when holding device |
 | Volume-key page turn | Page turn | Kindle Android, Kobo (K) | L | Low | n/a | Not available to web/PWA on iOS |
-| Mark-read-on-scroll | Items scrolled past become read | Reeder (new, 2024, scroll-based tracking, S via repo doc), Feedly (option), Inoreader (option), NNW no (K) | L (invisible) | **High**: users report "where did my unread go" (S, rssmonster issue shows both demand and tension) | Setting off by default; explicit mark-read button | Trust erosion; Kipple non-goal counts it as not a read for stats (CLAUDE.md) |
-| Mark above/below as read | Bulk read | Reeder two-finger swipe (S), NNW menu (K), Feedly (K), Inoreader (K) | L as gesture, M as menu | Medium | Overflow menu, `Shift+A` etc. | Swipe variant hard to discover; menu variant fine |
-| Swipe-up-from-bottom mark-all-read (Reeder option) | Mark all read | Reeder (S Macworld/Sweet Setup) | L | High | Header button with confirm | Only if user configured |
+| Mark-read-on-scroll | Items scrolled past become read | client A (new, 2024, scroll-based tracking, S via repo doc), Feedly (option), Inoreader (option), NNW no (K) | L (invisible) | **High**: users report "where did my unread go" (S, rssmonster issue shows both demand and tension) | Setting off by default; explicit mark-read button | Trust erosion; Kipple non-goal counts it as not a read for stats (CLAUDE.md) |
+| Mark above/below as read | Bulk read | client A two-finger swipe (S), NNW menu (K), Feedly (K), Inoreader (K) | L as gesture, M as menu | Medium | Overflow menu, `Shift+A` etc. | Swipe variant hard to discover; menu variant fine |
+| Swipe-up-from-bottom mark-all-read (client A option) | Mark all read | client A (S Macworld/Sweet Setup) | L | High | Header button with confirm | Only if user configured |
 | Pinch/zoom of list density | Change layout | Rare | L | n/a | Settings | Skip |
 | Pull-down on article to close | Dismiss sheet | Apple News, Twitter/X media (K) | M | Medium (fights scroll at top) | Close button | Only appropriate for modal sheets |
 
-Gaps: I did not find a single authoritative source per app for full-swipe thresholds or haptics; values below are the design recommendation, not measurements of those apps. MacRumors/Reddit "accidentally marked read" threads were not surfaced by search; the sources above are the ones that were actually returned. Worth a manual pass on r/rss and r/reeder if the owner wants more evidence.
+Gaps: I did not find a single authoritative source per app for full-swipe thresholds or haptics; values below are the design recommendation, not measurements of those apps. MacRumors/Reddit "accidentally marked read" threads were not surfaced by search; the sources above are the ones that were actually returned. Worth a manual pass on r/rss and r/client-a if the owner wants more evidence.
 
 ## A3. Laws
 
@@ -72,9 +72,9 @@ Common to all: nothing starts in the 24 px left edge; every gesture has a button
 - Long-press on row: menu with all actions incl. mark above/below as read, mark all read (with confirm).
 - Double-tap: none. Tap zones: none. Mark-read-on-scroll: off by default, setting available (and per CLAUDE.md never counts as reading in stats).
 
-### Scheme 2: Reeder-like
+### Scheme 2: client A-like
 
-- List row: full swipe right = toggle read (commit at ~40% of width, partial reveal beforehand), full swipe left = star. Configurable per direction (Reeder lets users choose, S). Undo toast mandatory.
+- List row: full swipe right = toggle read (commit at ~40% of width, partial reveal beforehand), full swipe left = star. Configurable per direction (client A lets users choose, S). Undo toast mandatory.
 - Article: horizontal swipe from a non-edge start (>=40 px in) = next/previous, disabled when the touch begins inside a horizontally scrollable element (pre, table, figure with overflow) and when text is selected. Off by default; an opt-in setting.
 - Two-finger swipe mark above/below is skipped (multi-touch path gesture, low discoverability); menu item instead.
 - Risk: fast but accident-prone; direct source of the "annoying swipe" complaint category (S).
@@ -142,9 +142,9 @@ Mobile: cards and magazine stack single column; density compact reduces padding 
 
 | App | Layout options | Notable choices |
 |---|---|---|
-| Reeder (Classic) | Text list with optional thumbnails, magazine-ish; icon + source, title 2 lines, excerpt 1-2 lines; separate article view | Very compact, swipe configurable (S); light image use |
+| client A (Classic) | Text list with optional thumbnails, magazine-ish; icon + source, title 2 lines, excerpt 1-2 lines; separate article view | Very compact, swipe configurable (S); light image use |
 | Inoreader | Card, list, expanded, magazine, column (S) | Most options; sometimes cluttered; column = 3-pane |
-| NetNewsWire | Compact text list with small leading favicon, unread dot, 1-3 line preview; 3-pane on iPad/Mac; no lead images by default | Deliberately plain; see `docs/research/netnewswire.md` |
+| client B | Compact text list with small leading favicon, unread dot, 1-3 line preview; 3-pane on iPad/Mac; no lead images by default | Deliberately plain; see `docs/research/client-b.md` |
 | Apple News | Big lead-image cards, mixed sizes, editorial grid | Curated; not a feed list |
 | Readwise Reader | Library list rows with small thumbnail, title, site, reading time, progress; mobile toolbar swipe-between-docs vs classic buttons (S) | Triage-oriented, shows reading time |
 | Pocket | List rows with thumbnail right, title, domain, read time; grid option | Simple |
@@ -189,7 +189,7 @@ Excerpt: take the first N chars of sanitized plain text server-side (store once 
 ## B4. Options summary
 
 - Layout default: **A) magazine (recommended)**, B) compact list, C) cards.
-- Gestures: **1) conservative (recommended)**, 2) Reeder-like opt-in, 3) tap-zone reading mode opt-in.
+- Gestures: **1) conservative (recommended)**, 2) client A-like opt-in, 3) tap-zone reading mode opt-in.
 
 ---
 

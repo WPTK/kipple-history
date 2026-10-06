@@ -10,7 +10,7 @@ are in [plans/ui-decisions.md](plans/ui-decisions.md). Meeting context: [MEETING
 | Decision | Detail | Source |
 |---|---|---|
 | Stack | Go backend; React, TypeScript, Vite, Tailwind, shadcn frontend; SQLite in WAL mode; frontend embedded in the Go binary; one image, one container, one port | [CLAUDE.md](plans/CLAUDE.md) |
-| Sync API | Google Reader API (FreshRSS and Miniflux flavour) only; no Fever; Reeder Classic primary client, NetNewsWire secondary; test both | [CLAUDE.md](plans/CLAUDE.md), [research/reeder-classic.md](research/reeder-classic.md), [research/netnewswire.md](research/netnewswire.md) |
+| Sync API | Google Reader API (FreshRSS and Miniflux flavour) only; no Fever; client A primary client, client B secondary; test both | [CLAUDE.md](plans/CLAUDE.md), [research/client-a.md](research/client-a.md), [research/client-b.md](research/client-b.md) |
 | Refresh | Background poll every 30 minutes (global and per-feed override), conditional requests, exponential backoff; API clients never trigger fetches | [CLAUDE.md](plans/CLAUDE.md), [research/fetch-prior-art.md](research/fetch-prior-art.md) |
 | Retention | Newest N per feed (50, 100, 250, 500, 1000, unlimited), starred never trimmed, trimmed ids and read state kept, trim after fetch | [CLAUDE.md](plans/CLAUDE.md), [plans/design.md](plans/design.md) |
 | Stats | Bulk mark-as-read and mark-read-on-scroll are not reads; active reading time is tab visible and focused; stats events never trimmed | [CLAUDE.md](plans/CLAUDE.md) |
@@ -27,7 +27,7 @@ are in [plans/ui-decisions.md](plans/ui-decisions.md). Meeting context: [MEETING
   is a hash of the rendered body; stats read inference is off by default; unsubscribe keeps starred items in an
   archive feed; modernc.org/sqlite with three pools and a commit gate; GOMEMLIMIT 64 MiB with a 256 MiB container
   limit. Source: [plans/design.md](plans/design.md), [research/item-id-and-quirks.md](research/item-id-and-quirks.md).
-- Prior art for internals: lemon24/reader. the owner (2026-09-25): "We don't have to copy Reeder." Kipple is a web app
+- Prior art for internals: lemon24/reader. the owner (2026-09-25): "We don't have to copy client A." Kipple is a web app
   plus compatibility with other readers, not an iOS app. Source: [research/lemon24-reader.md](research/lemon24-reader.md).
 - Open questions from the research were triaged before building: [research/open-questions.md](research/open-questions.md).
 - Model and effort policy (2026-09-25): choose per task; Sonnet at medium as default; Opus at high for reviews and
@@ -87,7 +87,7 @@ are in [plans/ui-decisions.md](plans/ui-decisions.md). Meeting context: [MEETING
 ## Roadmap decisions (2026-09-26)
 
 - The end state is a single pull-and-run Docker image with a separate setup application (custom domain, optional
-  Cloudflare OTP, generated API password for clients such as Reeder): version 1.5.0 or 2.0.0.
+  Cloudflare OTP, generated API password for clients such as client A): version 1.5.0 or 2.0.0.
 - User-chosen Google Fonts: 2.0.0, only if cheap.
 - Release steps 8 onward, in order: full code audit and review; changelog review; documentation run; first-time
   Docker setup walkthrough; backup and settings retention; a final go/no-go meeting.
@@ -103,7 +103,7 @@ are in [plans/ui-decisions.md](plans/ui-decisions.md). Meeting context: [MEETING
   recognisable open-source-style text, which was the owner's requirement.
 - **No real name anywhere, no exceptions.** Never the owner's surname, full real name or personal email in the code repo:
   LICENSE, notices, package metadata, docs, commit trailers, examples. Copyright holder wording is "Kipple
-  contributors". Git author is `WPTK <...@users.noreply.github.com>` in the code repo; this history repo's own commits
+  contributors". Git author is `WPTK <id+WPTK at users.noreply.github.com>` in the code repo; this history repo's own commits
   originally used the owner's initials as the author name and were scrubbed to match on 2026-09-27 (see the
   addendum below). the owner rejected an earlier suggestion that used his real name in a copyright line.
 - **Pre-public scrub (planned, not done at the time of writing):** before going public, remove or generalise
@@ -169,8 +169,8 @@ people, directives ("unfollow X"). CLAUDE.md non-goals need a clarifying edit fo
 **What counts.** Every open is recorded; views count an item as read at 10 s active time or 25% scroll (threshold can
 change later, raw events kept). List-preview opens count. Bulk and mark-read-on-scroll never count (unchanged).
 Offline: sender events are queued and flushed on reconnect; anything the server caps reject is accepted as lost.
-Web app is the intended client for stats. Reeder and any other RSS app stats tracking: parking lot;
-`stats.api_single_read_is_open` stays off. CLAUDE.md calls Reeder the primary client: propose an edit.
+Web app is the intended client for stats. client A and any other RSS app stats tracking: parking lot;
+`stats.api_single_read_is_open` stays off. CLAUDE.md calls client A the primary client: propose an edit.
 
 **Screens.** One Stats entry in the main nav (phone first). Range: Week, Month, Year, All (default Month). Order:
 summary strip (items read, active time, days with reading); daily activity chart; streaks (all time); heatmap
@@ -246,21 +246,21 @@ each. Full text in `docs/ui-decisions.md` (working copy, `C:\kipple`); summarize
 - **Scope: interleaved, not sequential.** Phase 5 combines release-readiness (CLAUDE.md's "release steps 8+":
   full code audit, changelog review, documentation run, first-time Docker setup walkthrough, backup/
   restore-settings guide, final go/no-go) with the two parking-lot items that were gated on "planned work
-  finished" — Cloudflare Access JWT validation and passwordless login. Not parking-lot-only, not
+  finished" - Cloudflare Access JWT validation and passwordless login. Not parking-lot-only, not
   release-steps-only.
 - **Sequencing: fully parallel.** The code audit/changelog review and the Access JWT/passwordless branch run at
   the same time on separate branches, rather than auditing first or building auth first. Accepted risk: the
   audit could flag something in the auth path and cause rework.
 - **Stale phase-3 owner checklist resolved.** Item 3 (Host-A debug logging) the owner is doing himself. Item 4
   (Host-A→Proton backup job for Kipple's own data, separate from Host-B's own Proton backup job) is explicitly
-  **not** being built in phase 5 — local `docker cp` snapshots remain the only backup path. Items 1 and 2
+  **not** being built in phase 5 - local `docker cp` snapshots remain the only backup path. Items 1 and 2
   (GitHub vuln reporting toggle, `claude-md-proposed-edits.md` approval) are still his to close and stayed
   unaddressed by this meeting.
 - **Scope boundary: Kipple and its Docker image only.** In: auto-night theme (small, self-contained). Out (stay
   parked, unchanged timing): the 1.5.0/2.0.0 setup-app/single-image roadmap, a design system, a static demo
   site, user-chosen Google Fonts.
-- **Owner involvement: minimal.** He wants to be interrupted only for what CLAUDE.md already reserves for him —
-  deploys, Cloudflare changes, the final go/no-go — not for routine build decisions during phase 5.
+- **Owner involvement: minimal.** He wants to be interrupted only for what CLAUDE.md already reserves for him -
+  deploys, Cloudflare changes, the final go/no-go - not for routine build decisions during phase 5.
 
 **Phase 5 outline:** (A) full code audit + changelog review, (B) Cloudflare Access JWT + passwordless in
 parallel with A, (C) auto-night theme, (D) documentation run + Docker walkthrough + backup/restore-settings
@@ -270,7 +270,7 @@ guide, (E) final go/no-go meeting.
 
 The owner asked to evaluate a third-party Claude Code UAT skill (`mecabots/webapp-uat`); declined (unverified
 npm scope mismatched from its GitHub repo owner, and its i18n checks don't apply to Kipple) in favor of an
-in-repo Playwright + axe-core script — auditable, no mystery dependency. He then asked for a full UAT plan
+in-repo Playwright + axe-core script - auditable, no mystery dependency. He then asked for a full UAT plan
 studied from general methodology (entry/exit criteria, traceable test cases, severity-triaged defects, formal
 sign-off) and adapted to a single-maintainer/single-user project: `docs/uat-plan.md`. Roles collapse (the owner
 is both end user and product owner; Claude is QA/dev); defect tracking goes to `kipple-history/audits/` instead
@@ -286,8 +286,8 @@ flags four candidate additions for his decision, not yet built: a living risk re
 visibility in CI (reporting only, not a gate), a docs index page, and a stated (low-commitment) issue-triage
 expectation now that the repo is public. (All four were adopted the same day; see "Phase 5 process directions" below.)
 
-Phase 5 outline, current: (A) code audit + changelog review — DONE, PR #26; (B) Cloudflare Access JWT +
-passwordless, in parallel — in progress; (C) auto-night theme; (D) documentation run + Docker walkthrough
+Phase 5 outline, current: (A) code audit + changelog review - DONE, PR #26; (B) Cloudflare Access JWT +
+passwordless, in parallel - in progress; (C) auto-night theme; (D) documentation run + Docker walkthrough
 (doubles as UAT Suite 5) + backup/restore-settings guide; (F) UAT plan execution; (G) SQA plan gaps, if
 accepted; (E) final go/no-go, fed by D, F and G.
 
@@ -296,7 +296,7 @@ accepted; (E) final go/no-go, fed by D, F and G.
 Recorded in full in `docs/RELEASING.md`. Three topics, one at a time with a recommendation each, all accepted:
 
 - **Alpha → beta.1** only once phase 5 fully closes (audit fixes merged, Access JWT/passwordless shipped,
-  auto-night theme, docs run, UAT Suites 1-4 clean of P0/P1) — feature-complete verified, not declared.
+  auto-night theme, docs run, UAT Suites 1-4 clean of P0/P1) - feature-complete verified, not declared.
 - **Beta → rc.1** needs every UAT suite run at least once (including the owner-only device checks) with
   sign-off, plus a **1-week soak** of real daily use on the beta build with zero new P0/P1s.
 - **RC → 1.0.0** needs a second, shorter soak (a few days) on the final rc with zero regressions, GitHub
@@ -306,7 +306,7 @@ Recorded in full in `docs/RELEASING.md`. Three topics, one at a time with a reco
 
 ## GitHub project hygiene: labels, milestones, issues (2026-09-27)
 
-PR #26 merged. The owner asked for GitHub PR metadata to actually be used (it had been sitting blank —
+PR #26 merged. The owner asked for GitHub PR metadata to actually be used (it had been sitting blank -
 reviewers/assignees/labels/milestone all empty) and for a real label taxonomy, then confirmed backfilling every
 existing PR with the same treatment, plus turning the phase 5 audit's open items and select parking-lot items
 into tracked Issues.
@@ -318,16 +318,16 @@ existed), area (`area:backend`, `area:web`, `area:reader-api`, `area:stats`, `ar
 `duplicate`, `invalid`, `wontfix`, `good first issue`, `help wanted`) rather than duplicating them.
 
 **Milestones created**, one per phase plus two forward-looking ones: Phase 1-4 (closed, with ship dates in the
-description — no phase 1/2 PRs exist in the public repo's rewritten history, so those milestones have none
+description - no phase 1/2 PRs exist in the public repo's rewritten history, so those milestones have none
 attached and that's expected, not a gap), Phase 5 - Release readiness (open, current), Roadmap (post-1.0) (open,
 for deferred parking-lot items).
 
 **Assignee note:** GitHub won't let a PR's author request review from themselves, so the "Reviewers" field
-stays empty by design — not a bug, not fixable without a second collaborator account, which nobody asked for.
+stays empty by design - not a bug, not fixable without a second collaborator account, which nobody asked for.
 Assignee (the owner, `WPTK`) works fine and is set everywhere.
 
 **Backfilled:** all 25 pre-existing PRs (#1-25) got an assignee, milestone (by merge date relative to phase
-boundaries — dependency-bump PRs land in whichever phase's window they merged in), and labels matching content
+boundaries - dependency-bump PRs land in whichever phase's window they merged in), and labels matching content
 (dependency bumps, phase feature PRs, release-chore PRs, docs, review-fix PRs, etc).
 
 **Issues created**, all assigned to the owner:
@@ -340,7 +340,7 @@ boundaries — dependency-bump PRs land in whichever phase's window they merged 
   reading-time UI, per-feed view/order), #39 (additional reading layouts: Columns, Reader list, Expanded
   stream).
 - Deliberately NOT turned into issues: already-completed parking-lot items (inline extraction, the UI review
-  meeting, favicon finder, `ot` fix, lossless WebP — all shipped), explicitly-decided-against items (multi-user
+  meeting, favicon finder, `ot` fix, lossless WebP - all shipped), explicitly-decided-against items (multi-user
   withdrawn, quiet hours rejected, Reader "refresh all" has no exception), and release steps 8+ itself (that's
   the whole of phase 5, already tracked as outline items, not a discrete issue).
 - `docs/risk-register.md` updated to link R1→#30 and R2→#31.
@@ -352,17 +352,17 @@ opened, hit a merge conflict with #26 on `CHANGELOG.md` (exactly the R4 risk-reg
 itself in `internal/api/api.go`/`login.go` auto-merged cleanly), resolved by rebasing onto `main` and keeping
 both `[Unreleased]` sections, verified with a full `go test` run post-rebase, then merged.
 
-Phase 5 outline status: (A) code audit — done, #26 merged. (B) Access JWT + passwordless — done, #40 merged.
-(C) auto-night theme — PR #41 open (closes #32), CI running, mergeable. (D) documentation run, (F) UAT
-execution, (E) go/no-go — not started. (G) SQA plan gaps — done, merged directly to `main` earlier.
+Phase 5 outline status: (A) code audit - done, #26 merged. (B) Access JWT + passwordless - done, #40 merged.
+(C) auto-night theme - PR #41 open (closes #32), CI running, mergeable. (D) documentation run, (F) UAT
+execution, (E) go/no-go - not started. (G) SQA plan gaps - done, merged directly to `main` earlier.
 
 Auto-night theme took six `/code-review high` rounds and about 90 minutes (versus 0 extra rounds for the audit
-and 3 for the auth work) — the owner flagged the runtime as unusually long partway through; checked the
+and 3 for the auth work) - the owner flagged the runtime as unusually long partway through; checked the
 worktree directly rather than guessing, confirmed steady real progress (not a stuck loop), and told the agent
 to stop iterating and open the PR after finishing only substantive fixes. Notable design change from the brief:
 "schedule" is a hidden per-device flag (`ui.theme_schedule` + two time settings) rather than a third value of
 `ui.theme`, because a third value would make a stale/older client misread it as follow-system and write that
-back — review found this, not the brief. Two known-acceptable edge cases documented in code rather than fixed:
+back - review found this, not the brief. Two known-acceptable edge cases documented in code rather than fixed:
 a narrow server race between reading and writing the schedule flag, and a cached-fixed-theme-without-flag case
 that follows the same policy as picking a fixed theme.
 
@@ -374,16 +374,16 @@ Moved to (D) documentation run and (F) UAT plan execution. Split three ways:
 
 - **Restore drill + migration rehearsal (UAT Suite 4), done directly, not delegated.** SSH to Host-A works from
   this box. Copied the live nightly snapshot (`kipple-snapshot.db`, 04:10 that day, schema 8, 138 feeds, 6594
-  items) off the running container with `docker cp` — never touching `kipple.db` — restored it onto a
+  items) off the running container with `docker cp` - never touching `kipple.db` - restored it onto a
   brand-new throwaway volume with the currently-deployed image (`kipple:local`, v0.3.0-alpha.7): passed its
   integrity checks. Starting a throwaway container against that volume also exercised the 8→9 migration for
   real (the snapshot was one migration behind live), confirmed by the log line and a healthy `/healthz`. The
   live `kipple` container was verified untouched throughout (`docker ps` before/after); all throwaway
   artifacts (container, volume, copied file) were removed after. Documented in `docs/uat-plan.md` under Suite
   4. Noted in passing: a stray orphan volume (a hyphen where the real one it resembles uses an underscore)
-  exists on Host-A — not touched, just flagged for the owner's awareness.
+  exists on Host-A - not touched, just flagged for the owner's awareness.
 - **Documentation run, delegated to a background agent.** Full staleness audit against current code and
-  CHANGELOG.md — the known stale spot (README.md's status line still says phase 4 is "next") plus a search for
+  CHANGELOG.md - the known stale spot (README.md's status line still says phase 4 is "next") plus a search for
   more, and documentation of the two new phase 5 features (Access JWT/passwordless, auto-night theme) that
   landed without their own doc updates in some places.
 - **UAT Suite 1 (scripted Playwright + axe-core), delegated to a background agent.** Building the in-repo
@@ -391,26 +391,26 @@ Moved to (D) documentation run and (F) UAT plan execution. Split three ways:
   against a local seeded dev instance, and reporting real findings without fixing unrelated bugs itself.
 - **UAT Suite 2 (agent-driven scenario walkthroughs), delegated to a background agent.** Working through the
   full test-case list in `docs/uat-plan.md` against its own local dev seed instance (a different port than
-  Suite 1's, to avoid collision), skipping only what genuinely needs the owner's own devices (Reeder
-  Classic/NetNewsWire, the real Cloudflare Access positive case). Told to fix small unambiguous bugs itself on
+  Suite 1's, to avoid collision), skipping only what genuinely needs the owner's own devices (client A
+  Classic/client B, the real Cloudflare Access positive case). Told to fix small unambiguous bugs itself on
   a branch/PR, and file a GitHub Issue (using the established label taxonomy) for anything needing a product
   decision or bigger than a quick fix.
 
 Suite 3 (owner-only device checks: PWA install, swipe gestures, Web Share, the iOS `document.hasFocus()`
-question) still needs the owner directly — nothing to delegate there.
+question) still needs the owner directly - nothing to delegate there.
 
 ## PR #42 review notes (2026-09-27)
 
-- **kipple.cc is not sensitive** — the owner corrected an over-redaction in the docs-run PR: the agent had
+- **kipple.cc is not sensitive** - the owner corrected an over-redaction in the docs-run PR: the agent had
   replaced "kipple.cc" with "the repository" while fixing the genuine Host-A/Host-B hostname leaks. kipple.cc is
   the product's own public domain, meant to be shared; only the owner's actual server hostnames (aliased
   Host-A/Host-B everywhere in the public docs) are the standing-rule redaction. Fixed directly in the PR
   branch (one line, `docs/ui-decisions.md`).
 - **Single-host vs. two-host framing.** The owner pointed out that `docs/deploy.md`'s Host-A/Host-B split
-  (ssh-based admin workflow) reflects only his own convenience setup — most self-hosters will run Kipple and
+  (ssh-based admin workflow) reflects only his own convenience setup - most self-hosters will run Kipple and
   manage Docker on one machine, no SSH step at all. Added a callout at the top of `docs/deploy.md` explaining
   Host-A/Host-B collapse to the same box for a single-host setup, and updated UAT Suite 5 in `docs/uat-plan.md`
-  to explicitly simulate a single-host self-hoster (not the owner's own two-host setup) when it actually runs —
+  to explicitly simulate a single-host self-hoster (not the owner's own two-host setup) when it actually runs -
   if the two-host framing trips up a one-host walkthrough, that's a real UAT finding. Both changes pushed as
   additional commits to the still-open PR #42.
 
@@ -420,13 +420,13 @@ PR #42 merged. The owner turned on GitHub CodeQL (his own action, not something 
 both assessed as false positives (SSRF is enforced at dial time by a custom guarded transport CodeQL can't
 trace, in `internal/discover/discover.go`; a documented same-width uint64->int64 bitcast in
 `internal/greader/itemid.go`). Attempting to dismiss them with the real reasoning via the API was **denied by
-the host's permission classifier as a CI/security bypass** — a reasonable guardrail on an agent unilaterally
+the host's permission classifier as a CI/security bypass** - a reasonable guardrail on an agent unilaterally
 dismissing security findings. One earlier verification call had already dismissed alert #1 with a placeholder
 "test" comment before the classifier caught the retry; left as-is for the owner to fix or redo himself. Both
 alerts' technical assessment was handed to the owner to act on.
 
 UAT Suite 2 (agent-driven scenario walkthroughs) finished: 20/23 applicable test cases pass (TC-A1-A3 skipped,
-need the owner's Reeder/NetNewsWire), 3 small bugs found and fixed in PR #45 (`/` landing focus on the wrong
+need the owner's client A/client B), 3 small bugs found and fixed in PR #45 (`/` landing focus on the wrong
 element in Search, highlight-filter status text claiming it never matched when the server doesn't track that,
 OPML-import summary grammar), 2 wording questions filed as issues #43/#44 for the owner's call rather than
 guessed at. `docs/uat-plan.md` gained per-test-case "Executed" notes in PR #45, same style as Suite 4's. Left
@@ -436,7 +436,7 @@ the agent's browser-pane download intercept missed.
 ## UAT Suite 1 built; Suite 3 stops being a promotion gate (2026-09-27, later)
 
 **Suite 1 (scripted Playwright + axe-core)** built and opened as PR #46 (`web/uat/run.mjs`, `npm run uat`,
-`@playwright/test` Apache-2.0 + `axe-core` MPL-2.0 — corrected from the original "MIT-only" premise). One full
+`@playwright/test` Apache-2.0 + `axe-core` MPL-2.0 - corrected from the original "MIT-only" premise). One full
 run against the seeded dev instance (90 checks across 15 screens x 2 themes x 3 widths) found 4 real
 accessibility issues, left unfixed for triage: a critical missing `aria-label` on the Manage Feeds "Select"
 button below 400px, a secondary-text contrast failure on selection backgrounds in Midnight that the existing
@@ -453,21 +453,21 @@ beta→rc now require Suites 1, 2 and 4 only. A real Suite 3 finding still becom
 a release blocker.
 
 Also decided: once phase 5 fully closes, the next release is a beta or rc (the "go" product), and other
-phases/steps continue after that — not a full stop-and-wait for 1.0 before further work.
+phases/steps continue after that - not a full stop-and-wait for 1.0 before further work.
 
 ## PR #46 merged with 2 open CodeQL findings; follow-up PR #51 (2026-09-27, later)
 
-The owner merged #46 while a CodeQL fix for it was still in progress on the same branch — the fix commit landed
+The owner merged #46 while a CodeQL fix for it was still in progress on the same branch - the fix commit landed
 on a now-closed branch and never reached `main`. Cherry-picked it onto a fresh branch and opened #51 instead:
 fixes `web/uat/run.mjs`'s `decodeSnippet` (single-pass tag stripping, CodeQL: incomplete multi-character
-sanitization — now loops to a fixed point) and its link-selector builder (didn't escape backslashes before
+sanitization - now loops to a fixed point) and its link-selector builder (didn't escape backslashes before
 quotes, CodeQL: incomplete string escaping). Neither was actually exploitable in context (test-tool-only code,
 no attacker-controlled input reaches either path), but both were cheap to fix properly rather than argue as
 false positives, unlike the two earlier CodeQL alerts in production code (SSRF guard, item-id bitcast) that
 needed a dismissal with reasoning instead. Replied to and resolved both inline review threads on #46 per the
 auto-fix protocol, pointing at #51 as where the fix actually landed.
 
-Lesson: when a background agent is mid-fix on a branch, a merge from the owner can land before the fix does —
+Lesson: when a background agent is mid-fix on a branch, a merge from the owner can land before the fix does -
 watch for this when a PR merges unexpectedly quickly after review comments come in.
 
 ## PR #51 merged; UAT Suite 5 executed; phase 5 outline fully closed (2026-09-27, later)
@@ -478,18 +478,18 @@ into an isolated throwaway location on Host-A (separate container name/image tag
 clone-to-login sequence, and `docker-compose.example.yml`'s own comment told readers not to run it standalone
 and to see `CLAUDE.md` instead (which is written for the maintainer, not outsiders). Working it out by file-name
 convention (`cp .env.example .env`, `cp docker-compose.example.yml docker-compose.yml`, set `KIPPLE_PASSWORD`,
-build, `up -d`) worked cleanly end to end — 9 migrations, account creation, `/healthz`, and a real authenticated
+build, `up -d`) worked cleanly end to end - 9 migrations, account creation, `/healthz`, and a real authenticated
 login (verified via curl with the `Origin` + `X-Kipple-Client: web` headers a browser sends, once the same-origin
 check's exact requirement was tracked down). So the app was never broken, just underdocumented. Fixed both docs
 directly on `main`; everything torn down afterward.
 
-The browser pane refused to navigate to Host-A's LAN IP (a site-permission gate, not a real problem) — worked
+The browser pane refused to navigate to Host-A's LAN IP (a site-permission gate, not a real problem) - worked
 around by verifying the login flow via curl over SSH instead, which the owner explicitly approved as the
 fallback.
 
 **Phase 5 outline is now fully closed:** (A) audit, (B) Access JWT/passwordless, (C) auto-night theme, (D) docs
-run, (G) SQA gaps — all merged. UAT Suites 1, 2, 4 and 5 all executed clean (Suite 3 explicitly non-gating per
-the owner's earlier call). Per `docs/RELEASING.md`'s own criteria, **the next release is v0.3.0-beta.1** — every
+run, (G) SQA gaps - all merged. UAT Suites 1, 2, 4 and 5 all executed clean (Suite 3 explicitly non-gating per
+the owner's earlier call). Per `docs/RELEASING.md`'s own criteria, **the next release is v0.3.0-beta.1** - every
 named gate is met. Open issues (#27-31, #36-39, #43-44, #47-50) are all P2/P3 quality items or post-1.0 roadmap,
 none of which block per the defined severity scale.
 
@@ -503,7 +503,7 @@ turned out already-cleared via defer or test-only-reachable; a maintenance-retry
 no handler actually has a post-commit failure path).
 
 **The headline finding: a real SSRF-guard escape**, independently found by 5 of the 8 finder angles before
-verification even started — `fetch.SameSite`'s bare-hostname rule treats "nas" as the same site as any host
+verification even started - `fetch.SameSite`'s bare-hostname rule treats "nas" as the same site as any host
 starting with "nas.", so a feed's private-network/insecure-TLS grant could follow a redirect to an
 attacker-controlled domain, defeating the exact guard PR #26's audit added. Confirmed exploitable by a dedicated
 verifier.
@@ -518,22 +518,22 @@ not in the account-level settings PATCH or `makeDeviceDefault`.
 
 Also fixed directly, found by the conventions angle: the new README Quickstart said `localhost` instead of
 `127.0.0.1`, violating the box's own standing rule (and contradicting `web/README.md`'s own copy of the same
-rule) — this would have made the very first URL a new user is told to open occasionally hang for 5-10s.
+rule) - this would have made the very first URL a new user is told to open occasionally hang for 5-10s.
 
 All 6 confirmed findings assigned to a fix agent (branch `phase5-beta-review-fixes`) before the beta.1 tag goes
-out — this blocks the tag, per the standing "fix everything a review finds" rule. Full fuzz suite
+out - this blocks the tag, per the standing "fix everything a review finds" rule. Full fuzz suite
 (`scripts/fuzz.ps1`, 26 targets, 60s each) also run in parallel as the other pre-tag release-checklist step. All
 26 fuzz targets clean.
 
 Also, mid-review, the owner reported a live issue on the actual deployed instance (alpha.7 on Host-A): the
 Unread list dominated by one feed category, other known-active feeds showing 3+ day old items. Investigated
-(inconclusive — log silence at debug level isn't proof of a stuck scheduler, since routine fetches aren't
+(inconclusive - log silence at debug level isn't proof of a stuck scheduler, since routine fetches aren't
 logged at all by design) and filed as issue #52 with a theory: the phase 5 audit's scheduler-starvation fix
 (one held/rate-limited host no longer blocking every other feed) is in `main`/PR #26 but not yet deployed to
 Host-A, so this may already be resolved once beta.1 deploys. The owner separately proposed a "verbose" log
 level to help diagnose issues like this; decided instead to add targeted debug-level scheduler-tick/fetch
 logging (Go's four `log/slog` levels are enough; the gap is that the code never logs routine activity, not that
-debug is disabled) — queued as a post-beta.1 follow-up on issue #52 rather than started immediately, to avoid
+debug is disabled) - queued as a post-beta.1 follow-up on issue #52 rather than started immediately, to avoid
 colliding with the two fix agents already deep in `internal/fetch`/`internal/sched`.
 
 **PR #53** (regression tests + UAT accessibility fixes: #27-29, #47-50) opened, hit an expected merge conflict
@@ -544,45 +544,45 @@ the full-row click overlay), and left the Cocoa Mid contrast gap as a documented
 color fix that would either wash out secondary text or make the selected row nearly invisible.
 
 **PR #54** (the 6 confirmed pre-beta findings, including the critical SSRF fix) opened after ~2.5 hours and 11
-total `/code-review high` rounds across two passes — legitimately large scope (28+ files across fetch/hosts,
+total `/code-review high` rounds across two passes - legitimately large scope (28+ files across fetch/hosts,
 greader, store, api/devices+settings, web FeedEditor), not stuck; checked in on it once via SendMessage after 2
 hours with no commits, confirmed real steady progress, let it continue. Its own review rounds found real
 follow-ups beyond the original 6: a *second* SSRF hole in the same class (a bare LAN name that's also a real
-public TLD, e.g. "news" vs "evil.news", was still getting the grant via subdomain matching — fixed by making
+public TLD, e.g. "news" vs "evil.news", was still getting the grant via subdomain matching - fixed by making
 single-label hosts match only themselves), deleting-feed leaks in more places than the original review found
 (UnreadTotal, muted counts, article lists, search, both mark-all-read paths, Reader API streams), and a folder
 merge that had a filter-count limit gap. One deliberate deviation from the fix instructions, with good reasoning
 recorded in the CHANGELOG: always sending the current allow_private_net/allow_insecure_tls on a URL edit (as
-originally asked) would have undone the SSRF fix itself for a feed redirected to an attacker's held domain — so
+originally asked) would have undone the SSRF fix itself for a feed redirected to an attacker's held domain - so
 FeedEditor instead added an explicit "Keep for the new address" opt-in when the host changes while a grant is
 on. One thing deliberately left out: the reviewers' suggestion to consolidate deleting-feed exclusion into one
-view/indexed column instead of a per-query condition — needs a schema migration, and this release has none, so
+view/indexed column instead of a per-query condition - needs a schema migration, and this release has none, so
 it's written up in the PR body as a future item instead of forced into a "no migration" release.
 
 ## v0.3.0-beta.1 shipped (2026-09-27, tagged 21:35)
 
 PRs #53 and #54 merged, closing every phase 5 gate. Full release checklist run: CI green on the exact commit
 (`12121c7`), 26/26 fuzz targets clean, off-box DB copy (a copy of the nightly snapshot kept on the owner's
-own backup drive — no live-export credentials on hand, which `docs/deploy.md` lists as the sanctioned
+own backup drive - no live-export credentials on hand, which `docs/deploy.md` lists as the sanctioned
 fallback), CHANGELOG moved to `## [0.3.0-beta.1]` with a note that beta/rc from here changes only fixes, tagged
 `v0.3.0-beta.1` on that commit, deployed to Host-A (no schema migration, still schema 9), verified (healthy,
 correct version string, `/healthz` ok, greader endpoint reachable, memory 18MiB/256MiB idle), GitHub Release
 published as a pre-release with the CHANGELOG section as notes.
 
 **A real incident interrupted the deploy prep, unrelated to any of this session's own actions on the box.** The
-owner reported Cloudflare error 1033 on every site behind Host-B's tunnel — checked both Docker stacks
+owner reported Cloudflare error 1033 on every site behind Host-B's tunnel - checked both Docker stacks
 (Host-B and Host-A) first, both fully healthy, ruling out anything actually being "pulled down." Root cause:
-`cloudflared` (same container, up 21h, created 2 weeks ago — never recreated) was failing to dial Cloudflare's
-edge over QUIC/UDP while the host's own DNS and TCP connectivity were fine — a Docker/WSL2 network-layer
+`cloudflared` (same container, up 21h, created 2 weeks ago - never recreated) was failing to dial Cloudflare's
+edge over QUIC/UDP while the host's own DNS and TCP connectivity were fine - a Docker/WSL2 network-layer
 problem, not the token-rotation risk the standing "never recreate cloudflared" rule is about. Fixed with a
 plain `docker restart cloudflared` (restart, not recreate, so that specific risk didn't apply) after getting the
 owner's go-ahead; all 4 tunnel connections re-registered cleanly, verified externally (every site behind the
 tunnel, Kipple included, answering normally again). Root cause of the WSL2 network hiccup itself wasn't nailed
-down — plausibly the heavy sustained background load this session was running (parallel review/fix agents,
+down - plausibly the heavy sustained background load this session was running (parallel review/fix agents,
 long fuzz suite, image builds), but that's a hypothesis, not confirmed.
 
 **Issue #52 closed (2026-09-27, 21:45):** the owner confirms feed fetching is back to normal after the beta.1 deploy.
-Not independently proven with logs (routine fetch activity still isn't logged — the debug-logging follow-up is
+Not independently proven with logs (routine fetch activity still isn't logged - the debug-logging follow-up is
 still queued), but the timing matches the theory: PR #26's scheduler-starvation fix was in `main` but not yet
 deployed when the owner first saw the problem (Host-A was on alpha.7 at the time); beta.1 includes it.
 
@@ -595,7 +595,7 @@ not just manual refresh; #62 a mobile tab-bar seam), two feature gaps found to b
 perception (#58 folders can't collapse on the only feed-browsing surface mobile actually has; #59 the drag
 handle and edit pencil showing on every Manage Feeds row with no way to hide them), two new small features
 (#60 "Manage this feed" from an article's menu; #61 Feed Health bulk select), and two that needed a design
-pass rather than a code fix (#55 settings reorganization; #57 list-layout differentiation — confirmed by
+pass rather than a code fix (#55 settings reorganization; #57 list-layout differentiation - confirmed by
 direct comparison that Editorial and Cards converge to near-identical at narrow widths). One item (#10,
 "Suite 3 all passes") closed out risk-register R1 and issue #30 directly. PRs #63-#66 shipped same night,
 all reviewed against the live seeded app in the browser pane, not just the test suite.
@@ -605,7 +605,7 @@ Manage Feeds appeared not to navigate on either mobile or desktop width, in the 
 far as: a plain `<a>`.click() via JavaScript worked fine, so the router itself was not broken; real pointer
 clicks at the same coordinates repeatedly did not register on the right element, and a `computer` click
 even mis-hit by over 100px on one unrelated test earlier the same session. Concluded the browser pane's
-click-coordinate mapping was unreliable that session, not a real product bug, and did not file it — a
+click-coordinate mapping was unreliable that session, not a real product bug, and did not file it - a
 genuine finding would need confirming on a real device, which the owner does routinely anyway (see the
 Suite 3 item above).
 
@@ -613,15 +613,15 @@ Suite 3 item above).
 
 The owner reviewed the settings/layout mockups artifact (5 artboards, `#55`/`#57`) and approved both
 directions as shown: master-detail for settings (a persistent group rail on desktop, tap-a-group-then-back
-on mobile — the same idiom the app's own shell already uses elsewhere), and the layout redesigns (Cards
+on mobile - the same idiom the app's own shell already uses elsewhere), and the layout redesigns (Cards
 gets real card chrome so it stops reading as Editorial at narrow widths; Compact keeps its favicon always,
 Headlines drops it always). Told to implement both.
 
 Also settled, same meeting: `kipple-history`'s public exposure (see CHALLENGES.md #26) gets the full
-destructive fix — git history rewritten, not just the current file content — and the repo stays public
+destructive fix - git history rewritten, not just the current file content - and the repo stays public
 regardless. Separately: `kipple-history-private-archive` (fully
 redundant, superseded by this repo one minute after its last commit) is being deleted; `kipple-archive`
-(a full pre-history-rewrite snapshot of the *code* repo, not docs — different purpose, a real backup) is
+(a full pre-history-rewrite snapshot of the *code* repo, not docs - different purpose, a real backup) is
 being kept.
 
 ## Sunday morning meeting (2026-09-27, 08:32 to 11:00)
@@ -775,7 +775,7 @@ merge them" and the "Merges of code PRs" line under "Phase 4 build decisions aft
 - **An unsubscribed feed shows up nowhere.** The internal archive pseudo-feed that holds starred articles of an
   unsubscribed feed is hidden from the sidebar, every picker, search, and the Reader API subscription list (one
   shared rule on the server and one on the web). Its starred articles stay in Starred, All, Unread and search. Risk
-  recorded: NetNewsWire or Reeder may no longer show those archived starred items; it needs a device check.
+  recorded: client B or client A may no longer show those archived starred items; it needs a device check.
   Stats rows for deleted feeds (five code paths) were deliberately left as they are; the owner has not decided.
 - **The soak keeps the beta.2 clock** (chosen at the beta.3 go-ahead): fixes only, so earliest rc.1 stays 2026-10-06 after
   15:22 ET; a regression still resets it. Suites 1, 2, 4 and 5 were all re-run this round; Suite 3 stays informal.

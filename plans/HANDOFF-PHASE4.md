@@ -41,8 +41,8 @@ Suggested agenda (each item: what exists, options, recommendation, decision):
 2. **What counts as reading.** Confirm the standing rules: bulk mark-as-read and mark-read-on-scroll are not reads;
    active reading time = tab visible and focused and the article route active; `open`, `read_time`, `scroll`,
    `star`/`unstar`, `open_original`, `share`. Questions: minimum time or scroll for "read"? Does opening from the
-   list preview count? Reader API reads (Reeder) are invisible to stats today (`stats.api_single_read_is_open`
-   stays off): keep that, or look at real Reeder traffic first? Offline reading: count it, and how (events queued)?
+   list preview count? Reader API reads (client A) are invisible to stats today (`stats.api_single_read_is_open`
+   stays off): keep that, or look at real client A traffic first? Offline reading: count it, and how (events queued)?
 3. **The views.** From the plan: most-read sources, hour/weekday heatmap, time per source, never-opened feeds,
    streaks. For each: the question it answers, the chart or table, the time range and grouping (day/week/month), the
    feed versus folder rollup, and empty/low-data states. Propose a first cut of two or three screens plus what is
@@ -88,7 +88,7 @@ What exists (design section 8, `internal/stats`, `internal/store/stats.go`, `int
      design section 7 has the shapes: RFC 4180, keyset paging, `?from=&to=`, `include_inferred`).
   3. The stats screen(s) and navigation entry; heatmap, time per source, never-opened feeds, streaks, most-read sources.
   4. `stats.api_single_read_is_open` is reserved and read by nothing. It stays off unless the owner decides otherwise
-     after looking at real Reeder traffic; do not build API read inference without asking.
+     after looking at real client A traffic; do not build API read inference without asking.
 
 Standing decisions that apply (CLAUDE.md, do not relitigate): stats events are never trimmed (kept forever, apart
 from the id ledger); bulk mark-as-read and mark-read-on-scroll are not reads; no monitoring/notifications/social
@@ -111,7 +111,7 @@ features (non-goals). Per-device appearance profiles are not multi-user.
   rehearse migrations on a copy of the live database in a scratch container (worked well for alpha.3); verify health,
   logs, memory. The ssh alias is `host-a` (committed docs say Host-A / `host-a`).
 - Never put the owner's real name, surname or personal email anywhere; hostnames, addresses and paths stay generic in
-  anything committed. Commit trailer: `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`.
+  anything committed. Commit trailer: `Co-Authored-By: Claude Sonnet 5 <noreply (Anthropic)>`.
 - Diaries, meeting notes, timeline and milestones go to the private `WPTK/kipple-history` (local clone
   `C:\kipple-history`), updated at each milestone.
 - Environment gotchas: Node is not on git-bash PATH (use the PowerShell tool for npm/node); long foreground `sleep` is

@@ -9,7 +9,7 @@ not localhost, name compose services explicitly).
 - **Stack:** Go backend, React + TypeScript + Vite + Tailwind + shadcn frontend, SQLite in WAL
   mode. Frontend build is embedded in the Go binary. One image, one container, one port.
 - **Sync API:** Google Reader API (FreshRSS/Miniflux flavor) only. **No Fever.** Primary client
-  Reeder Classic, secondary NetNewsWire. Test against both.
+  client A, secondary client B. Test against both.
 - **Refresh:** background poll every 30 min (global + per-feed override), ETag/Last-Modified
   conditional requests, exponential backoff on failing feeds, manual refresh fetches all now.
   API clients never trigger fetches.

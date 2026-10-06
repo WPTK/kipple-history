@@ -10,7 +10,7 @@ All Go/PHP/Ruby excerpts below were pulled with `curl` from `raw.githubuserconte
 
 ### 1.1 Scheduler and worker pool
 
-`internal/cli/scheduler.go` — one goroutine ticks every `POLLING_FREQUENCY` and builds a batch; a second ticks every `CLEANUP_FREQUENCY_HOURS`:
+`internal/cli/scheduler.go` - one goroutine ticks every `POLLING_FREQUENCY` and builds a batch; a second ticks every `CLEANUP_FREQUENCY_HOURS`:
 
 ```go
 func feedScheduler(store *storage.Storage, pool *worker.Pool, frequency time.Duration, batchSize, errorLimit, limitPerHost int) {
@@ -26,7 +26,7 @@ func feedScheduler(store *storage.Storage, pool *worker.Pool, frequency time.Dur
 			pool.Push(jobs)
 ```
 
-`internal/storage/batch.go` — the batch query (Postgres):
+`internal/storage/batch.go` - the batch query (Postgres):
 
 ```go
 query := `SELECT id, user_id, feed_url FROM feeds`
@@ -37,7 +37,7 @@ if b.batchSize > 0 { query += " LIMIT " + strconv.Itoa(b.batchSize) }
 
 Per-host cap is applied *in Go while scanning rows*, keyed by `urllib.Domain(job.FeedURL)`; feeds over the cap are skipped for this batch (`nbSkippedFeeds++`) and picked up on a later tick. It is a per-batch cap, not a true concurrency limiter.
 
-`internal/worker/pool.go` / `worker.go` — `queue: make(chan model.Job)` (unbuffered); `NewPool(store, nbWorkers)` starts `WORKER_POOL_SIZE` goroutines, each loops `feedHandler.RefreshFeed(w.store, job.UserID, job.FeedID, false)`. Concurrency cap = worker count.
+`internal/worker/pool.go` / `worker.go` - `queue: make(chan model.Job)` (unbuffered); `NewPool(store, nbWorkers)` starts `WORKER_POOL_SIZE` goroutines, each loops `feedHandler.RefreshFeed(w.store, job.UserID, job.FeedID, false)`. Concurrency cap = worker count.
 
 Defaults (`internal/config/options.go`, verified against the docs page):
 
@@ -101,8 +101,8 @@ func (f *Feed) ResetErrorCounter() { f.ParsingErrorCount = 0; f.ParsingErrorMsg 
 
 ### 1.3 Request builder (`internal/reader/fetcher/request_builder.go`)
 
-- `WithETag(etag)` sets `If-None-Match` only if non-empty; `WithLastModified` sets `If-Modified-Since` only if non-empty. Values are stored and replayed **verbatim** (a `W/"..."` weak ETag is echoed as-is — correct per RFC 9110 §13.1.2, which requires weak comparison for If-None-Match).
-- `WithUserAgent(userAgent, defaultUserAgent)` — per-feed UA, else global default.
+- `WithETag(etag)` sets `If-None-Match` only if non-empty; `WithLastModified` sets `If-Modified-Since` only if non-empty. Values are stored and replayed **verbatim** (a `W/"..."` weak ETag is echoed as-is - correct per RFC 9110 §13.1.2, which requires weak comparison for If-None-Match).
+- `WithUserAgent(userAgent, defaultUserAgent)` - per-feed UA, else global default.
 - Dialer: `Timeout: 10 * time.Second, KeepAlive: 15 * time.Second`. Transport: `ForceAttemptHTTP2: true, MaxIdleConns: 50, IdleConnTimeout: 10s`; `client := &http.Client{Timeout: r.clientTimeout}` (20 s default). Redirects: Go default (followed, max 10) unless `WithoutRedirects()` which uses `http.ErrUseLastResponse`.
 - Private-network refusal done in `Dialer.Control` after DNS resolution (anti DNS-rebinding).
 - Per-feed `DisableHTTP2` exists explicitly "to avoid fingerprinting" (commit message); `IgnoreTLSErrors` adds insecure cipher suites + `InsecureSkipVerify`.
@@ -155,9 +155,9 @@ func (r *ResponseHandler) IsModified(lastEtagValue, lastModifiedValue string) bo
 
 Order of operations (verified):
 1. Load feed; if `entry_frequency` scheduler, compute `weeklyEntryCount`.
-2. `originalFeed.CheckedNow(); originalFeed.ScheduleNextCheck(weeklyEntryCount, time.Duration(0))` — **before** the HTTP request, so an error path already has `next_check_at = now + min interval`.
+2. `originalFeed.CheckedNow(); originalFeed.ScheduleNextCheck(weeklyEntryCount, time.Duration(0))` - **before** the HTTP request, so an error path already has `next_check_at = now + min interval`.
 3. Build request; `ignoreHTTPCache := originalFeed.IgnoreHTTPCache || forceRefresh`; validators are sent only when not ignoring cache.
-4. `if responseHandler.IsRateLimited() { retryDelay := responseHandler.ParseRetryDelay(); calculatedNextCheckInterval := originalFeed.ScheduleNextCheck(weeklyEntryCount, retryDelay) ... }` — then falls through to `LocalizedError()` which is non-nil for 429, so **a 429 still increments `parsing_error_count`** via `getTranslatedLocalizedError` → `WithTranslatedErrorMessage` → `store.UpdateFeedError` (writes `parsing_error_msg, parsing_error_count, checked_at, next_check_at`).
+4. `if responseHandler.IsRateLimited() { retryDelay := responseHandler.ParseRetryDelay(); calculatedNextCheckInterval := originalFeed.ScheduleNextCheck(weeklyEntryCount, retryDelay) ... }` - then falls through to `LocalizedError()` which is non-nil for 429, so **a 429 still increments `parsing_error_count`** via `getTranslatedLocalizedError` → `WithTranslatedErrorMessage` → `store.UpdateFeedError` (writes `parsing_error_msg, parsing_error_count, checked_at, next_check_at`).
 5. `if store.AnotherFeedURLExists(userID, originalFeed.ID, responseHandler.EffectiveURL()) → ErrDuplicatedFeed` (error counted).
 6. `if ignoreHTTPCache || responseHandler.IsModified(etag, lastModified)`: read body, `parser.ParseFeed(responseHandler.EffectiveURL(), ...)`; then
 ```go
@@ -178,7 +178,7 @@ if responseHandler.LastModified() != "" { originalFeed.LastModifiedHeader = resp
 ```
 7. `originalFeed.ResetErrorCounter()`; `store.UpdateFeed(originalFeed)`.
 
-**Redirects / feed_url update (verified by grep of every `FeedURL =` and `EffectiveURL` in handler.go):** `CreateFeed` sets `subscription.FeedURL = responseHandler.EffectiveURL()` (line 181) — i.e. at subscription time the *final* URL after any redirect (301 or 302, Go follows both) is persisted. `RefreshFeed` uses `EffectiveURL()` only for the duplicate check (line 276) and as the parse base URL (line 295); it **never** rewrites `originalFeed.FeedURL`. So Miniflux follows redirects on every poll and does not migrate the stored URL after a 301 discovered later. Issue #1387 ("How should Miniflux deal with 302 responses for a feed?") reports exactly the creation-time behavior ("Miniflux updates the feed's URL upon receiving a 302") and was closed with 0 comments. Issue #3412 (301 reported as 403): maintainer fguillot: "This website returns different responses depending on the client. It's easy to distinguish an HTTP request made by the standard Go HTTP client from one made by a web browser, based on the TLS fingerprint. Cloudflare returns a 403 status code with a CAPTCHA in the response body before sending the 301 redirect." (headers showed `Cf-Mitigated: challenge` — the origin of the Cloudflare detection above).
+**Redirects / feed_url update (verified by grep of every `FeedURL =` and `EffectiveURL` in handler.go):** `CreateFeed` sets `subscription.FeedURL = responseHandler.EffectiveURL()` (line 181) - i.e. at subscription time the *final* URL after any redirect (301 or 302, Go follows both) is persisted. `RefreshFeed` uses `EffectiveURL()` only for the duplicate check (line 276) and as the parse base URL (line 295); it **never** rewrites `originalFeed.FeedURL`. So Miniflux follows redirects on every poll and does not migrate the stored URL after a 301 discovered later. Issue #1387 ("How should Miniflux deal with 302 responses for a feed?") reports exactly the creation-time behavior ("Miniflux updates the feed's URL upon receiving a 302") and was closed with 0 comments. Issue #3412 (301 reported as 403): maintainer fguillot: "This website returns different responses depending on the client. It's easy to distinguish an HTTP request made by the standard Go HTTP client from one made by a web browser, based on the TLS fingerprint. Cloudflare returns a 403 status code with a CAPTCHA in the response body before sending the 301 redirect." (headers showed `Cf-Mitigated: challenge` - the origin of the Cloudflare detection above).
 
 **Error limit / disabling:** the batch builder excludes `parsing_error_count >= POLLING_PARSING_ERROR_LIMIT` (3). There is no automatic reset or exponential backoff; recovery paths are: (a) manual per-feed refresh (resets on success), (b) UI "Refresh all" (`internal/ui/feed_refresh.go::refreshAllFeeds` builds the batch **without** `WithErrorLimit`, throttled by `FORCE_REFRESH_INTERVAL`), (c) CLI `-reset-feed-errors` → `UPDATE feeds SET parsing_error_count=0, parsing_error_msg=''`. Feeds are not auto-`disabled`; they just stop being scheduled.
 
@@ -264,7 +264,7 @@ func (w *Worker) refresher(feeds []model.Feed) {
 	for _, feed := range feeds { srcqueue <- feed }
 	for range feeds { items := <-dstqueue; if len(items) > 0 { w.db.CreateItems(items) }; atomic.AddInt32(w.pending, -1) }
 ```
-`worker()` clears `LastError` ("" → NULL-ish via `UpdateFeedState`) before each fetch and sets `err.Error()` on failure. Refresh rate is a single global setting (`settings.refresh_rate`, minutes, `0` = off, default 0); `/api/feeds/refresh` (POST) triggers `RefreshFeeds()`. Every feed is fetched every cycle regardless of prior errors — no backoff, no disabling, forever.
+`worker()` clears `LastError` ("" → NULL-ish via `UpdateFeedState`) before each fetch and sets `err.Error()` on failure. Refresh rate is a single global setting (`settings.refresh_rate`, minutes, `0` = off, default 0); `/api/feeds/refresh` (POST) triggers `RefreshFeeds()`. Every feed is fetched every cycle regardless of prior errors - no backoff, no disabling, forever.
 
 ### 2.2 HTTP client (`src/worker/client.go`, `crawler.go::listItems`)
 
@@ -300,7 +300,7 @@ Schema: `create unique index if not exists idx_item_guid on items(feed_id, guid)
 
 GUID derivation:
 - RSS: `GUID: firstNonEmpty(srcitem.GUID.GUID, srcitem.Link)`; `URL: firstNonEmpty(srcitem.OrigLink, srcitem.Link, permalink)` where `permalink = GUID if isPermaLink == "true"`; `OrigLink` is `feedburner:origLink`.
-- Atom: if `htmlutil.IsAPossibleLink(srcitem.ID)` then `guidFromID = srcitem.ID + "::" + srcitem.Updated`; `GUID: firstNonEmpty(guidFromID, srcitem.ID, link)` — i.e. an Atom entry whose `<id>` is a URL is re-keyed **every time `<updated>` changes** (creates a new unread item on edit). Deliberate-looking but a known source of duplicates; do not copy.
+- Atom: if `htmlutil.IsAPossibleLink(srcitem.ID)` then `guidFromID = srcitem.ID + "::" + srcitem.Updated`; `GUID: firstNonEmpty(guidFromID, srcitem.ID, link)` - i.e. an Atom entry whose `<id>` is a URL is re-keyed **every time `<updated>` changes** (creates a new unread item on edit). Deliberate-looking but a known source of duplicates; do not copy.
 - `ParseAndFix`: `TranslateURLs(baseURL)`, `SetMissingDatesTo(time.Now())`, `SetMissingGUIDs()` = `sha256(Title + ";;" + Date.RFC3339 + ";;" + URL)`.
 - `cleanup()` trims GUID/URL/Title/Content.
 
@@ -362,15 +362,15 @@ $lastAttemptExpression = '(CASE WHEN error > `lastUpdate` THEN error ELSE `lastU
 WHERE ttl >= {$ttlDefault} AND {$lastAttemptExpression} < ({$refreshThreshold}-(CASE WHEN ttl={$ttlDefault} THEN {$defaultCacheDuration} ELSE ttl END))
 ORDER BY {$lastAttemptExpression} ASC
 ```
-`ttl < 0` = muted (`mute()` sets `ttl = -ABS(ttl)`). `error` is a timestamp of the last failure and counts as the "last attempt", so after an error the feed waits one full TTL before retrying — no exponential growth, no strike limit.
+`ttl < 0` = muted (`mute()` sets `ttl = -ABS(ttl)`). `error` is a timestamp of the last failure and counts as the "last attempt", so after an error the feed waits one full TTL before retrying - no exponential growth, no strike limit.
 
 ### 3.3 Actualize loop (`feedController::actualizeFeeds`)
 
 - `@set_time_limit(300)`; skip muted feeds unless refreshed manually; skip if `time() <= $feed->lastUpdate() + $ttl` (with a multi-user shared-cache exception); `$feed->lock()` = exclusive-create of `TMP_PATH/<hash>.freshrss.lock`, stale locks (>3600 s) removed.
-- `Feed::load()`: first `if (($retryAfter = FreshRSS_http_Util::getRetryAfter($this->url, $this->proxyParam())) > 0) throw new FreshRSS_Feed_Exception('For that domain, will first retry after ' . date('c', $retryAfter) ..., code: 503);` — a **domain-wide** wait shared by all feeds on that host.
+- `Feed::load()`: first `if (($retryAfter = FreshRSS_http_Util::getRetryAfter($this->url, $this->proxyParam())) > 0) throw new FreshRSS_Feed_Exception('For that domain, will first retry after ' . date('c', $retryAfter) ..., code: 503);` - a **domain-wide** wait shared by all feeds on that host.
 - On `FreshRSS_Feed_Exception`: `$feedDAO->updateLastError($feed->id()); $feed->_error(time()); if ($e->getCode() === 410) { Minz_Log::warning('Muting gone feed: ' ...); $feedDAO->mute($feed->id(), true); }`.
 - 301: `Feed::load()` uses `$simplePie->subscribe_url(true)` ("The case of HTTP 301 Moved Permanently") and `if ($subscribe_url !== '' && $subscribe_url !== $url) { $this->_url($clean_url); }`; back in the controller `if ($feed->url() !== $url) { Minz_Log::warning('Feed ... moved permanently to ' ...); $feedProperties['url'] = $feed->url(); }` → the stored URL **is** rewritten after a permanent redirect. (Inferred, not read: SimplePie's `subscribe_url(true)` returns only the permanent-redirect target.) For WebSub self-URL changes it explicitly refuses https→http downgrade.
-- Unchanged content: `if ($noCache || $simplePie->get_hash() !== $this->attributeString('SimplePieHash'))` — a body hash is kept per feed; identical body → `load()` returns null → `$entryDAO->updateLastSeenUnchanged($feed->id(), $mtime)`.
+- Unchanged content: `if ($noCache || $simplePie->get_hash() !== $this->attributeString('SimplePieHash'))` - a body hash is kept per feed; identical body → `load()` returns null → `$entryDAO->updateLastSeenUnchanged($feed->id(), $mtime)`.
 - `rand(0, 30) === 1` → `$feed->cleanOldEntries()` (retention runs on ~1/31 of successful refreshes per feed); `actualizeFeedsAndCommit` also `cleanCache(CLEANCACHE_HOURS)` with the same odds.
 - Success: `$feedDAO->updateLastUpdate($feed->id(), $mtime)` = `UPDATE _feed SET lastUpdate=:last_update, error=0`.
 
@@ -408,7 +408,7 @@ fallback chain when empty: `$entryId` → `sha1(permalink . date)` → `sha1(per
 
 Change detection hash (`Entry::hash()`): `md5($this->link . $this->title . $this->authors(true) . $this->originalContent() . $this->tags(true) . $attributes)` with the comment "Do not include $this->date because it may be automatically generated when lacking". In `actualizeFeeds`: `$existingHashForGuids = $entryDAO->listHashForFeedGuids($feed->id(), $newGuids)`; for each parsed entry (chronological order, later duplicates of a GUID in the same document skipped): if GUID exists and `strcasecmp($existingHash, $entry->hash()) !== 0` → `_isUpdated(true); _lastModified($mtime); _isFavorite(null); _isRead($mark_updated_article_unread ? false : null); updateEntry(...)`; else new → `_id(uTimeString())` (microsecond timestamp id = arrival order) → `addEntry(..., true)` into `entrytmp`; `commitNewEntries` copies into `entry` `ORDER BY etmp.date, etmp.id` with consecutive ids (`INSERT IGNORE`). After the loop: `$entryDAO->updateLastSeen($feed->id(), array_keys($newGuids), $mtime)` (touch every GUID still present). Constraint-violation errors (SQLSTATE class 23) on insert are silently ignored as expected duplicates.
 
-Dates: `Entry::_date($value)`: `$this->date = $value > 1 ? $value : time();` — no future clamp; default UI sort is `id DESC` (arrival), not `date`.
+Dates: `Entry::_date($value)`: `$this->date = $value > 1 ? $value : time();` - no future clamp; default UI sort is `id DESC` (arrival), not `date`.
 
 ### 3.6 Retention (`EntryDAO::cleanOldEntries($id_feed, $options)`)
 
@@ -429,7 +429,7 @@ Semantics: candidates are non-starred, (optionally read-only), unlabelled, beyon
 
 ---
 
-## 4. Feedbin (Ruby, `feedbin/feedbin` + `feedbin/feedkit`) — production-scale crawler
+## 4. Feedbin (Ruby, `feedbin/feedbin` + `feedbin/feedkit`) - production-scale crawler
 
 Crawler was merged into the main app (`feedbin/crawler` README: "Crawler functionality has been merged into the main Feedbin app.").
 
@@ -463,10 +463,10 @@ def save(response)
 end
 ```
 `download_success` → `clear!` (errors reset) unless the last error was `Feedkit::NotFeed`. `Feed#crawl_error?` = `error_count > 23`; irrecoverable classes for "fixable" UI: `Feedkit::ConnectionError, SSLError, TimeoutError`.
-- Redirect persistence (`lib/redirect_cache.rb`): `PERSIST_AFTER = 4 * 24 * 6  # 4 redirect/hr 24hrs a day for 6 days`; only when `@redirects.all?(&:permanent?)`; counter keyed by SHA1 of `[feed_id, status, from, to]` chain with 72 h expiry; then `UpdateRedirect` does `feed.update(redirected_to: to, current_feed_url: to)` — the canonical `feed_url` is kept (receiver: `feed.update(data["feed"].except("feed_url"))`), the crawler just fetches `redirected_to`.
+- Redirect persistence (`lib/redirect_cache.rb`): `PERSIST_AFTER = 4 * 24 * 6  # 4 redirect/hr 24hrs a day for 6 days`; only when `@redirects.all?(&:permanent?)`; counter keyed by SHA1 of `[feed_id, status, from, to]` chain with 72 h expiry; then `UpdateRedirect` does `feed.update(redirected_to: to, current_feed_url: to)` - the canonical `feed_url` is kept (receiver: `feed.update(data["feed"].except("feed_url"))`), the crawler just fetches `redirected_to`.
 - Per-host throttle (`lib/throttle.rb`): env `THROTTLED_HOSTS` (host=weight), `TIMEOUT = 60 * 30`, `rand(base..(base * 2))` with `base = TIMEOUT * weight`, host = last two labels of the hostname.
 - Feedkit `Request`: `MAX_SIZE = 10 * 1024 * 1024` (stream to tempfile, `break if size > MAX_SIZE`); `HTTP.timeout(connect: 5, write: 5, read: 30)`; `.follow(max_hops: 4, on_redirect:)`; headers `user_agent` (default "Feedbin"), `accept_encoding "gzip, deflate"` when auto_inflate, `if_none_match`, `if_modified_since`, basic auth; success = `2xx || 304`; 401 `Unauthorized`, 404 `NotFound`, other 4xx `ClientError`, 5xx `ServerError`; TLS `VERIFY_NONE`. `Response#checksum = Digest::SHA1.file(@path).hexdigest[0, 7]`; `not_modified?(old) = status == 304 || old == checksum`; `request_url` returns the final URL only if **all** hops were permanent.
-- Dedup (`feedkit/parser/entry.rb`): `public_id = SHA1(feed_url + entry_id)`; without an id: `SHA1(feed_url + url + published.iso8601 + title)` (compatibility mode); `public_id_alt` = same with the id's scheme flipped http↔https or scheme+host stripped, checked by `Receiver#alternate_exists?` to suppress http/https duplicates; `fingerprint = MD5(sorted flattened attribute values with whitespace removed)` for update detection. `EntryFilter`: `@entries = entries.first(300)`; new = not in DB (`Entry.where(public_id:)`) and not in a Redis "previously created" cache; updated only if fingerprint differs and either a random 12–24 h "check for changes" window elapsed or (`always_check_recent`) published within 24 h. `Receiver` rescues `ActiveRecord::RecordNotUnique`. `Parser` on `Feedkit::NotFeed` → `crawl_data.download_error` (parse failures back off like HTTP failures).
+- Dedup (`feedkit/parser/entry.rb`): `public_id = SHA1(feed_url + entry_id)`; without an id: `SHA1(feed_url + url + published.iso8601 + title)` (compatibility mode); `public_id_alt` = same with the id's scheme flipped http↔https or scheme+host stripped, checked by `Receiver#alternate_exists?` to suppress http/https duplicates; `fingerprint = MD5(sorted flattened attribute values with whitespace removed)` for update detection. `EntryFilter`: `@entries = entries.first(300)`; new = not in DB (`Entry.where(public_id:)`) and not in a Redis "previously created" cache; updated only if fingerprint differs and either a random 12-24 h "check for changes" window elapsed or (`always_check_recent`) published within 24 h. `Receiver` rescues `ActiveRecord::RecordNotUnique`. `Parser` on `Feedkit::NotFeed` → `crawl_data.download_error` (parse failures back off like HTTP failures).
 
 ## 5. Feedly (public docs, secondary)
 
@@ -475,7 +475,7 @@ end
 
 ## 6. Spec anchors (RFC 9110 / 6585 text, verified)
 
-- §13.1.2: "A recipient MUST use the weak comparison function when comparing entity tags for If-None-Match (Section 8.8.3.2), since weak entity tags can be used for cache validation even if there have been changes to the representation data." Examples include `If-None-Match: W/"xyzzy"`.
+- §13.1.2: "A recipient MUST use the weak comparison function when comparing entity tags for If-None-Match (Section 8.8.3[.]2), since weak entity tags can be used for cache validation even if there have been changes to the representation data." Examples include `If-None-Match: W/"xyzzy"`.
 - §10.2.3: `Retry-After = HTTP-date / delay-seconds`; "When sent with a 503 (Service Unavailable) response, Retry-After indicates how long the service is expected to be unavailable"; "When sent with any 3xx (Redirection) response, Retry-After indicates the minimum time that the user agent is asked to wait before issuing the redirected request." RFC 6585 §4: 429 "MAY include a Retry-After header".
 - §15.4.2 (301) / §15.4.9 (308): "any future references to this resource ought to use one of the enclosed URIs ... The user agent MAY use the Location field value for automatic redirection." 308 is additionally "heuristically cacheable".
 - §15.5.11 (410): "access to the target resource is no longer available at the origin server and that this condition is likely to be permanent."
@@ -491,16 +491,16 @@ Kipple facts assumed: ~140 feeds, one user, SQLite WAL, 30-min global poll with 
 Table: `entries(id INTEGER PRIMARY KEY, feed_id, uid TEXT NOT NULL, link_hash TEXT, ..., UNIQUE(feed_id, uid))` plus index `(feed_id, link_hash)`.
 
 Compute `uid` at parse time, per format, with a type prefix so the source is auditable:
-1. RSS `<guid>` / Atom `<id>` / JSON `id` (TrimSpace, non-empty) → `uid = "g:" + sha256(guid)`. Handle in-document GUID collisions exactly like Miniflux: first occurrence keeps `g:sha256(guid)`; later collisions use `g:sha256(guid + "|" + entryURL)` else `g:sha256(guid + "|" + n)`. (Do **not** mix `<updated>` into the key as yarr does for URL-shaped Atom ids — that manufactures a new unread on every edit.)
-2. Else entry link (raw, before tracking-param cleanup and before absolutization, as Miniflux hashes it — stable across cleaner rule changes) → `uid = "l:" + sha256(rawLink)`. For FeedBurner items prefer `feedburner:origLink` for the *displayed* URL (yarr and Miniflux both read it) but hash the plain `<link>` for stability.
-3. Else `uid = "h:" + sha256(title + "\x1f" + normalizedContent)` (Miniflux) — deliberately **not** the published date (FreshRSS's hash comment: dates are often synthesized). If content is also empty, fall back to yarr's `title;;date;;url` triple so at least something distinguishes items.
+1. RSS `<guid>` / Atom `<id>` / JSON `id` (TrimSpace, non-empty) → `uid = "g:" + sha256(guid)`. Handle in-document GUID collisions exactly like Miniflux: first occurrence keeps `g:sha256(guid)`; later collisions use `g:sha256(guid + "|" + entryURL)` else `g:sha256(guid + "|" + n)`. (Do **not** mix `<updated>` into the key as yarr does for URL-shaped Atom ids - that manufactures a new unread on every edit.)
+2. Else entry link (raw, before tracking-param cleanup and before absolutization, as Miniflux hashes it - stable across cleaner rule changes) → `uid = "l:" + sha256(rawLink)`. For FeedBurner items prefer `feedburner:origLink` for the *displayed* URL (yarr and Miniflux both read it) but hash the plain `<link>` for stability.
+3. Else `uid = "h:" + sha256(title + "\x1f" + normalizedContent)` (Miniflux) - deliberately **not** the published date (FreshRSS's hash comment: dates are often synthesized). If content is also empty, fall back to yarr's `title;;date;;url` triple so at least something distinguishes items.
 Always store `link_hash = sha256(normalized absolute link)` alongside for GUID-migration detection.
 
 Invalid-GUID guard (from FreshRSS `loadGuids`): if > `round(5% × items)` GUIDs in one document are empty or duplicated, persist `feeds.dedup_mode = "link"` (then `"link_published_title"`) and re-key; log once. Store the mode per feed so it does not flap.
 
 ### 7.2 Feed that changes GUIDs
 
-None of the three readers handle a wholesale GUID rewrite; Miniflux's tombstones only stop *archived* items from returning, FreshRSS degrades the policy for future fetches, Feedbin only covers the http↔https flip via `public_id_alt`. Kipple rule: after computing uids for a fetch, if ≥ 50% of items (and ≥ 5) are new by `uid` but match an existing row in the same feed by `link_hash`, treat it as a **GUID migration**: `UPDATE entries SET uid = ? WHERE feed_id = ? AND link_hash = ?` for each match instead of inserting, keep read/starred state, and add the http↔https-flipped `uid` check (Feedbin `public_id_alt`) as a cheap second pass. Guard the unread flood regardless: cap "new unread per feed per fetch" (e.g. if > 100 new items arrive on a feed that has history, insert them as read and log) — the harm of a bad dedup is a wall of unread, not a missed post.
+None of the three readers handle a wholesale GUID rewrite; Miniflux's tombstones only stop *archived* items from returning, FreshRSS degrades the policy for future fetches, Feedbin only covers the http↔https flip via `public_id_alt`. Kipple rule: after computing uids for a fetch, if ≥ 50% of items (and ≥ 5) are new by `uid` but match an existing row in the same feed by `link_hash`, treat it as a **GUID migration**: `UPDATE entries SET uid = ? WHERE feed_id = ? AND link_hash = ?` for each match instead of inserting, keep read/starred state, and add the http↔https-flipped `uid` check (Feedbin `public_id_alt`) as a cheap second pass. Guard the unread flood regardless: cap "new unread per feed per fetch" (e.g. if > 100 new items arrive on a feed that has history, insert them as read and log) - the harm of a bad dedup is a wall of unread, not a missed post.
 
 ### 7.3 Conditional requests
 
@@ -515,11 +515,11 @@ None of the three readers handle a wholesale GUID rewrite; Miniflux's tombstones
 | Result | Action | Prior art |
 |---|---|---|
 | 200 | body-size cap → parse → dedup → store validators + body hash; `error_count = 0`, `last_error = NULL`, `checked_at = now` | all |
-| 304 | no parse; update `last_modified` if present; `error_count = 0`; `checked_at = now`; **also touch `last_seen`** of currently-stored items is impossible (no body) — FreshRSS uses `updateLastSeenUnchanged` for items seen at the previous fetch | Miniflux, FreshRSS |
+| 304 | no parse; update `last_modified` if present; `error_count = 0`; `checked_at = now`; **also touch `last_seen`** of currently-stored items is impossible (no body) - FreshRSS uses `updateLastSeenUnchanged` for items seen at the previous fetch | Miniflux, FreshRSS |
 | 301 / 308 | follow (Go default). Record `redirect_target`. Migrate `feed_url` only when the *whole* chain was permanent (Feedbin `all?(&:permanent?)`), the same target was seen on **N consecutive** successful fetches (Feedbin waits ~6 days of hourly polls; for Kipple 3 consecutive 30-min polls ≈ 90 min, or 48 ≈ 1 day, is enough), no other feed already owns that URL (Miniflux `AnotherFeedURLExists` → duplicate error), and it is not an https→http downgrade (FreshRSS WebSub rule). Keep the original URL in `feed_url_original` for display/OPML. | Feedbin, FreshRSS, Miniflux |
 | 302 / 303 / 307 | follow, never persist | Feedbin (`permanent?` gate) |
 | 404 | error + backoff; message "feed not found" | yarr, Miniflux |
-| 410 | error + set `disabled = 1` with reason "gone" (FreshRSS mutes on 410; RFC 9110: "likely to be permanent") — surface in UI, user can re-enable | FreshRSS |
+| 410 | error + set `disabled = 1` with reason "gone" (FreshRSS mutes on 410; RFC 9110: "likely to be permanent") - surface in UI, user can re-enable | FreshRSS |
 | 401 / 403 | error + backoff; if `cf-mitigated: challenge` + `text/html` → message "blocked by Cloudflare challenge (TLS fingerprint); try disabling HTTP/2 or a browser UA for this feed" | Miniflux |
 | 429 | honor `Retry-After` (integer seconds, else HTTP-date; Miniflux `ParseRetryDelay`, FreshRSS `setRetryAfter`); `next_check = max(backoff, now + retry_after)` (Feedbin `[header, default].max`), clamp to 24 h (Miniflux max interval 1440 min; FreshRSS caps at `retry_after_max` 48 h; Feedbin 8 h); with no header use the backoff (FreshRSS default 1500 s). Write the deadline into a **per-host** table so sibling feeds on the same host wait too (FreshRSS domain-wide file; Feedbin per registered domain). Count it as an error (Miniflux does). | Miniflux, FreshRSS, Feedbin |
 | 503 | same as 429 incl. `Retry-After` (FreshRSS treats 429 and 503 identically) | FreshRSS, RFC 9110 |
@@ -538,27 +538,27 @@ None of the three readers the owner compared implement exponential backoff: Mini
 - `interval_i = min(base × 2^(i-1), 24h)` with `base` = the feed's interval (30 min default), i = consecutive error count → 30m, 1h, 2h, 4h, 8h, 16h, 24h, 24h ... Add full jitter of ±20% (`interval × (0.8 + 0.4×rand)`) so a host outage does not resynchronize all its feeds.
 - `next_check_at = max(now + interval_i, retry_after_deadline_for_host)`.
 - Reset to `base` on success. Never stop polling and never auto-disable except on 410; after e.g. 14 consecutive failures (≈ 1 week at the 24 h cap) mark the feed "failing" in the UI (Feedbin uses `error_count > 23` for its "dead/fixable" UI). A manual refresh ignores backoff and Retry-After (Miniflux "refresh all" ignores the error limit) but must still respect a live per-host 429 deadline.
-- Successful fetches: `next_check_at = now + max(feed.interval, min(rss_ttl, cache_control_max_age − Age, expires − now, 24h))` — Miniflux `max(feedTTL, maxAge, expires)` then `min(., 1440 min)`; FreshRSS clamps to `[60 s, 86400 s]`. Never go *below* the feed's configured interval because of a small `max-age`.
+- Successful fetches: `next_check_at = now + max(feed.interval, min(rss_ttl, cache_control_max_age − Age, expires − now, 24h))` - Miniflux `max(feedTTL, maxAge, expires)` then `min(., 1440 min)`; FreshRSS clamps to `[60 s, 86400 s]`. Never go *below* the feed's configured interval because of a small `max-age`.
 
 ### 7.6 User-Agent
 
-- Default: `Mozilla/5.0 (compatible; Kipple/<version>; +https://rss.example.com)` — Miniflux's shape. Go's default `Go-http-client/1.1` is documented as a blocked-UA bug (Miniflux #2188/#2189); yarr shipped a hard-coded `Yarr/1.0` for years (#216) and Feedbin puts `feed-id:<id> - <n> subscribers` in the UA for publisher visibility; Feedly's is `Feedly/1.0` and publishers are told they can block it by UA.
-- Per-feed `user_agent TEXT` override (Miniflux `feeds.user_agent`, FreshRSS `curl_params[CURLOPT_USERAGENT]`) for hosts that want a browser UA (reddit is the recurring case in Miniflux #1432/#2255/#3794). Note Cloudflare managed challenges key on TLS/HTTP2 fingerprint, not UA (fguillot in #3412); Miniflux's mitigation is a per-feed `disable_http2` flag — expose the same (`TLSNextProto = map[string]func(...) http.RoundTripper{}`).
+- Default: `Mozilla/5.0 (compatible; Kipple/<version>; +https://rss.example.com)` - Miniflux's shape. Go's default `Go-http-client/1.1` is documented as a blocked-UA bug (Miniflux #2188/#2189); yarr shipped a hard-coded `Yarr/1.0` for years (#216) and Feedbin puts `feed-id:<id> - <n> subscribers` in the UA for publisher visibility; Feedly's is `Feedly/1.0` and publishers are told they can block it by UA.
+- Per-feed `user_agent TEXT` override (Miniflux `feeds.user_agent`, FreshRSS `curl_params[CURLOPT_USERAGENT]`) for hosts that want a browser UA (reddit is the recurring case in Miniflux #1432/#2255/#3794). Note Cloudflare managed challenges key on TLS/HTTP2 fingerprint, not UA (fguillot in #3412); Miniflux's mitigation is a per-feed `disable_http2` flag - expose the same (`TLSNextProto = map[string]func(...) http.RoundTripper{}`).
 - FeedBurner: parse `feedburner:origLink` and `feedburner:origEnclosureLink` (both yarr and Miniflux) for entry/enclosure URLs; there is no special UA requirement in any of the four codebases.
 
 ### 7.7 Transport settings
 
-- Compression: either leave `Accept-Encoding` unset and let Go decode gzip transparently (yarr), or set `br,gzip` and decode yourself (Miniflux) — mixing (setting the header and expecting auto-decode) is the bug. If decoding manually, apply `http.MaxBytesReader` **to the decompressed stream** (Miniflux `getReader`) so the cap bounds memory, not wire bytes.
+- Compression: either leave `Accept-Encoding` unset and let Go decode gzip transparently (yarr), or set `br,gzip` and decode yourself (Miniflux) - mixing (setting the header and expecting auto-decode) is the bug. If decoding manually, apply `http.MaxBytesReader` **to the decompressed stream** (Miniflux `getReader`) so the cap bounds memory, not wire bytes.
 - Max body: 10 MiB (Feedbin `MAX_SIZE`) to 15 MiB (Miniflux). Kipple: 10 MiB; treat `*http.MaxBytesError` as a distinct error.
-- Timeouts: dial 10 s (Miniflux, yarr), TLS handshake 10 s (yarr), `ResponseHeaderTimeout` ~15 s, overall `http.Client.Timeout` 20–30 s (Miniflux 20, FreshRSS 20, yarr 30, Feedbin read 30). Redirect hops: 4–5 (Feedbin `max_hops: 4`, FreshRSS 4; Go default 10). `Connection: close` / `DisableKeepAlives: true` (Miniflux/yarr) is fine at 140 feeds and avoids stale-pool errors.
-- SSRF: refuse private/loopback targets in `Dialer.Control` after resolution (Miniflux) unless a per-feed allow flag is set — Kipple is behind a Cloudflare tunnel on a LAN with other services, so this matters.
+- Timeouts: dial 10 s (Miniflux, yarr), TLS handshake 10 s (yarr), `ResponseHeaderTimeout` ~15 s, overall `http.Client.Timeout` 20-30 s (Miniflux 20, FreshRSS 20, yarr 30, Feedbin read 30). Redirect hops: 4-5 (Feedbin `max_hops: 4`, FreshRSS 4; Go default 10). `Connection: close` / `DisableKeepAlives: true` (Miniflux/yarr) is fine at 140 feeds and avoids stale-pool errors.
+- SSRF: refuse private/loopback targets in `Dialer.Control` after resolution (Miniflux) unless a per-feed allow flag is set - Kipple is behind a Cloudflare tunnel on a LAN with other services, so this matters.
 - `Accept` header: use Miniflux's `application/xml,application/atom+xml,application/rss+xml,application/rdf+xml,application/feed+json,text/html,*/*;q=0.9`.
 
 ### 7.8 Concurrency and scheduling for ~140 feeds
 
-- Miniflux runs 16 workers for multi-user installs, yarr 4, FreshRSS 10 parallel from the UI. Kipple: a scheduler goroutine ticking every 60 s that selects `WHERE disabled = 0 AND next_check_at <= now ORDER BY next_check_at LIMIT 100` (Miniflux batch shape; the 30-min cadence lives in `next_check_at`, which makes per-feed overrides trivial), feeding a semaphore of **8** concurrent fetches with a per-host limit of **2** in flight (Miniflux `POLLING_LIMIT_PER_HOST`; OpenRSS blocked Miniflux users for parallel bursts in #3289). 140 feeds × ~1–2 s / 8 ≈ 20–35 s per cycle. Spread initial `next_check_at` across the first interval (Feedbin `.shuffle`) so the box does not fire 140 requests at minute 0.
+- Miniflux runs 16 workers for multi-user installs, yarr 4, FreshRSS 10 parallel from the UI. Kipple: a scheduler goroutine ticking every 60 s that selects `WHERE disabled = 0 AND next_check_at <= now ORDER BY next_check_at LIMIT 100` (Miniflux batch shape; the 30-min cadence lives in `next_check_at`, which makes per-feed overrides trivial), feeding a semaphore of **8** concurrent fetches with a per-host limit of **2** in flight (Miniflux `POLLING_LIMIT_PER_HOST`; OpenRSS blocked Miniflux users for parallel bursts in #3289). 140 feeds × ~1-2 s / 8 ≈ 20-35 s per cycle. Spread initial `next_check_at` across the first interval (Feedbin `.shuffle`) so the box does not fire 140 requests at minute 0.
 - Single writer to SQLite: workers fetch/parse concurrently but hand parsed items to one goroutine that does the transaction (yarr's `dstqueue` → `CreateItems` pattern); one transaction per feed, not per entry (Miniflux's per-entry transactions are a Postgres habit).
-- "Refresh all now": enqueue every enabled feed ignoring `next_check_at`/backoff; debounce to one run at a time (yarr `pending > 0` guard; Miniflux `FORCE_REFRESH_INTERVAL` 30 min throttle per session is too strict for a single user — use "no more than one forced run in flight").
+- "Refresh all now": enqueue every enabled feed ignoring `next_check_at`/backoff; debounce to one run at a time (yarr `pending > 0` guard; Miniflux `FORCE_REFRESH_INTERVAL` 30 min throttle per session is too strict for a single user - use "no more than one forced run in flight").
 
 ### 7.9 Streaming new items into the UI
 
@@ -568,7 +568,7 @@ yarr polls `/api/status` every 500 ms while `running > 0` and re-lists items; Mi
 
 Prior art: yarr keeps ≥ 50 newest by `date` and deletes only what is older than 90 days relative to the feed's newest arrival, never starred; FreshRSS ranks by `lastSeen`, keeps `keep_min`, deletes beyond `keep_max` or `keep_period`, never favourites/labelled, and never anything present in the last fetch; Miniflux is age-based with tombstones so archived items cannot be re-ingested as unread.
 
-Kipple algorithm (run per feed, only after a successful fetch, inside the same transaction as the insert — "Trim after fetch only"):
+Kipple algorithm (run per feed, only after a successful fetch, inside the same transaction as the insert - "Trim after fetch only"):
 ```sql
 -- N = feed.retention ?? global.retention; skip if N is NULL (unlimited)
 WITH ranked AS (
@@ -580,7 +580,7 @@ INSERT OR IGNORE INTO trimmed(feed_id, uid, entry_id, read, trimmed_at)
 DELETE FROM entries WHERE id IN (SELECT id FROM ranked WHERE rn > :N);
 ```
 - `last_seen_at` is bumped for every uid present in the fetched document (FreshRSS `updateLastSeen`, yarr `last_arrived`); it is what keeps "still in the feed" items from being trimmed and re-inserted.
-- `trimmed(feed_id, uid, entry_id INTEGER, read INTEGER, trimmed_at INTEGER, PRIMARY KEY(feed_id, uid))` is the compact tombstone (Miniflux `entry_tombstones(feed_id, hash)` plus two small columns): insert is guarded by `NOT EXISTS (SELECT 1 FROM trimmed WHERE feed_id=? AND uid=?)` so a trimmed item that reappears (or whose GUID we re-see after a feed regression) never returns as unread; `entry_id` lets the Reader API answer `edit-tag` on an id the client still holds without erroring, and keep the id space monotonic; `read` is enough state for Reader clients (a trimmed id simply drops out of `stream/items/ids?xt=user/-/state/com.google/read`, which Reeder/NetNewsWire treat as read; starred items are never trimmed so no starred state is needed). Purge `trimmed` rows older than 180 days whose uid was not seen in the last fetch (Miniflux never purges; FreshRSS has none — 180 days matches Miniflux's unread horizon).
+- `trimmed(feed_id, uid, entry_id INTEGER, read INTEGER, trimmed_at INTEGER, PRIMARY KEY(feed_id, uid))` is the compact tombstone (Miniflux `entry_tombstones(feed_id, hash)` plus two small columns): insert is guarded by `NOT EXISTS (SELECT 1 FROM trimmed WHERE feed_id=? AND uid=?)` so a trimmed item that reappears (or whose GUID we re-see after a feed regression) never returns as unread; `entry_id` lets the Reader API answer `edit-tag` on an id the client still holds without erroring, and keep the id space monotonic; `read` is enough state for Reader clients (a trimmed id simply drops out of `stream/items/ids?xt=user/-/state/com.google/read`, which client A/client B treat as read; starred items are never trimmed so no starred state is needed). Purge `trimmed` rows older than 180 days whose uid was not seen in the last fetch (Miniflux never purges; FreshRSS has none - 180 days matches Miniflux's unread horizon).
 - Stats events are never trimmed (separate table keyed by `entry_id`, no FK cascade).
 
 ### 7.11 Dates
@@ -628,13 +628,13 @@ DELETE FROM entries WHERE id IN (SELECT id FROM ranked WHERE rn > :N);
 - [high] Cloudflare managed challenges distinguish Go's standard HTTP client by TLS fingerprint and return 403 with `Cf-Mitigated: challenge` before any 301, so a User-Agent change alone does not unblock such feeds (Miniflux maintainer, issue #3412). (https://github.com/miniflux/v2/issues/3412)
 
 ## Open questions
-- Whether SimplePie's `subscribe_url(true)` returns only the permanent-redirect (301/308) target and not 302 targets — inferred from FreshRSS's comment 'The case of HTTP 301 Moved Permanently', not read in SimplePie source.
-- Reader API stream ordering: Miniflux sorts Google Reader streams by published_at but emits crawlTimeMsec from created_at; Kipple must decide whether stream order/`ot`/`nt` continuation follows crawl time (Google Reader semantics) or published_at, and verify Reeder Classic and NetNewsWire behave with both.
+- Whether SimplePie's `subscribe_url(true)` returns only the permanent-redirect (301/308) target and not 302 targets - inferred from FreshRSS's comment 'The case of HTTP 301 Moved Permanently', not read in SimplePie source.
+- Reader API stream ordering: Miniflux sorts Google Reader streams by published_at but emits crawlTimeMsec from created_at; Kipple must decide whether stream order/`ot`/`nt` continuation follows crawl time (Google Reader semantics) or published_at, and verify client A and client B behave with both.
 - Whether Cloudflare Access / cloudflared buffers or times out a long-lived text/event-stream on the UI path (SSE fallback to /api/status polling is planned, but needs a live test).
-- Whether to ever purge the trimmed/tombstone table (Miniflux never does; proposed 180-day purge for uids not seen in the last fetch) and whether Reeder/NetNewsWire ever POST edit-tag for ids older than their local cache horizon.
+- Whether to ever purge the trimmed/tombstone table (Miniflux never does; proposed 180-day purge for uids not seen in the last fetch) and whether client A/client B ever POST edit-tag for ids older than their local cache horizon.
 - Miniflux PR #4139 'support weak ETag comparison for If-None-Match header' has no description; it is presumed to concern Miniflux's own HTTP server responses, not the feed fetcher (the fetcher already echoes ETags verbatim).
 - The GUID-migration heuristic (>=50% of items new-by-uid but matching by link_hash → relink instead of insert) has no prior art in the four codebases; thresholds need validation against the owner's ~140 feeds.
-- Feedbin's 8-hour Retry-After clamp vs FreshRSS's 48 h vs Miniflux's 24 h max interval — proposed 24 h cap for Kipple, but a host that legitimately asks for longer would be re-polled early once.
+- Feedbin's 8-hour Retry-After clamp vs FreshRSS's 48 h vs Miniflux's 24 h max interval - proposed 24 h cap for Kipple, but a host that legitimately asks for longer would be re-polled early once.
 - GitHub API rate limiting prevented reading comments on Miniflux issues #2336/#3289 (OpenRSS/FeedBurner 'too many requests'); only issue bodies and one maintainer comment (#3412) were read.
 
 ## Sources

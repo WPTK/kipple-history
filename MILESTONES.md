@@ -15,8 +15,8 @@ See also: [TIMELINE.md](TIMELINE.md), [DECISIONS.md](DECISIONS.md), [CHALLENGES.
 
 - Shipped: `CLAUDE.md` decisions, 21 research documents, open-question triage, `docs/design.md`, `docs/plan.md`,
   kickoff prompt. Files: [plans/history/](plans/history/), [research/](research/).
-- Shaping decisions: Go + SQLite + embedded React; Google Reader API only (no Fever); Reeder Classic as the primary
-  client; prior art lemon24/reader used for internals, not copied from Reeder; one image, one container, one port.
+- Shaping decisions: Go + SQLite + embedded React; Google Reader API only (no Fever); client A as the primary
+  client; prior art lemon24/reader used for internals, not copied from client A; one image, one container, one port.
 - Cost: the planning session ran everything at max effort on Fable 5.1 (about 110 subagents, well over 10M
   tokens) and hit the usage limit repeatedly. See [CHALLENGES.md](CHALLENGES.md) item on model and effort.
 
@@ -47,8 +47,8 @@ See also: [TIMELINE.md](TIMELINE.md), [DECISIONS.md](DECISIONS.md), [CHALLENGES.
 
 - What shipped: fixes from the owner's real-device testing (iPhone and PC) and two Opus review rounds.
 - Size: 233 cumulative commits (+17); 5,467 lines added and 533 removed in 83 files.
-- Evidence: [human-feedback/phase2testing.md](human-feedback/phase2testing.md) and the Reeder log under
-  [human-feedback/evidence/](human-feedback/evidence/). The debug logs for Reeder's mark-all-as-read `ts` question
+- Evidence: [human-feedback/phase2testing.md](human-feedback/phase2testing.md) and the client A log under
+  [human-feedback/evidence/](human-feedback/evidence/). The debug logs for client A's mark-all-as-read `ts` question
   from alpha.1 were lost by a container recreate.
 
 ## Phase 2 alpha 3: `v0.2.0-alpha.3` (2026-09-26 06:27 ET, deployed about 06:39, `59c7deb`)

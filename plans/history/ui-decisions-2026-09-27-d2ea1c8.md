@@ -162,7 +162,7 @@ Decisions are recorded in full in the private history repository. Summary of wha
 
 ## Phase 5 planning meeting (2026-09-27)
 
-Not a UI meeting — recorded here per the owner's instruction that all planning decisions land in this file plus
+Not a UI meeting - recorded here per the owner's instruction that all planning decisions land in this file plus
 `kipple-history`. Phases 1-4 are complete (v0.3.0-alpha.7 deployed, kipple.cc public). Six topics, one at a time
 with a recommendation each, same format as the phase 4 pre-meeting.
 
@@ -176,15 +176,15 @@ with a recommendation each, same format as the phase 4 pre-meeting.
    `audits/claude-md-proposed-edits.md`, and turning off Host-A debug logging (`KIPPLE_LOG_LEVEL`,
    `KIPPLE_LOG_GREADER_FORMS`) were never marked closed. The owner will flip debug logging off himself (ssh to
    Host-A, edit `.env`, restart `kipple`). The Host-A-side Proton Drive backup job for Kipple's own data (separate
-   from Host-B's `Host-BProtonBackup`) is **not** being built in phase 5 — local `docker cp` snapshots stay the
+   from Host-B's `Host-BProtonBackup`) is **not** being built in phase 5 - local `docker cp` snapshots stay the
    only backup path for now.
 4. **Parking-lot scope boundary.** The owner's rule for phase 5: **only work directly related to Kipple and its
    Docker image.** In: auto-night theme (small, self-contained, ships in phase 5). Out: the 1.5.0/2.0.0
    setup-app/single-image roadmap, a design system, a static demo site, and user-chosen Google Fonts (all stay
    parked, unchanged from the existing parking-lot timing).
 5. **Owner involvement.** The owner wants to be **involved as little as possible** in phase 5. Practical reading:
-   batch work into branches/PRs and only interrupt him for the things CLAUDE.md already reserves for him —
-   deploys, Cloudflare changes, and the final go/no-go — not for routine build decisions in between.
+   batch work into branches/PRs and only interrupt him for the things CLAUDE.md already reserves for him -
+   deploys, Cloudflare changes, and the final go/no-go - not for routine build decisions in between.
 
 **Phase 5 outline (final):**
 - (A) Full code audit + changelog review (Sonnet routine, Opus review/judging, per the existing model policy).

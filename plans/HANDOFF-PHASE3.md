@@ -65,7 +65,7 @@ Still to do, in rough order:
 ## Rules that bite
 
 - Fix every review finding (memory `feedback-fix-review-findings`).
-- Commits: small, conventional, `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`. CI must be
+- Commits: small, conventional, `Co-Authored-By: Claude Sonnet 5 <noreply (Anthropic)>`. CI must be
   green on every push. No `gh` CLI: use the GitHub REST API with the token from `git credential fill`.
 - CRLF working copies hide gofmt failures; verify from an LF worktree. Shared npm cache gives EPERM: pass
   `--cache <dir>`. Node is not on git-bash PATH (use PowerShell). No `-race` locally (no gcc).

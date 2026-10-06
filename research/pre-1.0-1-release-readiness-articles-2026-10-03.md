@@ -47,7 +47,7 @@ Concrete: version-control cleanliness, data migration check, rollback plan, syst
 | Data migration check (5) | COVERED | Suite 4 migration rehearsal on a copy; pre-migration snapshot | Done |
 | All changes committed / tag on exact commit (5) | COVERED | Steps 1, 6, 8; tag ruleset | Done |
 | Documentation + user guide (2,5) | COVERED | README, docs/deploy.md; documentation run (#42) | Done |
-| Core user journeys documented, 3-5 (2) | PARTLY | Docs exist; no explicit "journeys" list mapped to docs | Cheap check: README quickstart, import OPML, connect Reeder/NNW, backup/restore, upgrade |
+| Core user journeys documented, 3-5 (2) | PARTLY | Docs exist; no explicit "journeys" list mapped to docs | Cheap check: README quickstart, import OPML, connect client A/NNW, backup/restore, upgrade |
 | Feedback channel (2) | PARTLY | GitHub issues; SECURITY.md for security; no stated place for general feedback/support expectations | Yes, one README line (issues/discussions, single-maintainer, best-effort) |
 | Internal trial run / dogfood (5) | COVERED | Soak periods of the owner's real daily use | Done |
 | Fresh-eyes final QA by someone other than builder (4) | PARTLY | Claude executes UAT and Claude wrote the code; the fresh-machine Suite 5 is closest | Consider one outside tester or a cold read of README on a clean machine (Suite 5 Run D arm64 and A3/A8-A12 by hand are still undone) |
@@ -65,7 +65,7 @@ Concrete: version-control cleanliness, data migration check, rollback plan, syst
 1. A "Known issues" section in the 1.0 release notes (open P2/P3 list).
 2. A large-library sanity check (size, startup, search, memory), the one real performance risk for a feed reader.
 3. Firefox and desktop Safari manual pass (Suite 1 is Chromium-only).
-4. Finish Suite 5 items not yet run: Run D (arm64), Run E, A10 with Reeder/NNW, the browser-only wizard steps, and a literal `cosign verify` (only `gh attestation verify` was run); TC-A1..A3 real client checks still skipped.
+4. Finish Suite 5 items not yet run: Run D (arm64), Run E, A10 with client A/NNW, the browser-only wizard steps, and a literal `cosign verify` (only `gh attestation verify` was run); TC-A1..A3 real client checks still skipped.
 5. README: stated requirements, feedback/support expectations, and a short list of core journeys that docs cover.
 6. A 1.0 date plus an explicit "deferred to 1.1" list (timebox and subtract).
 7. Drill the pull-by-digest rollback once (only the build-from-tag rollback has been exercised).

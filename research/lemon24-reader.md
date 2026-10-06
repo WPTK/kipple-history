@@ -25,9 +25,9 @@ inline with **CORRECTION**.
   ids stable for remote clients, to encode int64 ids, to answer `ot`/`nt`/continuation queries, or
   to keep a trimmed id acceptable to `edit-tag`.
 - **So reader informs Kipple's internals only.** That covers storage, the update decision rules,
-  HTTP cache hints, dedup, search and readtime. Wire compatibility with Reeder Classic and
-  NetNewsWire is a separate requirement, and reader has no prior art for it. That contract lives in
-  `docs/research/greader-*.md`, `reeder-classic.md`, `netnewswire.md` and `item-id-and-quirks.md`.
+  HTTP cache hints, dedup, search and readtime. Wire compatibility with client A and
+  client B is a separate requirement, and reader has no prior art for it. That contract lives in
+  `docs/research/greader-*.md`, `client-a.md`, `client-b.md` and `item-id-and-quirks.md`.
   Where a reader design choice conflicts with the sync contract (raw GUID primary keys, post-hoc
   deletion of duplicates), the sync contract wins. See §4 and §9.
 - **Maturity signal.** The schema is at `VERSION = 44`. The changelog runs through the 3.2x series.
@@ -72,7 +72,7 @@ Source: `src/reader/_storage/_schema.py`, `_sqlite_utils.py`, `_base.py`, `_chan
   `recent_sort = published or updated or now`, so an imported backlog sorts by real dates. On every
   later update they get `recent_sort = global_now`, the batch time, so one poll's arrivals sort as a
   group and a backdated post can't hide below the fold. VERIFIED (`_update/__init__.py`, Report B §1).
-  This maps directly onto Kipple. Crawl-time ids serve Reeder's `timestampUsec`, and a UI "newest
+  This maps directly onto Kipple. Crawl-time ids serve client A's `timestampUsec`, and a UI "newest
   first" order needs the same two-mode rule. See delta 9 in §9.
 - **Tri-state `important` (NULL/0/1) and per-flag `*_modified`.** This exists so rules (the
   `mark_as_read` plugin passes `modified=None`) are distinguishable from human actions. REJECT for
@@ -122,7 +122,7 @@ now) → intents` function makes the planned fake-clock and status-table tests p
 At feed level, the feed's own `updated` is **distrusted**. A change only in `feed.updated` never
 triggers a feed write.
 
-ADOPT rules 3–5 for Kipple's existing-uid path. The Kipple plan currently says nothing about updating
+ADOPT rules 3-5 for Kipple's existing-uid path. The Kipple plan currently says nothing about updating
 an already-stored item. Recommended rule: update title/content/etc. in place, **never** change
 `read`/`starred`/`id`/crawl time, and cap hash-only churn at 24.
 
@@ -284,7 +284,7 @@ pathological feed quickly, without adding a monitor.
 ### 4.3 The deciding difference: Kipple ids are published to clients
 
 Reader can merge after the fact because nothing outside the process has seen the duplicate's id.
-Kipple cannot. Once an item id has gone out in `stream/items/ids`, Reeder and NetNewsWire keep it.
+Kipple cannot. Once an item id has gone out in `stream/items/ids`, client A and client B keep it.
 The Reader API has no "item deleted" or "item merged" signal. A post-hoc delete leaves a ghost the
 client may still show unread, and `edit-tag` against it must keep answering `OK`. **Dedup must happen
 before insert** (INFERRED from the sync contract research, not from reader). So Kipple's pre-insert
@@ -555,7 +555,7 @@ naive deletion resurrects entries, and Kipple's tombstones already address it.
    fields, so feeds that churn `lastBuildDate` or `updated` don't rewrite unchanged rows (#231).
 9. **CONSIDER**: Add an indexed `sort_at` column set to the clamped published date on a feed's first
    fetch and to crawl time afterward (reader's `recent_sort`), and on first fetch assign crawl-time
-   ids in ascending published order so Reeder's `timestampUsec` order matches real dates for an
+   ids in ascending published order so client A's `timestampUsec` order matches real dates for an
    imported backlog.
 10. **ADOPT**: For an existing uid, update the item in place when its `updated` changes or its
     content hash changes, never touching id/read/starred/crawl time, and cap hash-only updates at 24
@@ -649,7 +649,7 @@ base `https://raw.githubusercontent.com/lemon24/reader/master/`):
 - `src/reader/_hash_utils.py`: versioned content hashing
 - `src/reader/core.py`: `update_feeds(scheduled=...)`, `delete_entry`, `change_feed_url`
 - `src/reader/plugins/entry_dedupe.py`: groupers, `normalize_url`, `MIN_CONTENT_LENGTH = 48`,
-  `MIN_TRIM_CONTENT_RATIO = 1.5`, n-gram threshold table, `merge_flags` (lines 775–786)
+  `MIN_TRIM_CONTENT_RATIO = 1.5`, n-gram threshold table, `merge_flags` (lines 775-786)
 - `src/reader/plugins/readtime.py`: `_WPM = 265`, image bonus, backfill hooks
 - `src/reader/plugins/ua_fallback.py`: 403 retry, TODO on caching
 - `src/reader/plugins/enclosure_dedupe.py`, `src/reader/plugins/mark_as_read.py`
@@ -680,7 +680,7 @@ that shape the design" and "Product decisions made in this plan"); the raw repor
 Corrections made against the raw reports while writing this:
 
 1. `merge_flags` breaks ties by the **oldest** modified time, not the most recent (source lines
-   775–786).
+   775-786).
 2. Reader does not "rely on WAL's default NORMAL". SQLite's default `synchronous` is FULL, and reader
    never sets it (SQLite docs, INFERRED).
 3. The search split is "versionchanged 3.12" in the guide but "Since 3.11" in the code comment. This

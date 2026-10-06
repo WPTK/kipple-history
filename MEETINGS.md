@@ -34,7 +34,7 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 - Input: one long pasted prompt, kept as [plans/history/KICKOFF-2026-09-24-d7bbb94.md](plans/history/KICKOFF-2026-09-24-d7bbb94.md).
   Architecture decided, fixed decisions in `CLAUDE.md`, "Start in plan mode. Ultracode is on for this project."
 - Outcome: research reports, open-question triage, phase 1 design and plan. the owner's redirects: use lemon24/reader
-  as prior art, "we don't have to copy Reeder"; Kipple is a web app plus Reader API compatibility, not an iOS app;
+  as prior art, "we don't have to copy client A"; Kipple is a web app plus Reader API compatibility, not an iOS app;
   the open questions in the research files get answered before building.
 - Also here: the model and effort correction (see [CHALLENGES.md](CHALLENGES.md)).
 
@@ -144,7 +144,7 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
   that asks for a refresh of all feeds specifically; the final `CLAUDE.md` says clients never trigger fetches and a
   refresh-all call, if a client sends one, is ignored (the Reader API has no such call). The hostname scrub waits for a final meeting before going public, with a heads-up. Roadmap: a
   single Docker image plus a separate setup application (custom domain, optional Cloudflare OTP, generated API
-  password for Reeder), 1.5.0 or 2.0.0; user-chosen Google Fonts is a 2.0.0 item. the owner asked whether the stats
+  password for client A), 1.5.0 or 2.0.0; user-chosen Google Fonts is a 2.0.0 item. the owner asked whether the stats
   ledger should be kept forever. Release steps 8 onward (audit, changelog review, documentation run, first-time
   Docker setup, backup and settings retention, go/no-go) were added. He asked for the diary and for daily
   entries for the earlier days, including model changes and token usage.
@@ -267,7 +267,7 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
   8+: full code audit, changelog review, documentation run, Docker walkthrough, backup/restore-settings guide,
   final go/no-go) with the two parking-lot items gated on "planned work finished" (Cloudflare Access JWT
   validation, passwordless login), run in parallel with the audit. Scope boundary: only work directly related to
-  Kipple and its Docker image — auto-night theme is in, the 1.5.0/2.0.0 roadmap (design system, demo site,
+  Kipple and its Docker image - auto-night theme is in, the 1.5.0/2.0.0 roadmap (design system, demo site,
   Google Fonts) stays parked. The owner wants minimal involvement in phase 5: interrupt him only for deploys,
   Cloudflare changes, and the final go/no-go, not routine build decisions.
 

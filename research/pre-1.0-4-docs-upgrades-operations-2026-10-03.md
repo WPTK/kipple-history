@@ -26,7 +26,7 @@ Legend: COVERED / PARTLY / MISSING. Worth = worth doing before 1.0 for one owner
 | Reverse proxy recipes | PARTLY | deploy.md mentions Caddy/nginx/Cloudflare Tunnel and KIPPLE_TRUSTED_PROXY_IPS; no copy-paste Caddy/nginx/Traefik snippet; Cloudflare covered | Yes (top 2-3 snippets) | S |
 | Docs separated by Diataxis type | PARTLY | deploy.md is 579 lines mixing reference, how-to, explanation; docs/README.md is an index. Splitting is nice-to-have; a TOC at top of deploy.md is the cheap fix | Skip split; add TOC/anchors | S |
 | Self-hoster docs vs internal history | PARTLY | docs/ mixes HANDOFF-*, plan, parking-lot with user docs; docs/README.md explains. Consider moving history into a docs/internal/ folder | Optional | S |
-| Reader-API client setup page (Reeder/NNW) | PARTLY | README after-setup lines; design.md has the contract. No short how-to with screenshots/exact fields | Maybe | S |
+| Reader-API client setup page (client A/NNW) | PARTLY | README after-setup lines; design.md has the contract. No short how-to with screenshots/exact fields | Maybe | S |
 
 ### (b) Upgrade and migration safety
 | Practice | Status | Where / gap | Worth | Effort |
@@ -78,7 +78,7 @@ Legend: COVERED / PARTLY / MISSING. Worth = worth doing before 1.0 for one owner
 | Practice | Status | Where / gap | Worth | Effort |
 |---|---|---|---|---|
 | Browser/device matrix | MISSING | uat-plan names desktop Chrome + iPhone PWA only (owner's devices). No published "supported browsers" (Safari, Firefox, Chrome/Edge latest two; iOS 16+? Android Chrome) | Yes: a table + Playwright runs in webkit/firefox/chromium (axe suite already exists, adding projects is cheap) | S-M |
-| Sync client matrix | PARTLY | Reeder Classic and NetNewsWire are named; TC-A1..A3 were skipped in some runs (uat-plan 268, 352). Third-party clients (FeedMe, Fluent Reader, Newsboat, Reeder 5?) untested/unlisted | Yes: state "tested with X version", "others may work" | S |
+| Sync client matrix | PARTLY | client A and client B are named; TC-A1..A3 were skipped in some runs (uat-plan 268, 352). Third-party clients (FeedMe, Fluent Reader, Newsboat, client A?) untested/unlisted | Yes: state "tested with X version", "others may work" | S |
 | Platform matrix (amd64/arm64, Docker, Podman, Synology/Unraid) | PARTLY | amd64+arm64 image verified (Suite 5 line ~569). Podman/NAS untested; say so | Say so | S |
 
 ### (g) Support process

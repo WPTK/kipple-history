@@ -90,5 +90,5 @@ for the main folder list. The sidebar chevron became one shared `CollapseToggle`
 - Owner's confirmation after his phone pass of beta.2: #57 and #62 fixed and closed.
 - Owner's direction after the UAT re-run: "Fix all defects", as the next beta or an X.X.1 release; and on the archive feed:
   "If someone unsubscribed from a feed, it shouldn't show up anywhere." (issue #100, fixed in beta.3). Not yet
-  confirmed on his devices: how Reeder and NetNewsWire treat archived starred items after the Reader API stopped listing
+  confirmed on his devices: how client A and client B treat archived starred items after the Reader API stopped listing
   the archive feed.

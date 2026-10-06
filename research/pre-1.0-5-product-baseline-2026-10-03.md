@@ -2,11 +2,11 @@
 
 ## Web evidence (paraphrased)
 - selfhosting.sh best-of list (https://selfhosting.sh/best/rss-readers/): selection criteria are mobile-app (Reader/Fever API) support, per-feed refresh intervals, full-text search, OPML import/export, low resource use. Comparison grid also lists keyboard shortcuts, built-in full-text scraper, folders/categories/tags, filter rules, podcast playback.
-- FreshRSS vs Miniflux (https://selfhosting.sh/compare/freshrss-vs-miniflux/, https://ossalt.com/guides/freshrss-vs-miniflux-2026): Miniflux wins on speed/minimalism and ships 20+ built-in integrations (Wallabag, Pinboard, Instapaper-class); FreshRSS wins on extensions, themes, WebSub. Miniflux criticisms: minimal customization, no extensions, no WebSub. Both work with Reeder, NetNewsWire, Fluent Reader.
-- Migration: OPML carries subscriptions and folders only, not starred or saved items; users report no reader exports stars and that Inoreader offers a JSON path (https://discourse.netnewswire.com/t/possible-to-move-full-article-state-between-services/331, https://feeder.co/knowledge-base/rss-basics/opml-file/, https://feedviewer.app/answers/how-to-export-import-feed-lists-between-rss-readers). Feedly exports OPML only from its web app at feedly.com/i/opml.
+- FreshRSS vs Miniflux (https://selfhosting.sh/compare/freshrss-vs-miniflux/, https://ossalt.com/guides/freshrss-vs-miniflux-2026): Miniflux wins on speed/minimalism and ships 20+ built-in integrations (Wallabag, Pinboard, Instapaper-class); FreshRSS wins on extensions, themes, WebSub. Miniflux criticisms: minimal customization, no extensions, no WebSub. Both work with client A, client B, Fluent Reader.
+- Migration: OPML carries subscriptions and folders only, not starred or saved items; users report no reader exports stars and that Inoreader offers a JSON path (https://discourse.client-b.com/t/possible-to-move-full-article-state-between-services/331, https://feeder.co/knowledge-base/rss-basics/opml-file/, https://feedviewer.app/answers/how-to-export-import-feed-lists-between-rss-readers). Feedly exports OPML only from its web app at feedly.com/i/opml.
 - Common OPML complaint: imports that skip folders, no export at all (Vivaldi forum, https://forum.vivaldi.net/post/490729).
-- Client landscape: Reeder, NetNewsWire, Lire, Fluent Reader, ReadKit all use the Reader API against FreshRSS/Miniflux (https://discuss.privacyguides.net/t/rss-reader-recomendation/10989.md).
-- Power-user wishlist: tags/labels, filters, YouTube/Reddit as plain feeds, podcast player, read-later hooks (https://selfhostyourself.com/tags/feed-reader, https://jisaku.com/glossary/rss-reader-reeder-netnewswire-feedly-inoreader-news-2026). Reddit and r/rss search results were thin; forum evidence is weak, so this is conservative.
+- Client landscape: client A, client B, Lire, Fluent Reader, ReadKit all use the Reader API against FreshRSS/Miniflux (https://discuss.privacyguides.net/t/rss-reader-recomendation/10989.md).
+- Power-user wishlist: tags/labels, filters, YouTube/Reddit as plain feeds, podcast player, read-later hooks (https://selfhostyourself.com/tags/feed-reader, https://jisaku.com/glossary/rss-reader-client-a-client-b-feedly-inoreader-news-2026). Reddit and r/rss search results were thin; forum evidence is weak, so this is conservative.
 
 ## Feature table (Kipple state)
 | Baseline | State | Proof |
@@ -32,7 +32,7 @@
 | Per-feed settings (interval, retention, UA, layout, auth) | PRESENT | FeedEditor.tsx |
 | Share / bookmarklet / subscribe-from-browser (web+feed, PWA share target) | PARTIAL: native share and copy link on articles only; no bookmarklet, no manifest share_target, no protocol handler | web/src/lib/share.ts; web/public/manifest.webmanifest |
 | Mobile | PRESENT (PWA, offline reading, gestures, mobile layouts) | README, phase 3 |
-| Reader API clients | PRESENT for Reeder, NetNewsWire; designed for FeedMe, Readrops; others untested in docs | design.md 1380-1416; uat-plan only names two |
+| Reader API clients | PRESENT for client A, client B; designed for FeedMe, Readrops; others untested in docs | design.md 1380-1416; uat-plan only names two |
 | Integrations (Wallabag, Instapaper, Readwise, Pocket, webhooks) | ABSENT | no mention anywhere; Miniflux has them built in |
 | i18n | ABSENT (English only, `<html lang="en">`) | web/index.html |
 | Accessibility | PRESENT (WCAG options, reduced motion, high contrast schemes, dyslexia font) | docs/ui-decisions.md section Accessibility |

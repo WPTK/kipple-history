@@ -45,7 +45,7 @@ it in phase 3 (a "Layout for this folder" item in the list header menu with "Use
 |---|---|---|---|---|
 | Magazine | favicon, source, time, title (3 lines), 2-line excerpt, right thumb, star | Default scanning of mixed feeds (Feedly reference, D) | 6-7 | Ship, default |
 | Cards | 16:9 lead image, source, time, title (3), 3-line excerpt, footer actions | Photo/visual feeds, tablets, browsing | 1.5 | Ship |
-| Compact | favicon, source and time line, title (1-2 lines), unread dot, no image | Fast triage, NNW/Reeder style | 12-14 | Ship |
+| Compact | favicon, source and time line, title (1-2 lines), unread dot, no image | Fast triage, NNW/client A style | 12-14 | Ship |
 | Inbox (email style) | source as bold "sender", title as "subject", 2-line snippet, right time, unread dot, optional thumb; 3-pane on desktop | the owner's request; people who triage like mail; newsletters | 7-8 | Ship |
 | Headlines | one line: title, source right or leading, time; no image, no snippet | Huge unread backlogs, "just clear it" sessions | 18-22 phone, 30+ desktop | Ship (Compact variant) |
 | Columns (newspaper) | multi-column masonry on wide screens | Wide monitors, browsing | n/a | Park: CSS columns break reading order, keyboard j/k order and virtualization; Inoreader's version is really 3-pane (K), which Inbox already covers |
@@ -504,7 +504,7 @@ POST /api/items/mark-range/undo   {"batch": "b_9f3a"}   -> 200 {"restored": 42}
   next trim anyway, which the UI can mention in a confirm-free summary ("Marked 42 as read").
 - Restored-by-unread items (`retain_until`) appear in the list and behave as normal rows.
 - Reader API: mark-range writes the same `read` column the `edit-tag` endpoint writes and stamps the same
-  change marker (the state row's `ot/nt` equivalent), so Reeder and NNW pick the change up on their next
+  change marker (the state row's `ot/nt` equivalent), so client A and NNW pick the change up on their next
   sync as ordinary read-state changes, with no special-casing. Clients do not receive "ranges"; they see
   ids flip. For very large batches (thousands) make sure `stream/items/ids` with `xt=user/-/state/com.google/read`
   stays paged, which design.md already requires.

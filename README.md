@@ -6,7 +6,7 @@ repository can go public without the working notes, testing evidence and deploym
 build.
 
 This repository was written to be private, because the raw material (transcripts, memory notes, the owner's testing
-notes, a Reeder sync log) contains personal and deployment details: first names, internal hostnames and IP addresses,
+notes, a client A sync log) contains personal and deployment details: first names, internal hostnames and IP addresses,
 tunnel and device names. It has been public since 2026-09-27 09:49 ET, and that was not safe at first: it went public
 before the scrub was finished, and `DECISIONS.md` carried two real server hostnames and one path with a Windows account
 name. That was found on 2026-09-28, the current files were scrubbed the same night, and the whole git history was
@@ -45,7 +45,7 @@ Primary sources:
 | Folder | Content |
 |---|---|
 | [diary/](diary/) | The agent's engineering diary, one file per day, written for the article |
-| [human-feedback/](human-feedback/) | the owner's testing notes and evidence (Reeder sync log) |
+| [human-feedback/](human-feedback/) | the owner's testing notes and evidence (client A sync log) |
 | [audits/](audits/) | The 285-item docs-versus-code audit, the `CLAUDE.md` proposals, the local deep review with its second round, and later audits and reviews |
 | [research/](research/) | 26 research reports (plus two colour-scheme data files) and design-meeting prework (client behaviour, libraries, UI, colour) |
 | [plans/](plans/) | Current plans (`0.6-0.7-1.0-plan.md`, `0.8-1.0-plan.md`), the original plan, design, UI decisions, the setup wizard design, phase 3 and phase 4 handoffs, both kickoff briefs, `CLAUDE.md`, changelog; the documents that were removed from the Kipple repo carry a "historical snapshot" header |

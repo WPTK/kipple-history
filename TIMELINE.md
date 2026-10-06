@@ -39,7 +39,7 @@ release commit (`585e961`, 2026-09-29 13:49, PR #88) merged at 14:01 (squash com
 ## 2026-09-24 (Thursday): planning and research
 
 - 11:00 First commits: `.gitignore`, then `CLAUDE.md` with the standing decisions (Go, React, SQLite, Google
-  Reader API only, no Fever, Reeder Classic as primary client).
+  Reader API only, no Fever, client A as primary client).
 - Session 1 (transcript starts 10:34 ET): the owner pastes the kickoff prompt: build a self-hosted RSS reader to replace
   yarr, "Start in plan mode. Ultracode is on for this project." The planning session runs on Fable 5.1 at max
   effort. Large research workflows fan out (about 110 agents). Repeated usage-limit hits.
@@ -62,7 +62,7 @@ the model policy discussed; a start prompt for a fresh implementation session fo
 - 07:06 Maintenance goroutine, nightly job. 07:29 Merge of phase 1 to `main` (PR #3, merge commit `4a688f2`).
 - Early morning to 07:30 (the owner answers a bullet list, then is mostly away): keeps the login lockout, cookie at 90 days,
   approves a read-only deploy key, pauses yarr. the owner makes the Cloudflare Access bypass and tunnel changes himself.
-  Phase 1 is deployed on Host-A, 138 feeds imported; Reeder Classic and NetNewsWire both sync. Tag `v0.1.0`.
+  Phase 1 is deployed on Host-A, 138 feeds imported; client A and client B both sync. Tag `v0.1.0`.
 - 11:44 ET (15:44 UTC): the owner pastes the phase 2 kickoff brief. Step 0: he answers five feedback questions in
   one line.
 - 11:50 to 13:29 Phase 2 backend: stats recorder, card lists, search (FTS5), image proxy, full-text extraction,

@@ -28,7 +28,7 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   phases read files instead of re-running, and salvage partial results from the run journal.
 - Lesson: treat a workflow as not resumable; persist between phases yourself.
 
-## 3. Form-parser "repair" broke Reeder (2026-09-25, phase 1)
+## 3. Form-parser "repair" broke client A (2026-09-25, phase 1)
 
 - Cause: the agent added a repair for malformed Reader API form bodies. It swallowed the `ts` parameter on
   mark-folder-read, mangled label streams, and could be driven to quadratic time.
@@ -36,7 +36,7 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
 - Fix: rewrite, then narrow to the one case that needed it (the disable-tag body); related hardening in
   `c52ad71` and `dbde262`.
 - Lesson: code on a sync client's live path (item ids, parameters, ordering are contract) gets its own hostile
-  review. Small parsing changes show up in Reeder within minutes.
+  review. Small parsing changes show up in client A within minutes.
 
 ## 4. Thumbnail memory model (2026-09-25 to 09-26)
 
@@ -74,8 +74,8 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
 ## 7. Lost debug logs (2026-09-25)
 
 - Cause: recreating the container on Host-A (`docker compose up -d`) discarded the alpha.1 logs, including the
-  evidence for the open Reeder mark-all-as-read `ts` question.
-- Fix: capture evidence before any recreate. Later the Reeder log from alpha.2 was saved to
+  evidence for the open client A mark-all-as-read `ts` question.
+- Fix: capture evidence before any recreate. Later the client A log from alpha.2 was saved to
   [human-feedback/evidence/](human-feedback/evidence/), at the owner's request ("Capture all debug evidence first so we
   don't lose it").
 - Lesson: container logs are ephemeral; the deploy checklist now starts with copying them out.
@@ -244,11 +244,11 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   followed the site's own link to this repository and read its README's own warning that it must never be
   public without a scrub pass. `gh api repos/WPTK/kipple-history` showed it public. A grep across a clone
   found the warning was right to be there: `DECISIONS.md` had the owner's two real server hostnames in
-  plain text in several places, plus one Windows path containing his account name — a scrub had evidently
+  plain text in several places, plus one Windows path containing his account name - a scrub had evidently
   been attempted at some point (the file itself documents one) but was incomplete.
 - First move was to try to fix the exposure at the access-control level: set the repo back to private with
   `gh api -X PATCH repos/WPTK/kipple-history -f private=true`. The permission classifier denied it as a
-  repo-settings change and said to stop and ask rather than find another way to the same result — correctly:
+  repo-settings change and said to stop and ask rather than find another way to the same result - correctly:
   reasoning about a repo's *intended* audience is not something an automated check can verify, and this
   repo's own commit history shows the owner had in fact meant to publish a scrubbed version of it days
   earlier (a private "-private-archive" copy was superseded by this public repo one minute after that
@@ -257,11 +257,11 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   visibility question myself.
 - His answer, once read: "Scrub the kipple history repo of public information. Honestly that should have
   been the logical conclusion you landed on instead of trying to wake me up." He was right. The repo already
-  had an established, working convention for exactly this class of problem — the public `WPTK/Kipple` repo
+  had an established, working convention for exactly this class of problem - the public `WPTK/Kipple` repo
   aliases the same two real machines as Host-A/Host-B throughout its own docs, and this repo's own
   `DECISIONS.md` already recorded a prior (incomplete) attempt to apply that same convention here. Finishing
   that job was a content fix within a policy the owner had already set, not a new decision needing his
-  approval — escalating it as if it needed one was the wrong call. **Lesson: when the fix is "apply the
+  approval - escalating it as if it needed one was the wrong call. **Lesson: when the fix is "apply the
   project's own already-established redaction convention to a leak of the same kind it already covers,"
   that is normal work, not a decision to bring to the owner. Reaching for the visibility toggle first, and
   treating the content fix as blocked behind that question, had it backwards.**
@@ -269,7 +269,7 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   matching the public repo's own terminology exactly rather than inventing new aliases; the Windows path
   genericized). Then, with the owner's explicit go-ahead for the more destructive step, rewrote this
   repository's entire git history with `git filter-repo --replace-text` (a literal string-substitution list,
-  same aliases, run twice — the second pass to clean up one case where two substitutions had concatenated
+  same aliases, run twice - the second pass to clean up one case where two substitutions had concatenated
   into an ugly but non-leaking string) and force-pushed. Verified clean afterward with `git log --all -p`
   grepped for every original string, and with GitHub's own code search over the live repo. 58 commits kept,
   all rewritten from the first affected one onward (expected: changing a blob changes every descendant

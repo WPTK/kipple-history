@@ -163,7 +163,7 @@ Decisions are recorded in full in the private history repository. Summary of wha
 
 ## Phase 5 planning meeting (2026-09-27)
 
-Not a UI meeting — recorded here per the owner's instruction that all planning decisions land in this file plus
+Not a UI meeting - recorded here per the owner's instruction that all planning decisions land in this file plus
 `kipple-history`. Phases 1-4 are complete (v0.3.0-alpha.7 deployed, kipple.cc public). Six topics, one at a time
 with a recommendation each, same format as the phase 4 pre-meeting.
 
@@ -177,15 +177,15 @@ with a recommendation each, same format as the phase 4 pre-meeting.
    a proposed CLAUDE.md edit list (kept in the private history repository), and turning off Host-A debug logging
    (`KIPPLE_LOG_LEVEL`, `KIPPLE_LOG_GREADER_FORMS`) were never marked closed. The owner will flip debug logging
    off himself (ssh to Host-A, edit `.env`, restart `kipple`). A Host-A-side off-site backup job for Kipple's own
-   data (separate from Host-B's own off-site backup job) is **not** being built in phase 5 — local `docker cp`
+   data (separate from Host-B's own off-site backup job) is **not** being built in phase 5 - local `docker cp`
    snapshots stay the only backup path for now. (Private vulnerability reporting has since been turned on.)
 4. **Parking-lot scope boundary.** The owner's rule for phase 5: **only work directly related to Kipple and its
    Docker image.** In: auto-night theme (small, self-contained, ships in phase 5). Out: the 1.5.0/2.0.0
    setup-app/single-image roadmap, a design system, a static demo site, and user-chosen Google Fonts (all stay
    parked, unchanged from the existing parking-lot timing).
 5. **Owner involvement.** The owner wants to be **involved as little as possible** in phase 5. Practical reading:
-   batch work into branches/PRs and only interrupt him for the things CLAUDE.md already reserves for him —
-   deploys, Cloudflare changes, and the final go/no-go — not for routine build decisions in between.
+   batch work into branches/PRs and only interrupt him for the things CLAUDE.md already reserves for him -
+   deploys, Cloudflare changes, and the final go/no-go - not for routine build decisions in between.
 
 **Phase 5 outline (final):**
 - (A) Full code audit + changelog review (Sonnet routine, Opus review/judging, per the existing model policy).
@@ -201,23 +201,23 @@ No deploys happen without asking first, per standing instruction; Cloudflare cha
 
 The owner asked to evaluate a third-party Claude Code skill (`mecabots/webapp-uat`, GitHub `tsilverberg/webapp-uat`)
 for UAT. Recommendation given and accepted: don't install it (unverified npm scope mismatched from the GitHub repo
-owner, and its i18n/placeholder checks don't apply to Kipple), but build the useful parts — console/network error
-capture, WCAG audit, responsive checks — as an in-repo Playwright + axe-core script instead, so it stays auditable
+owner, and its i18n/placeholder checks don't apply to Kipple), but build the useful parts - console/network error
+capture, WCAG audit, responsive checks - as an in-repo Playwright + axe-core script instead, so it stays auditable
 and dependency-light.
 
 The owner also asked to study general UAT methodology (testmonitor.com's UAT guide) and produce a Kipple-specific
 UAT plan, and to add these release-process gaps as phase 5 line items:
 - A Kipple-specific UAT plan, `docs/uat-plan.md` (roles, entry/exit criteria, scripted/agent-driven/owner-only
   test suites, defect severity scale, sign-off feeding the go/no-go meeting).
-- Reader API regression replay (Reeder Classic / NetNewsWire recorded sequences) against the actual deployed
+- Reader API regression replay (client A / client B recorded sequences) against the actual deployed
   build, not just CI's unit-level contract tests.
 - Migration rehearsal against a copy of the live Host-A DB, made a standing checklist item rather than ad hoc.
-- An actual end-to-end `kipple restore` drill (not just documentation) — first real run this cycle.
+- An actual end-to-end `kipple restore` drill (not just documentation) - first real run this cycle.
 - The first-time Docker setup walkthrough treated as literal UAT (follow it verbatim on a clean machine, log
   every stuck point) rather than a documentation paraphrase exercise.
 
-**Phase 5 outline, updated:** (A) code audit + changelog review — DONE, PR #26; (B) Cloudflare Access JWT +
-passwordless, in parallel with A — DONE, PR #40; (C) auto-night theme — DONE, PR #41; (D) documentation run
+**Phase 5 outline, updated:** (A) code audit + changelog review - DONE, PR #26; (B) Cloudflare Access JWT +
+passwordless, in parallel with A - DONE, PR #40; (C) auto-night theme - DONE, PR #41; (D) documentation run
 (in progress) + Docker walkthrough (now doubling as UAT Suite 5) + backup/restore-settings guide; (F) UAT plan execution (`docs/uat-plan.md`
 Suites 1-4, migration rehearsal, restore drill, Reader API regression replay); (E) final go/no-go meeting, fed by
 D and F's sign-off.

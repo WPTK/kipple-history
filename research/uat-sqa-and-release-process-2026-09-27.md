@@ -24,8 +24,8 @@ options, and what else the creation process should cover.
 
 ## 2. Release-process gaps the same question surfaced
 
-Four were recommended and accepted (11:54): a Reader API regression replay of recorded Reeder Classic and
-NetNewsWire request sequences against the deployed build (the actual product surface); a migration rehearsal on a
+Four were recommended and accepted (11:54): a Reader API regression replay of recorded client A and
+client B request sequences against the deployed build (the actual product surface); a migration rehearsal on a
 copy of the live database as a standing checklist item; an actual restore drill instead of documented steps; and
 the fresh-machine Docker walkthrough followed literally, as a single-host self-hoster. Suites 4 and 5 executed on
 the same day, see [../audits/uat-results-2026-09-27.md](../audits/uat-results-2026-09-27.md).

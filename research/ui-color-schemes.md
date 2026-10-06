@@ -62,8 +62,8 @@ Most apps do not publish hex values. Only what was actually sourced is marked; I
 | Apple Books | Original, Quiet, Paper, Bold, Calm, Focus; each bundles background, font and spacing; Paper, Bold, Focus are newer | not found | descriptive only |
 | Instapaper | Light, sepia, dark, and a true-black theme added in 7.7 for OLED iPhones; reviewer praised it as leaving "nothing between you and the text" | not found | The Sweet Setup review |
 | Readwise Reader | Dark theme #000000 bg, #F5F5F5 text; a user-made sepia style uses #f2ebe1 bg | as listed | community pages, estimated |
-| NetNewsWire | Built-in Sepia plus community theme collection; follows system light/dark | not found | descriptive only |
-| Kobo, Google Play Books, Libby, Pocket, Matter, Medium, iA Writer, Ulysses, Bear, Safari Reader, Reeder | Not researched to a citable level in this pass | - | gap |
+| client B | Built-in Sepia plus community theme collection; follows system light/dark | not found | descriptive only |
+| Kobo, Google Play Books, Libby, Pocket, Matter, Medium, iA Writer, Ulysses, Bear, Safari Reader, client A | Not researched to a citable level in this pass | - | gap |
 | Solarized, Nord, Gruvbox | From memory, not fetched: Solarized light #fdf6e3 / #657b83 (about 4.1:1, a common complaint); Nord #2e3440 / #d8dee9; Gruvbox dark #282828 / #ebdbb2, light #fbf1c7 / #3c3836. Cocoa accents (#e8a75c, #f2c14e) are Gruvbox-adjacent | as listed | estimated |
 
 Recurring themes (generic articles, not one authority):

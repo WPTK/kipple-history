@@ -117,7 +117,7 @@ Rate limiting: `SyncRateLimiter` — 429 pauses **all** sync for `Retry-After` s
 - #5266 read status not syncing (iOS) — local device issue, closed.
 - #5302 Miniflux 15-day eviction → NNW marks read — by design.
 - #4707 read state reset (FreshRSS, iOS) — "Believed fixed in 7.1.2".
-- #4944 iOS couldn't add FreshRSS with `home.local` / `192.168.0.2` (Mac fine) — fixed 7.1.3, root cause undocumented (ATS is arbitrary-loads on both).
+- #4944 iOS couldn't add FreshRSS with `home.local` / `192.168.0[.]2` (Mac fine) - fixed 7.1.3, root cause undocumented (ATS is arbitrary-loads on both).
 - #4690/#3731 FreshRSS setup: API access + API password + `/api/greader.php`; `curl -u` basic auth 401 is expected.
 - #4408 creds "disappear" every few weeks → believed fixed 7.0.2 (undocumented).
 - #3834 folders unable to be created on FreshRSS — fixed 7.1.3 by lazy folder creation.

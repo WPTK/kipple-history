@@ -39,14 +39,14 @@ in the public repo. Nothing here starts without the owner asking. Roadmap items 
 ## Deferred ideas (do not raise until the planned phases are done)
 
 - **Setup app and single pull-and-run image** (1.5.0 or 2.0.0, issue #33): custom domain, optional Cloudflare OTP, a
-  generated API password for Reeder and similar apps; first-time setup when using Docker.
+  generated API password for client A and similar apps; first-time setup when using Docker.
 - **All config-file settings move in-app** (added 2026-09-28): every `.env` variable Kipple reads at startup (username
   and password, public URL, trusted proxy IPs, Access team domain and audience, scheduler tuning, log level, etc.) should be
   configurable from the app, not a file edited before first run. Likely needs a first-run setup flow, since some are
   required before the server will start. Folds into the setup app rather than being separate work.
 - **User-chosen Google Fonts** (2.0.0, only if cheap; issue #34).
 - **Design system, static demo site, Kipple identity and accent colour** (issue #35; Kipple stays single-user).
-- **Stats extensions** (added 2026-09-26): stats for Reeder and other Reader API clients (issue #36; read inference),
+- **Stats extensions** (added 2026-09-26): stats for client A and other Reader API clients (issue #36; read inference),
   reading pace (words per minute), period comparison, per-feed drill-down, monthly charts, read rate per feed (issue #37).
 - **Filters follow-ups** (issue #38: only-show-matching, reading-time UI, per-feed view and order) and **more reading
   layouts** (issue #39: Columns, Reader list, Expanded stream).

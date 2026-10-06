@@ -45,7 +45,7 @@ Driven in the desktop app's built-in browser pane against a throwaway local inst
 feed for controlled arrivals). Side effects of the pane being hidden are recorded in the plan (no focus, stalled
 `ResizeObserver` and transitions, no reading time); none is a Kipple defect. Twenty-two cases carry results in the
 plan (PR #45's text says 20 passes; the count in the plan record was not reconciled), all pass or pass with the
-qualifier noted; Reeder Classic and NetNewsWire cases TC-A1 to A3 were skipped (they need the owner's devices).
+qualifier noted; client A and client B cases TC-A1 to A3 were skipped (they need the owner's devices).
 
 Qualified passes: TC-F2 used a 6-feed fixture instead of the owner's 138-feed export; TC-R3 passed after a fix;
 TC-R6 auto-read-after-N-days could not show matches on a fresh instance (covered by store tests); TC-T1 was a
@@ -92,7 +92,7 @@ convenience. Everything torn down afterwards.
 
 ## Not yet done from the plan
 
-The Reader API regression replay (recorded Reeder Classic and NetNewsWire request sequences against a deployed
+The Reader API regression replay (recorded client A and client B request sequences against a deployed
 build) and TC-A1 to A3 remain with the owner's client testing. There is no separate `uat-findings` file; this record
 and the plan's executed sections are the findings record.
 

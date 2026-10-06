@@ -101,7 +101,7 @@ database, deleted after), and known risks.
 ## Final status, 02:35 ET
 
 All four PRs for tonight's dependency/hygiene follow-ups merged: #24 (Dependabot config), #25 (alpha.7 release).
-Phase 4 complete on main (00510e3): alpha.4 sender, alpha.5 screen, alpha.6 export/delete, alpha.7 Wrapped — all
+Phase 4 complete on main (00510e3): alpha.4 sender, alpha.5 screen, alpha.6 export/delete, alpha.7 Wrapped - all
 merged, none tagged, none deployed (Host-A verified untouched at alpha.4, healthy). Zero open PRs. Local branches
 cleaned (worktree-locked fix-ops/fix2-auth left for the owner). Full local CI (13 steps) green on merged main,
 confirmed twice after one flaky rerun of the already-known review3search.test.tsx timing issue (spawned as a
@@ -119,7 +119,7 @@ follow-up task, not blocking). Ready for morning review and a deploy decision.
   and merged branches cleaned up.
 - Merge permission: the classifier's block turned out to be `autoMode` policy, not a plain Bash rule; gave the owner
   the exact settings.local.json snippet. Then hit a second, harder classifier block (Self-Modification) when asked to
-  edit that file directly, even on the owner's explicit instruction — a harness-level boundary I did not route around.
+  edit that file directly, even on the owner's explicit instruction - a harness-level boundary I did not route around.
   Also proposed a soft-deny classifier rule (or a PreToolUse hook) against local Docker test runs on Host-B, given
   the overnight incident.
 - **Deployed v0.3.0-alpha.7 to Host-A** (all of phase 4: sender, screen, export/delete, Wrapped), combining alpha.5,

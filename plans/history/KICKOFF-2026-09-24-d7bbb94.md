@@ -31,7 +31,7 @@ CLAUDE.md in this repo holds the fixed decisions; treat it as settled.
 1. Read, unread and starred state lives on the server and syncs to every
    client.
 2. Google Reader API (the FreshRSS/Miniflux flavor) for iOS apps. No Fever.
-   Primary phone client is Reeder Classic, secondary is NetNewsWire. Before
+   Primary phone client is client A, secondary is client B. Before
    designing the API, verify what each of those two apps actually sends and
    expects, including quirks other servers had to work around, and test
    against both before phase 1 is done.
@@ -48,7 +48,7 @@ CLAUDE.md in this repo holds the fixed decisions; treat it as settled.
    Starred items are never trimmed. Keep a compact record of trimmed item IDs
    and their read state so the Reader API stays consistent. Trim runs after
    each fetch, never on page load.
-6. Web UI polished enough to live alongside Reeder. Installable to the iOS
+6. Web UI polished enough to live alongside client A. Installable to the iOS
    home screen as a standalone PWA with safe-area handling, and equally good
    on desktop. Keyboard shortcuts on desktop (j/k, s, o, r, m), swipe actions
    on mobile.
@@ -88,11 +88,11 @@ No AI features of any kind. Single user. No social features. No notifications
 of any kind. No uptime monitoring.
 
 ## Process
-- Phases: 1 fetch, store, retention, Google Reader API, and Reeder Classic
+- Phases: 1 fetch, store, retention, Google Reader API, and client A
   syncing; 2 web UI reading experience; 3 themes, typography and PWA polish;
   4 stats. Each phase ends with me using it for a day before the next.
-- Use workflows for research (Reader API spec and Reeder Classic and
-  NetNewsWire quirks, Go feed and readability libraries), for design (judge
+- Use workflows for research (Reader API spec and client A and
+  client B quirks, Go feed and readability libraries), for design (judge
   panel on the data model and the fetch scheduler), and for review. Sonnet
   for routine code with Opus as advisor and reviewer. Never Haiku. One writer
   on Host-A at a time.
@@ -104,8 +104,8 @@ of any kind. No uptime monitoring.
 - Save decisions and gotchas to memory as we go.
 
 ## Definition of done
-Reeder Classic syncs read state both ways within 60 s of a change, and
-NetNewsWire connects. OPML round-trips losslessly. New items appear within one
+client A syncs read state both ways within 60 s of a change, and
+client B connects. OPML round-trips losslessly. New items appear within one
 poll interval without me touching anything, and within 15 s of a manual
 refresh on LAN. Retention trims to the chosen cap and never touches starred
 items. The UI is usable one-handed on an iPhone. Feed health shows every

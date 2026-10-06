@@ -38,7 +38,7 @@ Verified by reading only, and being re-verified by the fix agents before any cha
 - `kipple password` accepts "change-me".
 - Login guesses are not counted once an account is locked.
 - Token file permissions on Windows.
-- The tailnet check for `100.64.0.0/10`.
+- The tailnet check for `100.64.0[.]0/10`.
 - Release concurrency and overwrite guards.
 - Nine small frontend issues.
 

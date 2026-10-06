@@ -17,7 +17,7 @@ lawsofux; where they add value it is noted.
 | Fitts's law | Big, near targets for frequent actions | Min 44x44pt hit area on every tappable (visual icon may be smaller, pad the hit box). Primary actions (next, star, mark read) in the bottom third; thumb reach. 8px min gap between adjacent targets. |
 | Hick's law / choice overload | Fewer choices per menu | Reading menu max ~7 items, grouped. Font list shows 4 curated "families" up front, rest behind "More fonts". Settings grouped into sections, not one long list. Progressive disclosure for per-feed overrides. |
 | Miller / chunking / working memory | Group, do not count | Lists chunk by day headers ("Today", "Yesterday"), feed folders collapsed by default, no more than ~5 top-level nav destinations. Do not literally limit to 7 items. |
-| Jakob's law / mental model | Match apps people already use | Follow Reeder/NNW/Feedly conventions: swipe right = mark read, swipe left = star, tap card = open, pull to refresh, back = swipe from left edge (do not override). Standard iOS share sheet. |
+| Jakob's law / mental model | Match apps people already use | Follow client A/NNW/Feedly conventions: swipe right = mark read, swipe left = star, tap card = open, pull to refresh, back = swipe from left edge (do not override). Standard iOS share sheet. |
 | Doherty threshold | Respond under 400 ms | Every tap gets visible feedback in under 100 ms. Optimistic UI for read/star/unread: update instantly, queue the write, roll back with a quiet toast only on failure. Skeletons over spinners for list load. Reserve image space (no layout shift). |
 | Postel's law | Liberal in, conservative out | Accept messy input: OPML variants, feed URLs without scheme, site URL (autodiscover feed), pasted whitespace. Output strict: clean Reader API responses, normalized HTML after sanitizing. |
 | Peak-end rule | Nail the peak and the end | End state: "You're all caught up" screen when the unread list empties (calm, one line, maybe last-refresh time). Peak: reading view typography. Errors end gracefully (retry, never a dead end). |
@@ -155,9 +155,9 @@ Automatic, no setting: contrast and high-contrast follow the OS; focus rings, la
 2. Add Atkinson Hyperlegible Next to the bundled fonts (OFL, small)? Or hold the font list at the current eleven?
 3. Reading spacing as three steps (Snug/Normal/Roomy) acceptable, or should it be fully folded into the single density preset?
 4. Should mark-read-on-scroll exist at all, and if so, off by default?
-5. Swipe mapping: right = mark read, left = star (Reeder-like)? Or a different mapping?
+5. Swipe mapping: right = mark read, left = star (client A-like)? Or a different mapping?
 6. Undo window: 6 s toast, or a persistent Undo until the next action?
-7. Keyboard shortcuts: are you okay with Reeder/NNW-style j/k/o/s/m bindings for iPad or desktop use?
+7. Keyboard shortcuts: are you okay with client A/NNW-style j/k/o/s/m bindings for iPad or desktop use?
 8. Do you want "Titles only" as a list layout choice (Cards / Compact / Titles only) in phase 3?
 9. Should embedded YouTube captions default to on?
 10. Do you use, or want to test with, VoiceOver, Larger Text or Increase Contrast on your own phone so we have a real check before phase 2 closes?

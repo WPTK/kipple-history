@@ -30,7 +30,7 @@ CLAUDE.md in this repo holds the fixed decisions; treat it as settled.
 ## Hard requirements
 1. Read, unread and starred state lives on the server and syncs to every
    client.
-2. Google Reader API (the FreshRSS/Miniflux flavor) for iOS apps. No Fever.
+2. Google Reader API (the server A/B flavor) for iOS apps. No Fever.
    Primary phone client is client A, secondary is client B. Before
    designing the API, verify what each of those two apps actually sends and
    expects, including quirks other servers had to work around, and test
@@ -68,7 +68,7 @@ CLAUDE.md in this repo holds the fixed decisions; treat it as settled.
 11. Layouts: compact list, magazine cards, and a clean article view. Search
     across stored articles. Feedly is the reference for feel, especially its
     magazine and card views with images up front. Rejected for reference:
-    NewsBlur (too much), FreshRSS (boring, no magazine view), Miniflux (too
+    NewsBlur (too much), server A (boring, no magazine view), server B (too
     plain).
 12. Feed health view: last success, last error, consecutive failures, current
     backoff, dead feeds, redirect notices, per-feed fetch history.

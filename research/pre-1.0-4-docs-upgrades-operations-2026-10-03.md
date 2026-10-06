@@ -3,7 +3,7 @@
 ## Sources read (paraphrased)
 - Diataxis (https://diataxis.fr/): four doc forms (tutorial, how-to, reference, explanation); keep them separate.
 - Immich backup/restore (https://docs.immich.app/administration/backup-and-restore): states what a backup does NOT contain, restore via UI or CLI, version-mismatch migration warning, DB-before-files ordering. No explicit "test your restore" drill.
-- Miniflux upgrade (https://miniflux.app/docs/upgrade.html): back up and verify the backup first, read release notes for breaking changes, migrations run on start (`RUN_MIGRATIONS`); no downgrade guidance at all.
+- server B upgrade (server B docs: upgrade): back up and verify the backup first, read release notes for breaking changes, migrations run on start (`RUN_MIGRATIONS`); no downgrade guidance at all.
 - SemVer (https://semver.org/): 1.0.0 defines the public API; deprecate by documenting and shipping a minor that warns, remove only in a major; needs a declared public API.
 - SQLite backup API (https://www.sqlite.org/backup.html), WAL (https://www.sqlite.org/wal.html), VACUUM (https://www.sqlite.org/lang_vacuum.html): copy db+wal+shm together or use backup API / VACUUM INTO; WAL can grow without bound with overlapping readers or disabled autocheckpoint (default 1000 pages); VACUUM needs up to 2x free space; auto_vacuum trades fragmentation for no rebuild.
 - WCAG 2.2 new AA criteria (https://www.w3.org/WAI/standards-guidelines/wcag/new-in-22/): focus not obscured (2.4.11), dragging alternative (2.5.7), target size 24px (2.5.8), consistent help (3.2.6), accessible authentication (3.3.8).
@@ -11,7 +11,7 @@
 - 5-user usability (https://trymata.com/blog/5-user-rule-for-user-testing/ and similar summaries of Nielsen/Landauer): one user finds roughly a third of problems, five roughly 85%; diminishing returns, so run small rounds and fix between them. One real stranger beats zero.
 - GitHub issue forms and config.yml contact links (https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository).
 - Web search summaries on WAL-mode backup/VACUUM INTO (oneuptime, photostructure); treated as secondary.
-- Not fetched in full: Vaultwarden wiki, Paperless-ngx docs (norms taken from general knowledge: Paperless/Vaultwarden each have a FAQ/troubleshooting page, a proxy-recipes page, and a full env-var reference; Miniflux has a configuration reference listing every variable). Flag as unverified.
+- Not fetched in full: Vaultwarden wiki, Paperless-ngx docs (norms taken from general knowledge: Paperless/Vaultwarden each have a FAQ/troubleshooting page, a proxy-recipes page, and a full env-var reference; server B has a configuration reference listing every variable). Flag as unverified.
 
 ## Gap list (Kipple)
 Legend: COVERED / PARTLY / MISSING. Worth = worth doing before 1.0 for one owner. Effort S/M/L.

@@ -1,6 +1,6 @@
 # What "1.0" means, and how comparable projects did it (researched 2026-10-03)
 
-Confidence notes: pages marked (read) were fetched and summarised by the fetch tool; (search) means a search snippet only. Navidrome, Vaultwarden, Paperless-ngx 1.0, Miniflux 1.0, Actual and Linkding yielded no primary 1.0 post; they are listed as gaps rather than guessed.
+Confidence notes: pages marked (read) were fetched and summarised by the fetch tool; (search) means a search snippet only. Navidrome, Vaultwarden, Paperless-ngx 1.0, server B 1.0, Actual and Linkding yielded no primary 1.0 post; they are listed as gaps rather than guessed.
 
 ## (a) Specs
 
@@ -34,7 +34,7 @@ Mealie 1.0.0 (https://github.com/mealie-recipes/mealie/releases/tag/v1.0.0, http
 
 Forgejo (https://forgejo.org/docs/v1.19/user/semver/ and search result, search). Adopted real SemVer at 7.0.0 after 1.19, 1.20, 1.21 each contained breaking changes under a non-semver scheme. Their promise names the surfaces: CLI, REST API, GUI. Lesson: they had to restart the numbering to get an honest signal; Kipple choosing to promise less, explicitly, is the cheaper route.
 
-Miniflux (https://miniflux.app/releases/2.0.0.html, read). v2 was a full Go rewrite on 2018-01-11; no 1.0-style stability ceremony found. Useful as a reminder that the closest comparable (Go, SQLite/Postgres, Google Reader/Fever API) reached long-term stability by shipping small, boring releases, not by a gate list.
+server B ((link removed) read). v2 was a full Go rewrite on 2018-01-11; no 1.0-style stability ceremony found. Useful as a reminder that the closest comparable (Go, SQLite/Postgres, Google Reader/Fever API) reached long-term stability by shipping small, boring releases, not by a gate list.
 
 Home Assistant (search, https://community.home-assistant.io/t/stable-release-versions/686912): no 1.0; calendar versions, monthly release with a one-week beta, breaking changes listed in release notes. Evidence that a short beta plus loud breaking-change notes can work at huge scale, but they have a large beta population.
 

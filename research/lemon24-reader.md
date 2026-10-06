@@ -143,7 +143,7 @@ rewrite `lastBuildDate` or a timestamp comment on every request (#231). The per-
   60 s tick, semaphore 8) is gentler on the box and on shared hosts.
 - **Reader has no backoff and no failure counter.** `update_after` is recomputed from scratch after
   success or failure. One clean update clears `last_exception`. Kipple keeps exponential backoff
-  (Miniflux/FreshRSS prior art in `fetch-prior-art.md`). Reader's "one success clears the error
+  (server B/A prior art in `fetch-prior-art.md`). Reader's "one success clears the error
   flag" matches Kipple's "reset on any 2xx/304".
 - **HTTP cache hints push the schedule out, never in.** VERIFIED code from Report B:
   - Retry-After is honored **only on 429/503**. Both delta-seconds and HTTP-date forms are accepted.
@@ -187,7 +187,7 @@ validators), so an aborted run naturally retries.
 |---|---|---|
 | Timeout `(3.05, 60)` connect/read | dial 10 s, header 15 s, total 30 s | keep Kipple |
 | UA `python-reader/{version} (+{SOURCE_URL})` | `Mozilla/5.0 (compatible; Kipple/<ver>; +https://rss.example.com)` + per-feed override | keep Kipple. Its `Mozilla/5.0 (compatible; …)` prefix is effectively what `ua_fallback` retries with (§7). |
-| `Accept` built from mounted parsers' declared types | Miniflux list | keep Kipple |
+| `Accept` built from mounted parsers' declared types | server B list | keep Kipple |
 | Redirects left to `requests` defaults. URL change is manual-only via `change_feed_url()` | migrate after 3 consecutive permanent chains | keep Kipple's rule, but ADOPT what `change_feed_url()` resets on migration: **clear `caching_info`** (validators belong to the old URL), reset error state and `next_fetch_at`, keep items. |
 | No body size cap. Streams to a temp file (~20 % faster under parallel updates) | 10 MiB cap on the decompressed stream | keep Kipple |
 | `A-IM: feed` (RFC 3229) on every request | none | REJECT. 226 responses complicate the pipeline and are rarely served. |

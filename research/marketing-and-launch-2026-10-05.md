@@ -21,7 +21,7 @@ look. Unraid's catalog requires an OSI-approved license on the template reposito
 
 ## Positioning
 
-Miniflux is minimal and needs Postgres. FreshRSS is PHP and extension-driven. yarr is bare. Kipple is the reader that
+server B is minimal and needs Postgres. server A is PHP and extension-driven. yarr is bare. Kipple is the reader that
 looks like a good reading app and runs as one container with SQLite: magazine and card layouts, 20 themes, installable
 PWA, Reader API sync for any client, a yearly Wrapped, and an unusually thorough audit trail (signed images, Scorecard,
 fuzzing, a public decision record). Client policy applies: write "Reader API clients", never name apps.
@@ -30,7 +30,7 @@ fuzzing, a public decision record). Client policy applies: write "Reader API cli
 
 1. A real screenshot or GIF in the README (a TODO sits there now; the website already has screenshots).
 2. A try-it-now demo (deferred by the owner).
-3. An honest "Kipple versus Miniflux, FreshRSS and yarr" page, so launch threads already have the answer.
+3. An honest "Kipple versus server B, server A and yarr" page, so launch threads already have the answer.
 4. GitHub Discussions on, so first users have somewhere to land.
 5. The agent-experiment statement on the site and README.
 

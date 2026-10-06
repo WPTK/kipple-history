@@ -11,7 +11,7 @@
 
     Generic rules built in below (see Get-GenericRule): em and en dashes, IPv4
     addresses (except 127.0.0.1, 0.0.0.0 and the documentation ranges), email
-    addresses (except example domains) and named reader apps.
+    addresses (except example domains) and named reader apps and servers.
 
     Owner-specific terms come from an untracked file, .scrub-terms.local at the
     repository root (override with -TermsFile): one literal term or regex per
@@ -106,7 +106,7 @@ function Get-GenericRule {
     $dashPattern = "[$emDash$enDash]"
     $ipPattern = '(?<![\d.])(?:\d{1,3}\.){3}\d{1,3}(?![\d.])'
     $emailPattern = '[A-Za-z0-9._%+-]+@(?!example\.)[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+'
-    $readerPattern = 'Reed' + 'er|NetNews' + 'Wire'
+    $readerPattern = 'Reed' + 'er|NetNews' + 'Wire|Fresh' + 'RSS|Mini' + 'flux'
 
     return @(
         ConvertTo-ScrubRule -Name 'generic:dash' -Pattern ([regex]::new($dashPattern, $compiled))
@@ -241,7 +241,7 @@ function Get-TrackedTextFile {
     [CmdletBinding()]
     [OutputType([object[]])]
     param()
-    $textExtension = '\.(md|txt|json|ya?ml|ps1|sh|csv|toml|html|css|js|ts)$'
+    $textExtension = '\.(md|txt|log|json|ya?ml|ps1|sh|csv|toml|html|css|js|ts)$'
     $tracked = & git ls-files
     if ($LASTEXITCODE -ne 0) {
         throw 'Step "list tracked files": git ls-files failed. Check that git works in this repository.'

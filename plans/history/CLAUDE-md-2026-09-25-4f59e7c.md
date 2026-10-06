@@ -8,7 +8,7 @@ not localhost, name compose services explicitly).
 
 - **Stack:** Go backend, React + TypeScript + Vite + Tailwind + shadcn frontend, SQLite in WAL
   mode. Frontend build is embedded in the Go binary. One image, one container, one port.
-- **Sync API:** Google Reader API (FreshRSS/Miniflux flavor) only. **No Fever.** Primary client
+- **Sync API:** Google Reader API (server A/B flavor) only. **No Fever.** Primary client
   client A, secondary client B. Test against both.
 - **Refresh:** background poll every 30 min (global + per-feed override), ETag/Last-Modified
   conditional requests, exponential backoff on failing feeds, manual refresh fetches all now.
@@ -23,7 +23,7 @@ not localhost, name compose services explicitly).
   Literata elsewhere.
 - **Themes:** white, off-white, sepia, soft green, brown, dark, follow-system.
 - **Look:** Feedly is the reference (magazine/cards with images up front). Not NewsBlur,
-  FreshRSS or Miniflux.
+  server A or server B.
 - **Non-goals:** no AI features, no notifications, no social, no monitoring, no multi-user.
 
 ## Layout

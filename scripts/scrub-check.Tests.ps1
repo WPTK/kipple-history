@@ -36,6 +36,8 @@ Describe 'Generic rules' {
         @{ Case = 'a public IPv4 address'; Rule = 'generic:ipv4'; Text = 'host at 8.8.' + '4.4 here' }
         @{ Case = 'an email address'; Rule = 'generic:email'; Text = 'mail someone@' + 'corp.test now' }
         @{ Case = 'a reader app name in any case'; Rule = 'generic:reader-app'; Text = 'uses netnews' + 'wire daily' }
+        @{ Case = 'a reader server name'; Rule = 'generic:reader-app'; Text = 'runs mini' + 'flux today' }
+        @{ Case = 'a second reader server name'; Rule = 'generic:reader-app'; Text = 'a fresh' + 'rss box' }
     ) {
         # Arrange: the fixture text comes from the case. Act:
         $result = Invoke-Check -Text $Text

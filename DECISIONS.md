@@ -10,13 +10,13 @@ are in [plans/ui-decisions.md](plans/ui-decisions.md). Meeting context: [MEETING
 | Decision | Detail | Source |
 |---|---|---|
 | Stack | Go backend; React, TypeScript, Vite, Tailwind, shadcn frontend; SQLite in WAL mode; frontend embedded in the Go binary; one image, one container, one port | [CLAUDE.md](plans/CLAUDE.md) |
-| Sync API | Google Reader API (FreshRSS and Miniflux flavour) only; no Fever; client A primary client, client B secondary; test both | [CLAUDE.md](plans/CLAUDE.md), [research/client-a.md](research/client-a.md), [research/client-b.md](research/client-b.md) |
+| Sync API | Google Reader API (server A and server B flavour) only; no Fever; client A primary client, client B secondary; test both | [CLAUDE.md](plans/CLAUDE.md), [research/client-a.md](research/client-a.md), [research/client-b.md](research/client-b.md) |
 | Refresh | Background poll every 30 minutes (global and per-feed override), conditional requests, exponential backoff; API clients never trigger fetches | [CLAUDE.md](plans/CLAUDE.md), [research/fetch-prior-art.md](research/fetch-prior-art.md) |
 | Retention | Newest N per feed (50, 100, 250, 500, 1000, unlimited), starred never trimmed, trimmed ids and read state kept, trim after fetch | [CLAUDE.md](plans/CLAUDE.md), [plans/design.md](plans/design.md) |
 | Stats | Bulk mark-as-read and mark-read-on-scroll are not reads; active reading time is tab visible and focused; stats events never trimmed | [CLAUDE.md](plans/CLAUDE.md) |
 | Fonts | Bundled and self-hosted, no CDN; system fonts when present | [CLAUDE.md](plans/CLAUDE.md), [research/pwa-ui-fonts.md](research/pwa-ui-fonts.md) |
 | Themes | White, off-white, sepia, soft green, brown, dark, OLED, follow-system (later expanded to 20 schemes, see below) | [CLAUDE.md](plans/CLAUDE.md) |
-| Look | Feedly is the reference (magazine and cards with images up front); not NewsBlur, FreshRSS or Miniflux | [CLAUDE.md](plans/CLAUDE.md) |
+| Look | Feedly is the reference (magazine and cards with images up front); not NewsBlur, server A or server B | [CLAUDE.md](plans/CLAUDE.md) |
 | Non-goals | No AI features, no notifications, no social, no monitoring, no multi-user | [CLAUDE.md](plans/CLAUDE.md) |
 | Build | The image must build with Docker alone (the deployment host has no Go or Node) | [CLAUDE.md](plans/CLAUDE.md) |
 | No secrets or hostnames committed | `.env.example` documents every variable (in practice some hostnames were committed in docs; see the scrub below) | [CLAUDE.md](plans/CLAUDE.md) |

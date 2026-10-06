@@ -8,7 +8,7 @@ not localhost, name compose services explicitly).
 
 - **Stack:** Go backend, React + TypeScript + Vite + Tailwind + shadcn frontend, SQLite in WAL
   mode. Frontend build is embedded in the Go binary. One image, one container, one port.
-- **Sync API:** Google Reader API (FreshRSS/Miniflux flavor) only. **No Fever.** The web app is the
+- **Sync API:** Google Reader API (server A/B flavor) only. **No Fever.** The web app is the
   intended and preferred client (reading stats are web-only). client A and client B are supported
   secondary clients: test against both.
 - **Refresh:** background poll every 30 min (global + per-feed override), ETag/Last-Modified
@@ -28,7 +28,7 @@ not localhost, name compose services explicitly).
   seven names are aliases: white=Paper, off-white=Linen, sepia=Parchment, soft green=Directory,
   brown=Cocoa Kraft, dark=Graphite, OLED=Midnight.
 - **Look:** Feedly is the reference (magazine/cards with images up front). Not NewsBlur,
-  FreshRSS or Miniflux.
+  server A or server B.
 - **Non-goals:** no AI features, no notifications, no social (no other people's data, no comparisons; an opt-in share of the reader's own yearly summary, Wrapped, is allowed), no monitoring, no multi-user. Per-device appearance profiles (one account, many browsers) are not multi-user.
 
 ## Layout

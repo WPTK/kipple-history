@@ -91,7 +91,7 @@ someone testing Dependabot PRs #1 and #7); `phase4-stats-export` gained local co
 - Messages: 20 of 28 use repo-specific prefixes (`diary:`, `history:`, `plans:`, `audits:`), not Conventional
   Commits types. Fine for a journal repo; optionally adopt `docs(diary):` etc. going forward.
   8 of 28 commits lack a Co-Authored-By trailer.
-- gitleaks (default rules): 1 finding, false positive: `generic-api-key` in `research/greader-miniflux.md:63`,
+- gitleaks (default rules): 1 finding, false positive: `generic-api-key` in `research/greader-server-b.md:63`,
   commit `dca7d518`, a sample token quoted from a public upstream issue for a test user. Nothing to rotate.
 - Personal data (expected, repo is private): owner's first name in 44 files; home-server hostname in 24 files;
   deploy-host hostname in 36 files; LAN addresses in 12 files; Windows user-profile paths in 5 files (4 of them

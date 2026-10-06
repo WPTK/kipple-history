@@ -791,7 +791,7 @@ Verified as matching (not listed): caps, TTLs, budgets, CSP string, key and sign
 - [ ] **WRONG** design.md §11 (line 2324), §10 (line 2249): `greader.ot_includes_user_changes` does nothing
   - Doc says: the setting "restores it without a schema change"; the `ot` test says an item read after `ot` is not returned "(unless the setting is on)".
   - Code does: only declared and validated (internal/api/settingsmeta.go:339; internal/store/uibootstrap.go:45); nothing in internal/greader or internal/store reads it.
-  - Fix: §11: "Both target clients pull full unread and starred lists without `ot`; FreshRSS behaves this way. The `greader.ot_includes_user_changes` key is reserved (validated, hidden) but **not implemented**." §10 line 2249: delete "(unless the setting is on)". (Same root as the §1 decision 6 finding.)
+  - Fix: §11: "Both target clients pull full unread and starred lists without `ot`; server A behaves this way. The `greader.ot_includes_user_changes` key is reserved (validated, hidden) but **not implemented**." §10 line 2249: delete "(unless the setting is on)". (Same root as the §1 decision 6 finding.)
 
 - [ ] **WRONG** design.md §11 (line 2332), §12 #35 (line 2399): `greader.subscribe_fetch_now` does nothing
   - Doc says: "`greader.subscribe_fetch_now` restores the synchronous path".

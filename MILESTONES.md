@@ -365,5 +365,29 @@ more reading layouts (#39): all labelled Roadmap. Before 1.0: a beta soak week w
   because the build is in daily use.
 - Released 2026-10-05: annotated tag `e9be5e08` on `48a405f`, Release workflow green, signed with cosign and verified by hand,  SBOM sha256 `a755c738...`, a full GitHub release marked Latest, image digest `sha256:31eedc0b...432dd6`. Gates: a second Go run,  30 fuzz targets clean, UAT Suite 1 clean, a migration rehearsal on a copy of the live snapshot (137 feeds, 12,649 items,  healthy after 2.7 s) and two Opus reviews with no blocking findings. Off-box snapshot first (schema 12); deployed by digest  at about 10:40 ET, migration 0013 applied, schema 13, healthy, the public URL and the Reader API endpoint answer, about 46 MiB.  Rollback: the beta.1 digest `sha256:cfe291f0...`, with the pre-migration snapshot restored because the schema is now 13.
 
+## v0.8.0-beta.3 (2026-10-05, tag on `2896ded`, release commit #276, schema 16)
+
+- Tagged `v0.8.0-beta.3` on `2896ded` (the squash of release PR #276). The Release workflow was green end to end, including the
+  first real run of the signed SBOM step. Image digest `sha256:46b50bb9...d053a3`; cosign verify and verify-blob were checked by
+  hand, and the release notes now give the exact-identity form of the check. Published as a pre-release.
+- Deployed by digest at about 21:09 ET: schema 13 to 16 (0014 clear placeholder titles, 0015 one api client, 0016 list
+  overrides), healthy, no WARN or ERROR in the log, about 55 MiB. Rollback: the beta.2 digest `sha256:31eedc0b...432dd6` plus a
+  restore of the pre-migration 13-to-16 snapshot, which was copied off the server to the owner's backup folder first.
+- Merged today, each squash-merged after a `/code-review high` by an Opus reviewer with every finding fixed: #268 (supply-chain
+  hardening: `npm ci --ignore-scripts`, a signature audit, a Dependabot cooldown, the signed SBOM, a zizmor gate, a 14-day response
+  promise in SECURITY.md), #270, #271 (a weekly audit workflow; its open, update and close behaviour is unverified until it runs
+  on main), #272 (link checker), #273 (#236, folder reorder in one transaction), #274 (#38: per-feed order and view, a
+  reading-time filter, only-show-matching; 14 "decisions made for the owner" recorded in docs/ui-decisions.md, which the owner
+  approved today), #275 (#265: public URL, allowed hosts, trusted proxies and Cloudflare Access move from environment variables
+  to settings, wizard step 6 of 7, environment values only seed once), #276 (the release).
+- Release gate: about 17 findings from a whole-diff review, a migration review, an HTTP review, a CI and workflow review and a
+  delta review, all fixed before the tag. Examples: a setup-mode Host gate regression for LAN zones, allowed hosts merged once
+  on upgrade, rollback documentation and snapshot pruning for a partial upgrade, the exact signing identity in the release notes,
+  the link check skipping the compare links of the unpushed tag, a UAT locator, and axe scoped on screens with an open menu
+  (no waiver). Gates run: two Go runs, fuzz (30 targets, clean), web (1376 tests), Suite 1 (exit 0, 138 screens) and a migration
+  rehearsal with the shape of the owner's real environment; all passed.
+- Incident note: the gate agent accidentally ran a start against the default data directory on the dev machine. The database
+  there was empty, so it was harmless.
+
 Update 2026-10-05: the "Not built yet" list above was written at beta.2 (0.3.0) preparation. Since then the wizard (#33,
 closed 2026-10-05) shipped, and the roadmap items now live in issue #207 and milestone "Roadmap (post-1.0)".

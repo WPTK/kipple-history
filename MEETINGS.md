@@ -557,6 +557,9 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
   compatibility is a 1.0 requirement, with a conformance suite (#264), CORS on Reader API routes, gzip and discovery (#266);
   one `api` stats value (#267); reachability settings move into the app (#265); automatic feed title (#261); review every PR
   with `/code-review high`; merge in any order once reviewed and green. Beta.2 was deployed about 10:40.
+- Night, same day (DECISIONS.md, "2026-10-05, night"): beta.3 is the build to soak; #262, #263, #265, #236 and #38 in beta.3;
+  #207 split into separate sessions (#39, #37 and #36, #246), #35 parked, #34 Post 1.0; #269 draft approved; the 14 decisions in
+  #274 approved; tag, release and deploy of beta.3 delegated.
 - Housekeeping done the same day: stale worktrees and junk removed, the Kipple repo's ignored planning docs archived in
   this repository (plans/), the history brought up to date.
 

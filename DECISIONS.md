@@ -985,3 +985,12 @@ the risk deserves. Revisit only if a real report appears.
 - awesome-selfhosted waits until the first release is over four months old (about February 2027) and the agent-disclosure
   question is settled.
 - Detail: [research/marketing-and-launch-2026-10-05.md](research/marketing-and-launch-2026-10-05.md).
+
+## 2026-10-05, night: beta.3 scope, the roadmap split, release authority
+
+- Beta.2 was never used, so beta.3 is the build to soak. #262, #263, #265, #236 and #38 are in beta.3.
+- #207 is split: #39, #37 and #36, and #246 each get their own session; #35 stays in the parking lot; #34 is "Post 1.0", not 2.0.0.
+- #269 (README section "How Kipple is made") is drafted and approved for now; the docs meeting is separate.
+- The 14 "decisions made for the owner" in #274 (docs/ui-decisions.md) are approved.
+- For this release, tagging, releasing and deploying no longer need a per-step ask ("just do it"). This does not carry over to later releases.
+- Standing: always run `/code-review high` before merge; fix every finding; one session per release.

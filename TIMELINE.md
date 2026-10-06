@@ -416,3 +416,6 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
   every tracked file; the diary, timeline, milestones and the other records brought up to date.
 - Later: PRs for beta.3 and the compatibility work opened (#259 open-mode hosts, #261 feed title on add, #264 conformance suite,
   #267 one stats value for all Reader API clients); issues #265 and #266 filed (see DECISIONS.md, 2026-10-05, later).
+- Evening: seven PRs merged after high-effort Opus reviews (#268, #270 to #276), the release gate (about 17 findings fixed), and
+  `v0.8.0-beta.3` tagged on `2896ded` (release PR #276); Release workflow green with the first real signed SBOM step; published as a
+  pre-release and deployed by digest at about 21:09, schema 13 to 16, healthy, about 55 MiB. The owner is away for a while.

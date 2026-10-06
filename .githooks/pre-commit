@@ -1,0 +1,3 @@
+#!/bin/sh
+# Opt-in per clone: git config core.hooksPath .githooks
+exec pwsh -NoProfile -File "$(git rev-parse --show-toplevel)/scripts/scrub-check.ps1" -Staged

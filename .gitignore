@@ -6,3 +6,6 @@
 Thumbs.db
 *.log
 ~$*
+
+# Owner-specific scrub terms (never commit)
+.scrub-terms.local

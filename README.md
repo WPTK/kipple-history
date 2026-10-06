@@ -80,6 +80,55 @@ tags pushed (`v0.8.0-beta.1` is the latest; `v0.8.0-beta.2` was tagged 2026-10-0
 lines of Go (about 50,800 of them tests, 432 Go files) and about 47,000 lines under `web/src`. Schema 13 with migration 0013
 (the perf build).
 
+## Scrub check
+
+`scripts/scrub-check.ps1` (PowerShell 7) checks text against the scrub rules before it lands here. It cannot
+know the owner's private terms, so those live in an untracked file on each machine that commits.
+
+What it checks:
+
+- Generic rules, built in: em and en dashes, IPv4 addresses (except 127.0.0.1, 0.0.0.0 and the documentation
+  ranges), email addresses (except example domains), and the names of reader apps.
+- Owner terms, from `.scrub-terms.local` at the repository root: host names and labels, the owner's domain,
+  account names, private address ranges, the real name. The file is in `.gitignore` and must never be committed.
+
+Run it:
+
+```
+pwsh scripts/scrub-check.ps1            # staged changes (default)
+pwsh scripts/scrub-check.ps1 -All       # every tracked text file
+pwsh scripts/scrub-check.ps1 -Verbose   # step-by-step trace
+```
+
+It prints `file:line: rule name` for each hit and never prints the matched text; owner rules are named
+`owner-term:lineN`, where N is the line in `.scrub-terms.local`. Exit codes: 0 clean, 1 at least one hit, 2 usage or
+environment error (the message names the failing step and the fix).
+
+Terms file format: one literal term or regular expression per line, matched case-insensitively; blank lines and lines
+starting with `#` are ignored. A line that is not a valid regular expression is reported by line number and matched as
+a literal string.
+
+Add a rule:
+
+- A generic rule (useful to everyone): add one `ConvertTo-ScrubRule` line to `Get-GenericRule` in the script and a
+  case to `scripts/scrub-check.Tests.ps1`.
+- An owner term: add a line to `.scrub-terms.local`. Nothing is committed.
+
+Run its tests (Pester 5 or later): `pwsh -Command "Invoke-Pester scripts/scrub-check.Tests.ps1 -Output Detailed"`.
+
+Commit hook: `.githooks/pre-commit` runs the staged check. A hook is opt-in per clone; enable it once with:
+
+```
+git config core.hooksPath .githooks
+```
+
+If it breaks:
+
+- Nothing runs on commit: the hook is not enabled in this clone. Run the `git config` command above.
+- The check warns that owner terms are not loaded: `.scrub-terms.local` is missing, so only the generic rules run.
+  Recreate the file from the owner's copy.
+- `pwsh` not found: install PowerShell 7 or commit with the hook disabled and run the check by hand.
+
 ## Redaction note
 
 One hostname in [research/cloudflare-access-deploy.md](research/cloudflare-access-deploy.md) contained the

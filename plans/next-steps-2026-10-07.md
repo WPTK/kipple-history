@@ -39,3 +39,11 @@ schema 17, CI green, mergeable) and #277 (dev-dependency bump, CI green). Open 1
 - Untracked `docs/plan.md`, `docs/HANDOFF-PHASE3.md`, `index.html` in the shared checkout are old drafts naming
   reader apps and a host; do not commit. Move or delete.
 - History repo: README still tells contributors to use host labels; older `research/` files hold ~2000 scrub hits.
+
+## Update 2026-10-07 (late)
+
+Merged to main since beta.4 (unreleased): Gazette planner (#299), reset notice (#300), offline in-session badges
+(#297, #253 stays open for the relaunch half), stats comparison and Months (#301), vitest worker cap (#303),
+generic wording (#298), feed_daily_new schema 17 (#287). Open: #302 restore-upload binding (security; beta.5
+must not ship without it). Owner rulings: stats and Gazette go in the next beta or 0.9.0; history scrub done.
+Open owner decisions: partial-day rule for stats tiles, #253 relaunch half, one-time setup secret.

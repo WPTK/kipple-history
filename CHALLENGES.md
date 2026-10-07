@@ -713,4 +713,29 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
 ## 77. The deploy helper could not find the pre-migration snapshot (2026-10-07)
 
 - Cause: the app writes the snapshot before a migration without logging its name, so the helper has nothing to match.
-- Fix: open follow-up, log the snapshot name.
+- Fix: the owner's snapshot was copied off the server by hand for that deploy (read-only copy, checksum verified); the app now
+  logs the snapshot's file name (#318), with a test, and the rollback docs say where to look.
+
+## 78. "Mute similar" chose words the reader never picked (2026-10-07)
+
+- Cause: the editor was opened with the first three title words already in the rule and a name built from them. On a phone the
+  suggestion chips showed as greyed out because their words were already used, so it looked as if the reader had tapped them.
+  The owner had never made a filter before and said so.
+- Fix (#320): the rule starts empty, the chips toggle with a check mark, and about 550 very common words are never offered.
+  Rule: a default the reader did not choose is a bug in the default, not in the explanation next to it.
+
+## 79. A client-only text fix made the page and the server disagree (2026-10-07)
+
+- Cause: to make a chip for "Apple's" match, the first fix folded the typographic apostrophe only in the page. The server did
+  not, so the rule saved a term that matched nothing. A second review found the highlight code and the duplicate check had the
+  same gap.
+- Fix: the fold lives in the server's text normaliser, which compiles terms and reads titles, and the page's mirror of it
+  (highlight, duplicate check, chips) follows with a parity test. A looser match is stated in the changelog fragment (the
+  modifier-letter apostrophe now counts as an apostrophe).
+
+## 80. The UAT label guard flagged unrelated buttons (2026-10-07)
+
+- Cause: a chip label changed from "Add X" to "Word X", and two UAT lines that look for the "Add feed" and "Add N feeds" buttons
+  matched the removed fragment.
+- Fix: both lines carry the guard's written-reason ignore mark. The guard stays strict; a coincidental match is marked, not
+  waived globally.

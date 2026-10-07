@@ -392,6 +392,16 @@ more reading layouts (#39): all labelled Roadmap. Before 1.0: a beta soak week w
 Update 2026-10-05: the "Not built yet" list above was written at beta.2 (0.3.0) preparation. Since then the wizard (#33,
 closed 2026-10-05) shipped, and the roadmap items now live in issue #207 and milestone "Roadmap (post-1.0)".
 
+## v0.8.0-beta.4 (2026-10-06, tag on `3996d2b`, release commit #293, schema 16)
+
+- Shipped: restore a backup in the setup wizard (#246, PR #288), reset Kipple and start over from Settings (#283, PR #290), the
+  reading font styles articles only with a per-device "Use it everywhere" setting (#285), and a README rewritten as a short front
+  page (#291). Review fixes #294, #295 and #296 went in before the tag.
+- Deployed by digest: healthy, version and commit verified, no migration, no WARN or ERROR.
+- Process work the same day: release tooling (#281), CI that skips heavy jobs for prose-only pull requests (#278), and the
+  working economy rules. See [diary/2026-10-06.md](diary/2026-10-06.md).
+- The restore-upload hole found afterwards (#302) was present in this build and fixed in beta.5.
+
 ## v0.8.0-beta.5 (2026-10-07, tag on `2b7dcc6`, release PR #317, schema 18)
 
 - Tagged `v0.8.0-beta.5` on `2b7dcc6` after the owner said "tag, release and deploy". Release PR #317 superseded #307. Published
@@ -405,3 +415,7 @@ closed 2026-10-05) shipped, and the roadmap items now live in issue #207 and mil
   (30 targets) clean, Suite 1 exit 0 with 4 waived S3, Suite 4 rehearsal and a restore drill that included a rollback start of
   beta.4 on the restored snapshot.
 - Follow-ups: #314, #315, #316; the deploy helper cannot find the pre-migration snapshot because the app does not log its name.
+- Same night, after the tag: the app now logs the pre-migration snapshot file name (#318) so the deploy helper finds it; README
+  screenshots refreshed (#319); the website shows the beta.5 version text and screenshots (website PR #13).
+- Merged for the next release (not in beta.5): Mute similar starts empty and skips common words (#320). See
+  [diary/2026-10-07.md](diary/2026-10-07.md).

@@ -47,3 +47,10 @@ Merged to main since beta.4 (unreleased): Gazette planner (#299), reset notice (
 generic wording (#298), feed_daily_new schema 17 (#287). Open: #302 restore-upload binding (security; beta.5
 must not ship without it). Owner rulings: stats and Gazette go in the next beta or 0.9.0; history scrub done.
 Open owner decisions: partial-day rule for stats tiles, #253 relaunch half, one-time setup secret.
+
+## Update 2026-10-07 (night)
+
+beta.5 is tagged, released and deployed (schema 18). #302 is fixed (#305), the partial-day rule, the #253 relaunch half and
+the reset notice are decided and shipped. Merged afterwards for the next release: #318 (snapshot name logged), #319 (README
+screenshots), #320 (Mute similar starts empty). The website shows beta.5. Open: #314, #315, #316 (post-1.0). Next: soak beta.5,
+then rc.1.

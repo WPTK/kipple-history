@@ -1030,3 +1030,8 @@ the risk deserves. Revisit only if a real report appears.
   says so. A reset leaves this server's address settings in place.
 - Stats and the Gazette layout moved from post-1.0 into the beta series; the Gazette always lists newest first.
 - Rule reinforced: a docs caveat usually means the behaviour is wrong; fix the behaviour.
+- "Mute similar..." starts with no words and no name; the reader picks from chips that toggle. Words that carry no topic (about
+  550 English function and filler words) are never offered. Topical words stay. The list is English-only for now.
+- Text matching treats the typographic apostrophe and the modifier-letter apostrophe as a plain one, in the server's
+  normaliser first, with the page's mirror following it. The same article text and the same rule must match on both sides.
+- A default the reader did not choose is removed rather than explained.

@@ -182,3 +182,10 @@ if the numbering changes; an exception to "beta adds no features", soak clock re
 - Update 2026-10-05 (night): `v0.8.0-beta.3` is deployed (schema 16). Rulings: #207 split (#39, #37 and #36, #246 separate sessions; #35
   stays here; #34 is Post 1.0). #269 (README "How Kipple is made") drafted and approved for now, docs meeting separate. The weekly audit
   workflow (#271) is unverified until it first runs on main.
+
+## Update 2026-10-07 (night)
+
+- **Done:** log the pre-migration snapshot name (#318); website text and screenshots for beta.5 (website PR #13); README
+  screenshots (#319); Mute similar without a pre-fill (#320).
+- **Parked:** the stop-word list is English-only; other languages get no common-word filter. Revisit if a reader asks.
+- **Open for 1.0:** soak beta.5, then rc.1 (bugs only).

@@ -693,3 +693,24 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
 
 - Cause: a changed `aria-label` was still used in `web/uat`; the beta.3 UAT run failed on it.
 - Fix: the `uat-labels.mjs` guard fails when a removed or changed label is still referenced there.
+
+## 74. A docs caveat hid a behaviour bug: the read rate was an approximation (2026-10-07)
+
+- Cause: the first per-feed read rate capped its denominator and shipped with a docs note saying so.
+- Fix: review pushed on the caveat; the rate now uses exact arrival counts (`feed_daily_new`, schema 18). Rule: a docs caveat
+  usually means the behaviour is wrong.
+
+## 75. Scroll and marking code passed jsdom but had real ordering bugs (2026-10-07)
+
+- Cause: jsdom observer stubs fire synchronously, which hid the real frame ordering in the Gazette wiring (#313).
+- Fix: six review rounds, each finding a real bug; tests now model the order of events, not only the final state.
+
+## 76. A subagent's "flake" was a real race (2026-10-07)
+
+- Cause: `TestASlowUploadIsStopped` was reported as flaky and retried; it was a race in the upload path (fixed in #305).
+- Fix: measure a reported flake (run it alone, many times) before calling it one.
+
+## 77. The deploy helper could not find the pre-migration snapshot (2026-10-07)
+
+- Cause: the app writes the snapshot before a migration without logging its name, so the helper has nothing to match.
+- Fix: open follow-up, log the snapshot name.

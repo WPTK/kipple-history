@@ -434,3 +434,11 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
 - Restore in the setup wizard (Kipple PR #288) and reset from Settings (PR #290) merged after review rounds; review fixes #294,
   #295, #296; release commit #293. Tag `v0.8.0-beta.4` on `3996d2b`, image signed, deployed by digest. See
   [diary/2026-10-06.md](diary/2026-10-06.md).
+
+## 2026-10-07 (Wednesday): the Gazette, stats and 0.8.0-beta.5
+
+- Merged since beta.4: the Gazette layout (planner, renderer, wiring), stats comparison, Months, drill-down and read rate,
+  `feed_daily_new` (schema 17 and 18), fetch slot spreading, offline badges in-session and after relaunch (#253 closed), and
+  the restore-upload binding fix (#302, a hijack in the wizard restore).
+- Tag `v0.8.0-beta.5` on `2b7dcc6` (release PR #317, which superseded #307), pre-release, deployed by digest: schema 16 to 18
+  in one start, healthy, no WARN or ERROR. See [diary/2026-10-07.md](diary/2026-10-07.md).

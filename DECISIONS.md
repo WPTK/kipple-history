@@ -1021,3 +1021,12 @@ the risk deserves. Revisit only if a real report appears.
 - A reset ignores `KIPPLE_USERNAME` and `KIPPLE_PASSWORD` until a new account exists, because a restart reuses the same
   container environment.
 - Reviews are fixed completely, and a finding about the check is fixed in the check, not waived.
+
+## 2026-10-07: stats periods, offline relaunch, reset
+
+- Stats compare only complete days: today is excluded from both periods, and a coverage gap is marked.
+- The relaunch half of the offline badge fix (#253) stays in 1.0, not after it.
+- Reset ends in a notice, not a one-time setup secret. The instance stays claimable until setup is finished, and the product
+  says so. A reset leaves this server's address settings in place.
+- Stats and the Gazette layout moved from post-1.0 into the beta series; the Gazette always lists newest first.
+- Rule reinforced: a docs caveat usually means the behaviour is wrong; fix the behaviour.

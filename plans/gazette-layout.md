@@ -1,6 +1,6 @@
 # Gazette layout: build plan (issue #39, scoped 2026-10-06)
 
-Decisions are in `docs/ui-decisions.md`, section "Additional layouts (#39)". This file is the build plan. Web only, no server change, no migration. Not started; the owner says go.
+Decisions are in `docs/ui-decisions.md`, section "Additional layouts (#39)". This file is the build plan. Web only, no server change, no migration. Built 2026-10-07 as three PRs: planner #299, renderer #308, wiring with the paper name setting #313 (shipped in 0.8.0-beta.5). The checklists below are the original split; the setting landed in PR 3, not PR 2.
 
 ## Design
 - **Planner (pure function, no React):** input is the articles, feeds, favorites, list scope and screen class (wide or phone). Output is pages made of slots: lead, co-lead, column story, photo, brief. Same input, same page. One golden fixture per front-page type.

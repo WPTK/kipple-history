@@ -391,3 +391,17 @@ more reading layouts (#39): all labelled Roadmap. Before 1.0: a beta soak week w
 
 Update 2026-10-05: the "Not built yet" list above was written at beta.2 (0.3.0) preparation. Since then the wizard (#33,
 closed 2026-10-05) shipped, and the roadmap items now live in issue #207 and milestone "Roadmap (post-1.0)".
+
+## v0.8.0-beta.5 (2026-10-07, tag on `2b7dcc6`, release PR #317, schema 18)
+
+- Tagged `v0.8.0-beta.5` on `2b7dcc6` after the owner said "tag, release and deploy". Release PR #317 superseded #307. Published
+  as a pre-release and deployed by digest: schema 16 to 18 in one start (0.14 s in the rehearsal on a copy of the live
+  snapshot), 0 WARN or ERROR, memory flat.
+- Shipped: the restore-upload binding fix (#302, #305), `feed_daily_new` (#287, #312), stats comparison and Months (#301, #306),
+  the drill-down sheet (#309), per-feed read rate (#312), fetch slot spreading with a per-install salt and an RSS `ttl` fix
+  (#310, #289), the Gazette layout (planner #299, renderer #308, wiring #313), offline badges in-session (#297) and after
+  relaunch (#311, #253 closed), the reset notice (#300), generic wording (#298) and a Vitest worker cap (#303).
+- Gates: Opus release-gate review clean (three low docs or info findings, two docs fixed in the release PR), two Go runs, fuzz
+  (30 targets) clean, Suite 1 exit 0 with 4 waived S3, Suite 4 rehearsal and a restore drill that included a rollback start of
+  beta.4 on the restored snapshot.
+- Follow-ups: #314, #315, #316; the deploy helper cannot find the pre-migration snapshot because the app does not log its name.

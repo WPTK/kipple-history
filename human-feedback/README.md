@@ -12,3 +12,4 @@ The owner's testing notes and reports, in order.
 | [access-review-2026-09-30.md](access-review-2026-09-30.md) | The access review: what he said, what changed in the permission setup |
 | [scorecard-and-badges-2026-10-01.md](scorecard-and-badges-2026-10-01.md) | The Scorecard, rulesets, Best Practices and iOS strip asks, and his feedback on the dev password |
 | [usage-and-release-2026-10-02-03.md](usage-and-release-2026-10-02-03.md) | Cost and token questions, the instruction files, the account-security decision, UAT and website asks |
+| [owner-feedback-2026-10-04-to-07.md](owner-feedback-2026-10-04-to-07.md) | His words, day by day: product rulings, UI reactions, process and cost rules, release words, corrections to my behaviour and what he asked me to remember |

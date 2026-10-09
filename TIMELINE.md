@@ -445,3 +445,5 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
 - Evening, after the tag: the app logs the pre-migration snapshot name (#318); README screenshots (#319) and the website (PR #13)
   show beta.5. Late: "Mute similar" starts empty and skips common words (#320), merged for the next release after three review
   rounds. Open: #314, #315, #316.
+- 2026-10-09: hardening pass on feed, page, image, backup and request handling merged to main after beta.5; nothing deployed or
+  tagged. See [diary/2026-10-09.md](diary/2026-10-09.md).

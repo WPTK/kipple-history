@@ -1035,3 +1035,72 @@ the risk deserves. Revisit only if a real report appears.
 - Text matching treats the typographic apostrophe and the modifier-letter apostrophe as a plain one, in the server's
   normaliser first, with the page's mirror following it. The same article text and the same rule must match on both sides.
 - A default the reader did not choose is removed rather than explained.
+
+## 2026-10-08 to 2026-10-09: one policy for outbound requests and parsers
+
+- Every request Kipple makes to another site follows one redirect rule: web addresses only, no step from https down to http, no
+  Referer or embedded credentials passed on (#330). A feed that redirects to plain http fails with a message saying so; the
+  fix is to edit the feed to its http address.
+- Parser limits are fixed numbers: feed nesting over 512 elements is refused, one fetch keeps the newest 2,000 entries (#323).
+- The toolchain pin is enforced by the build: the image build refuses a Go release other than the one `go.mod` names (#322).
+- Responses that name no cache policy are private and not to be stored (#342).
+- Release, test-plan, risk and decision documents for whoever releases Kipple live in `docs/maintainers/`; the releaser's
+  tooling lives in `scripts/maintainers/`. Code comments and docs do not cite files that were never committed (#348).
+
+## 2026-10-10: Feeds, downloads and duplicates
+
+- Downloads (OPML, statistics export, backup) are plain reads with no origin rule: other GET reads have none, the session cookie
+  is `SameSite=Lax` and responses carry same-origin CORP and `nosniff`. Writes and the backup job poll keep the strict rule.
+  The cost is that another page can start a statistics export, so one export runs at a time (#354, #366). The first fix (#351)
+  widened the rule; the second removed it, because every widening still missed some browser path.
+- Adding an address that redirects to a feed you already have is refused with a message naming that feed and its folder. OPML
+  import and the sync-client subscribe cannot refuse at call time; the duplicate stays, Feed Health names the feed it redirects
+  to and offers Delete this feed or Keep both. Nothing is deleted automatically (#359, #363).
+- Saving a search that is already saved (same text, scope and order) is refused and names the existing one (#356).
+- Deleting a folder with its feeds needs the folder's name typed; deleting feeds removes any folder that leaves empty, never the
+  default folder and never one that was already empty (#350).
+- The undo slot is taken when the user acts. Undo applies to the newest change; if that change is still saving it waits up to 10
+  seconds and says "Undoing...", and it never falls back to an older change (#361).
+- A check that measured nothing fails. The touch-target UAT check (S8) cannot pass vacuously (#364).
+- A retry that hides a red test is not a fix. The WebKit navigation retry (#368) was removed in #385 in favour of a probe that
+  records whether the session cookie vanished from the browser while the server still accepted it, and calls that unproven.
+
+## 2026-10-11: version path, keyboard, mute and images
+
+- Version path to 1.0.0: 0.8.0 betas, then 0.9.0-beta.1, then 1.0.0-rc.N, then 1.0.0; 0.9.0 does not ship stable. The reason: a
+  release candidate takes no features and two features landed after beta.8 (#376).
+- The article list is one Tab stop; the focus ring is drawn inside the row (#379).
+- Mute similar also mutes the article it was started from, read or unread, unless it is starred. A starred article stays
+  starred. When the article was not muted, the confirmation says why in one sentence. Restore from Muted puts back the read
+  state the article had (#381).
+- Undo never un-mutes. The undo request says it is one and the server leaves articles muted at that moment as they are, in the
+  same update; the client keeps no id list (#391).
+- An image that leads three or more items of one fetch is the site's. It is decided per refresh from the document alone, so the
+  same feed always gives the same pictures. The alternative, counting stored image URLs across refreshes, also catches feeds
+  with only one or two posts but makes a picture depend on arrival order and costs a query per refresh (#383).
+- An image Kipple does not display is replaced by a visible "Image not shown" note with a link to the original (#380).
+- A stats beacon lost by the service worker is fixed in the worker (a static route sends non-GET requests to the network), not
+  in the sender (#405).
+
+## 2026-10-12: no single-key shortcuts, CI cost
+
+- The owner decided that the web app has no non-accessibility keyboard shortcuts. The hook, keymap, overlay and the Settings
+  switch are removed. Kept: Tab order and the list's one Tab stop, arrow keys between rows and in sidebar trees, Enter, Space,
+  Escape. `client.shortcuts` stays accepted and ignored on the profile API so a stored profile is never a 400 (#408).
+- Arrow keys move between rows from any control in a row, handled in the capture phase; Esc on Search goes back unless the box
+  has focus (#412).
+- Browser UAT runs Chromium alone for a pull request that changes only docs, changelog entries, the `tools/` module or test
+  files; anything else, every push to `main` and every manual run runs WebKit and Firefox. A pull request keeps its concurrency
+  group and cancels older runs; any other run gets its own group (#411).
+- Not done, left for the owner: skipping the `main` re-run after a green pull request and CI's re-run on release. They would
+  save about 41 and about 29 job-minutes but conflict with "CI green on the exact commit".
+- Review rounds are capped at three per pull request (#411 went the full three).
+
+## 2026-10-16: the run to 1.0.0-rc.1
+
+- The owner asked for an unattended overnight run to reach `1.0.0-rc.1`.
+- `0.9.0-beta.2` (#413) is folded into rc.1 instead of shipping.
+- The remaining bugs #406, #407, #390, #397 and #398 are fixed in #414, #415 and #416. The documentation audit #248, planned on
+  2026-10-06 for after rc.1, is done first as #417.
+- The full UAT, including a phone-size shakedown at iPhone 17, 17 Pro and 17 Pro Max sizes, is planned for the release candidate.
+- Review rounds stay capped at three per pull request.

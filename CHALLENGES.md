@@ -739,3 +739,100 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   matched the removed fragment.
 - Fix: both lines carry the guard's written-reason ignore mark. The guard stays strict; a coincidental match is marked, not
   waived globally.
+
+## 81. Undo reversed an older change (2026-10-10)
+
+- Cause: every undoable action changed the screen at once but put its undo group on the stack only when the server answered. An
+  undo pressed in that window took the newest group already there, an older action. After Shift+A it re-marked an earlier row
+  and left the bulk mark in place. It showed as an intermittent keyboard UAT failure (K3 Shift+A). A first fix, waiting for every
+  in-flight action, was replaced by a better design.
+- Fix (#361): the group goes on the stack when the user acts and is settled or removed when the server answers; undo acts on the
+  newest group, waits for that group only (at most 10 seconds) and never falls back to an older one.
+- Lesson: a local repro with the network log showed which request was sent; intermittent was a timing window, not noise.
+
+## 82. Browser UAT went red on main after #361 (2026-10-10 to 2026-10-11)
+
+- Cause: three different failures. One was a real product bug: the keyboard hook refreshed its handler ref in a passive effect,
+  which React runs late after a route transition, so a key pressed quickly acted on the row selected a moment earlier. The
+  others (WebKit states flow failing with a 401, and a WebKit `page.goto` internal error) were most likely the browser engine, but
+  that is unproven.
+- Fix: the ref is updated in a layout effect (#385), later replaced by one `useLatestRef` hook (#400). The WebKit retry added in
+  #368 was removed. A probe now records whether the browser still held its session cookie and whether the server still accepted
+  it, and sets aside only findings that fit the browser-fault case. Reruns are counted and printed even on a green run. #384
+  handled a cancelled WebKit load that was logged as an uncaught error.
+- Lesson: say "hypothesis" in the commit when it is one, and make the harness produce the evidence the next time.
+
+## 83. Exports saved an error file as the export (2026-10-10)
+
+- Cause: the same-origin guard on download routes accepted only `Sec-Fetch-Site: same-origin` or a matching `Origin`. A new tab,
+  a long-press, the address bar or a download manager sends `none` or no fetch metadata, got a 403 with a small JSON body, and
+  the browser saved that body as the file. The hand-built request headers in the tests did not look like a browser's.
+- Fix: #351 let `none` and missing metadata through; #354 removed the rule from downloads altogether, since nothing the rule
+  guarded was a secret another site could read. One statistics export runs at a time; a second waits (up to 20 seconds, at most
+  three waiting) and past that gets a 503 with no body (#366). iOS Safari was not checked.
+- Lesson: a rule widened twice is a rule that protects nothing; check what it protects. Real-browser flows now run in CI (#357).
+
+## 84. A redirecting address created a second copy of a feed (2026-10-10)
+
+- Cause: Add feed looked for an existing feed using the address as typed, never the address that finally answered. A typed
+  address that 301s to a feed you already have inserted a second copy and said "Feed added"; Feed Health then offered an update
+  that failed with "Another feed already uses the new address".
+- Fix (#359, #363): the check runs on the address that answered; a hit is refused naming the feed and folder; Feed Health offers
+  Delete this feed or Keep both (schema 19). OPML import and the sync-client subscribe cannot refuse at call time and still
+  create the duplicate. Stated plainly in the PR, with nothing deleted automatically.
+
+## 85. Tab never got past the article list (2026-10-10 to 2026-10-11)
+
+- Cause: every article was its own Tab stop and the list loads more as focus moves down, so in a library of any size Tab never
+  reached the end of the page. It first showed as a keyboard UAT failure on a reused data folder (#369), unconfirmed whether it
+  was a real trap or a test artifact.
+- Fix (#379): the list is one Tab stop. Three review rounds left four low findings (#390); after shortcuts were removed (#408)
+  three were obsolete and one was a real fix, in #416 (open).
+
+## 86. Reading time lost on reload: the suspected cause was wrong (2026-10-11)
+
+- Cause: the issue (#393) suspected the `pagehide` handler. It was not: the handler already sent the open interval. In Chromium
+  the beacon was lost because the page is controlled by the service worker, which sees every request first, even one it will
+  not answer.
+- Fix (#405): the worker registers a static route at install so non-GET requests go to the network without waking it,
+  feature-detected and failure-tolerant. The same case now arrives 10 of 10 with the worker on; a UAT flow covers it.
+- Lesson: the PR body says the issue's suspected cause is not the cause. Test the suspicion before fixing it.
+
+## 87. One site-wide logo led most cards of a feed (2026-10-11)
+
+- Cause: the lead image was ranked inside one item and never compared across items, so a logo with no width (unsized, so first)
+  or a newsletter banner won on every post (#382).
+- Fix (#383): an image that leads three or more items of one fetch is the site's; those items take their next ranked image.
+  Existing stored posts keep their picture until their content changes in the feed.
+
+## 88. Undo could bring back a muted article (2026-10-11)
+
+- Cause: undoing a mark-read or an unstar is also how an article is un-muted. The client tried to avoid it with a list of ids
+  (`forgetUndo`) that missed the resync, in-flight and offline-replay paths. Found by the 0.9.0-beta.1 release review (five low
+  findings).
+- Fix (#391): the server decides; the request says it is an undo and the server leaves articles muted at that moment alone, in
+  the same update. The client keeps no id list.
+
+## 89. CI cost: about 41 job-minutes per pull request (2026-10-10 to 2026-10-12)
+
+- Cause: the `go` job took about 21 minutes, serial tests (about 1,100 in six packages, each with its own SQLite file in a temp
+  directory) and one test that waited out a real 10 second network timeout (#358); every pull request ran three browser engines
+  even for docs; fuzz ran 30 targets one after another from a cold corpus (#411).
+- Fix: `t.Parallel()` on tests that share nothing (with the exceptions picked by walking the syntax tree), a per-harness item
+  counter, the race job split in three, Chromium-only UAT for non-browser changes, four fuzz shards with a kept corpus. The
+  expected effect is an estimate; the fuzz workflow had not run on GitHub at merge. Follow-ups #409 and #410.
+
+## 90. Release publishing failed on a credential helper (2026-10-11)
+
+- Cause: `release-publish.ps1` ran signature verification of a public image with the machine's Docker config, which called a
+  credential helper that was not on PATH; both image checks failed and no release was created.
+- Fix (#399): verification runs with a throwaway empty Docker config, restored afterwards. A public image needs no login.
+
+## 91. Flaky tests with real causes, and one without (2026-10-12 to 2026-10-16)
+
+- #406: `nestedFolders.test.tsx` threw "document is not defined" from a timer after teardown. Cause: a focus retry that re-armed a
+  50 ms timer up to 20 times with no way to stop it. The fix, a cancel function called on unmount, is in #416 (open).
+- #407: the list pane wrote latest-value refs during render, so an abandoned transition render could leave them stale. Nine of
+  the refs moved to commit time in #414 (open); two stay in render because their cleanup needs the new value first.
+- Unresolved: `node --test scripts/*.test.mjs` failed inside the release-gate run twice (on `8a24004` and `52c9ae1`) and passed
+  standalone and on rerun. Cause not found.

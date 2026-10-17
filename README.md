@@ -21,7 +21,7 @@ The material was assembled on 2026-09-26 from the Kipple repository history, the
 session transcripts, and updated at each milestone. It now covers 2026-09-24 to 2026-10-17: phases 1 to 5, the public
 release, the local deep review, `v0.3.0-alpha.4` to `v0.3.0-beta.3`, the beta feedback round, the setup wizard stack and its
 overnight audit, `v0.5.0-beta.1` and `-beta.2`, the 0.6 and 0.7 root-cause work (`v0.6.0-beta.1`, `v0.7.0-beta.1` and `-beta.2`),
-nested folders and the scale work (`v0.8.0-beta.1`), the perf-only `v0.8.0-beta.2` (tagged and deployed 2026-10-05, schema 13), `v0.8.0-beta.3` (tagged and deployed 2026-10-05, schema 16), `v0.8.0-beta.4` (2026-10-06) and `v0.8.0-beta.5` (2026-10-07, schema 18), `v0.8.0-beta.6` to `-beta.8` (2026-10-09 and 2026-10-10, schema 19 from beta.8), `v0.9.0-beta.1` (2026-10-11), the removal of all single-key shortcuts (2026-10-12), the decision to fold `0.9.0-beta.2` into `1.0.0-rc.1` (2026-10-16), the rc.1 candidate on main with its phone-size shakedown (2026-10-17; not yet tagged) and the issue and
+nested folders and the scale work (`v0.8.0-beta.1`), the perf-only `v0.8.0-beta.2` (tagged and deployed 2026-10-05, schema 13), `v0.8.0-beta.3` (tagged and deployed 2026-10-05, schema 16), `v0.8.0-beta.4` (2026-10-06) and `v0.8.0-beta.5` (2026-10-07, schema 18), `v0.8.0-beta.6` to `-beta.8` (2026-10-09 and 2026-10-10, schema 19 from beta.8), `v0.9.0-beta.1` (2026-10-11), the removal of all single-key shortcuts (2026-10-12), the decision to fold `0.9.0-beta.2` into `1.0.0-rc.1` (2026-10-16), `v1.0.0-rc.1` with its phone-size shakedown (2026-10-17, tagged, released and deployed) and the pull requests merged after it and the issue and
 housekeeping meeting of 2026-10-05. Nothing was rewritten after the fact except the redactions described in this file. Sunday 2026-09-27
 daytime through Tuesday 2026-09-29 were added late, on 2026-09-29, after the owner noticed the gap; those entries were
 written from the transcripts, the Kipple git log and pull requests and the memory notes, not from the notes taken at the
@@ -34,9 +34,9 @@ Start with the synthesis documents, then drop into the sources they link to.
 | File | What it is |
 |---|---|
 | [TIMELINE.md](TIMELINE.md) | Dated chronology, hour by hour where it matters, with tags and phases |
-| [MILESTONES.md](MILESTONES.md) | Each release and phase (planning to `v0.9.0-beta.1`): what shipped, what shaped it, size in commits and lines |
+| [MILESTONES.md](MILESTONES.md) | Each release and phase (planning to `v1.0.0-rc.1`): what shipped, what shaped it, size in commits and lines |
 | [MEETINGS.md](MEETINGS.md) | Every decision session: date, type, what was decided, approximate message counts |
-| [CHALLENGES.md](CHALLENGES.md) | Real problems with cause, fix and lesson (92 items) |
+| [CHALLENGES.md](CHALLENGES.md) | Real problems with cause, fix and lesson (93 items) |
 | [parking-lot.md](parking-lot.md) | Deferred ideas, follow-ups with their status, and the owner's standing rules |
 | [DECISIONS.md](DECISIONS.md) | Standing and later decisions, each with its source |
 
@@ -81,7 +81,7 @@ lines of Go (about 50,800 of them tests, 432 Go files) and about 47,000 lines un
 (the perf build).
 
 At `origin/main` on 2026-10-12 (the last commit before the 2026-10-16 run): 848 commits, 1,009 tracked files, schema 19. The latest tag is
-`v0.9.0-beta.1` (837 commits). Pull requests #414 to #418 and #426 to #428 were merged by 2026-10-17 (`main` at `6ada23b1`).
+`v0.9.0-beta.1` (837 commits). On 2026-10-17 `v1.0.0-rc.1` was tagged on `11cb2402` (862 commits on `main` by the end of the day, 1,019 tracked files, `main` at `05700e9e` after #433 to #441 merged post-tag).
 
 ## Scrub check
 

@@ -501,9 +501,16 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
   #398) and #417 (the docs audit, #248). The rc UAT, with a phone-size shakedown, is planned. See
   [diary/2026-10-16.md](diary/2026-10-16.md).
 
-## 2026-10-17 (Saturday): the candidate on main
+## 2026-10-17 (Saturday): 1.0.0-rc.1 tagged, released and deployed
 
 - 04:10 #418, the `1.0.0-rc.1` release commit, merged with #414 to #417 (supersedes #413; `0.9.0-beta.2` folded in).
 - 06:47 #426, 07:01 #427 and 07:15 #428: fixes from a phone-size shakedown (iPhone 17, 17 Pro and 17 Pro Max emulation) and the
-  changelog fold. `main` is at `6ada23b1`. Issues #419 to #425 filed for after 1.0.
-- Not tagged, released or deployed; those are pending. See [diary/2026-10-17.md](diary/2026-10-17.md).
+  changelog fold. Issues #419 to #425 filed for after 1.0.
+- 09:31 #429 (UAT and release docs: Suite 6, harness pitfalls, running suites in parallel), 10:12 #430 (UAT flow fixes). `main` at
+  `11cb2402`.
+- 10:26 tag `v1.0.0-rc.1` on `11cb2402`. The release workflow passed. 10:39 the pre-release was published with a signed image and a
+  signed SBOM. Deployed by digest. Known issues listed in the notes: #431, #435, #432.
+- After the tag, merged one at a time: 11:09 #433 (landscape row menu), 11:23 #434 (UAT Suite 5 doc fixes), 11:36 #436 (What's
+  new on a fresh install), 11:39 #437 (release checklist evidence), 11:57 #439 (comment and copy cleanup), 12:19 #438 (docs from a
+  cold read), 12:32 #440 (restore command schema check), 12:46 #441 (accessibility fixes). `main` at `05700e9e`. None are in a tag.
+- Dependency update pull requests #442 to #445 opened. Next: rc.2. See [diary/2026-10-17.md](diary/2026-10-17.md).

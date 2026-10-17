@@ -472,13 +472,18 @@ closed 2026-10-05) shipped, and the roadmap items now live in issue #207 and mil
 - Open for rc.1 on 2026-10-17: #414, #415, #416 (bug fixes), #417 (docs audit). Planned: the full UAT with a phone-size
   shakedown at iPhone 17, 17 Pro and 17 Pro Max sizes. See [diary/2026-10-16.md](diary/2026-10-16.md).
 
-## 1.0.0-rc.1 candidate (2026-10-17): on main, not released
+## `v1.0.0-rc.1` (2026-10-17 10:26 ET, `11cb2402`)
 
-- Release commit #418 (04:10) landed #414 to #417 in one merge; #426 to #428 followed (phone shakedown fixes, changelog fold,
-  WebKit-safe picture check in the chrome UAT flow). `main` is at `6ada23b1`. `0.9.0-beta.2` was dropped and folded in.
-- The shakedown (iPhone 17, 17 Pro and 17 Pro Max emulation, screenshots reviewed for clipped text, menu placement and dead
-  ends) found real defects in the Stats scroll, Feeds title, list header, tab highlight, reader width and layout menu. Some
-  early findings were test harness bugs that looked like app bugs.
+- What shipped: the first release candidate, a pre-release on GitHub published at 10:39 with a signed container image, a signed
+  SPDX software bill of materials and release notes with a known-issues section (#431, #435, #432). Deployed to the Kipple server
+  by image digest. The release workflow passed. `0.9.0-beta.2` was dropped and folded in.
+- What shaped it: release commit #418 (04:10) landed #414 to #417 in one merge; the phone-size shakedown (iPhone 17, 17 Pro and
+  17 Pro Max emulation, screenshots reviewed) found real defects in the Stats scroll, Feeds title, list header, tab highlight,
+  reader width and layout menu, fixed in #426 to #428; some early findings were harness bugs (CHALLENGES item 92). #429 and #430
+  wrote the lessons into the UAT and release docs and fixed two UAT flows just before the tag.
 - Gates on `6ada23b1`: Go tests, fuzz and web tests green; one known Windows-only flaky backup timer test and one Windows-only
-  script test (#419). Issues #419 to #425 are filed as post-1.0.
-- Next, not done: tag `v1.0.0-rc.1`, release, deploy. See [diary/2026-10-17.md](diary/2026-10-17.md).
+  script test (#419). Issues #419 to #425 are post-1.0.
+- Merged after the tag, in no tagged build: #433 to #441 (landscape row menu, UAT Suite 5 doc fixes, What's new on a fresh
+  install, release checklist evidence, docs from a cold read, comment and copy cleanup, restore command schema check,
+  accessibility fixes). `main` is at `05700e9e`.
+- Next, not done: `rc.2`. See [diary/2026-10-17.md](diary/2026-10-17.md).

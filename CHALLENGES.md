@@ -847,3 +847,15 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   the S8 probe was left unchanged.
 - Lesson: when a new environment (here a different engine) reports many failures, read the screenshot and check what the probe
   measures before changing the app. Review the image, not just the pass or fail.
+
+## 93. A first-run signal the setup wizard defeated (2026-10-17)
+
+- Symptom: on a brand-new install the What's new dialog appeared once after the setup wizard added feeds (#435, listed under
+  known issues in the rc.1 release notes).
+- Cause: the web app used "no feeds yet" to mean first run. With nothing recorded and no feeds it marked the version seen; with
+  nothing recorded and feeds it showed the dialog. The wizard adds feeds before the app shell first mounts, so a new install
+  always took the second branch.
+- Fix: the server records the running version as seen when it creates the account (#436), covering both creation paths, and the
+  web heuristic was removed. An account with no record at all is still treated as upgrading. The other option, recording it in the
+  wizard's finish path, would have kept the heuristic and swallowed an upgrade note when someone re-ran setup.
+- Lesson: derive a first-run signal at the moment a first run is knowable, not from state that another flow can fill in earlier.

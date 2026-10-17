@@ -1,6 +1,6 @@
 # Timeline
 
-Dated chronology of building Kipple with an AI coding agent, 2026-09-24 to 2026-10-05.
+Dated chronology of building Kipple with an AI coding agent, 2026-09-24 to 2026-10-16.
 
 Sources: `git log --date=iso` in the Kipple repo (times are the author's local clock, US Eastern, UTC-4),
 annotated tags, the diary in [diary/](diary/), and the session transcripts. The diary and the transcripts
@@ -31,6 +31,14 @@ Tags in the Kipple repo (dates are the commit dates the tag points at; deploy ti
 | `v0.7.0-beta.1` | 2026-10-03 09:12 | `28768e2` | 712 |
 | `v0.7.0-beta.2` | 2026-10-03 21:34 | `1425347` | 717 |
 | `v0.8.0-beta.1` | 2026-10-04 08:00 | `4110a8d` | 737 |
+| `v0.8.0-beta.2` | 2026-10-04 11:55 | `48a405f` | 739 |
+| `v0.8.0-beta.3` | 2026-10-05 20:15 | `2896ded` | 754 |
+| `v0.8.0-beta.4` | 2026-10-06 17:13 | `3996d2b` | 765 |
+| `v0.8.0-beta.5` | 2026-10-07 16:15 | `2b7dcc6` | 784 |
+| `v0.8.0-beta.6` | 2026-10-09 10:21 | `5b15981` | 807 |
+| `v0.8.0-beta.7` | 2026-10-10 01:07 | `a23942c` | 811 |
+| `v0.8.0-beta.8` | 2026-10-10 15:23 | `ebba457` | 823 |
+| `v0.9.0-beta.1` | 2026-10-11 09:36 | `ba007c3` | 837 |
 
 `v0.3.0-alpha.5` and `v0.3.0-alpha.6` were merged (PRs #20 and #22) but never tagged; they shipped inside alpha.7. The
 tag objects were created a little after these commits: alpha.4 at 22:36, alpha.7 at 08:55 and beta.1 at 21:35. Beta.2's
@@ -447,3 +455,48 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
   rounds. Open: #314, #315, #316.
 - 2026-10-09: hardening pass on feed, page, image, backup and request handling merged to main after beta.5; nothing deployed or
   tagged. See [diary/2026-10-09.md](diary/2026-10-09.md).
+
+## 2026-10-08 (Thursday), late evening: toolchain and parser bounds
+
+- 22:20 Go 1.27.2 and `x/net` v0.60.0, image build follows `go.mod` (#322). 22:57 nesting depth and entries per fetch bounded
+  (#323). 23:31 deploy rollback wording, Dependabot config (#328). 23:59 one redirect policy for every outbound client (#330).
+  Nothing tagged. See [diary/2026-10-08.md](diary/2026-10-08.md).
+
+## 2026-10-09 (Friday): 0.8.0-beta.6
+
+- Hardening pass merged (#329 to #346; see [diary/2026-10-09.md](diary/2026-10-09.md)), then release commit #347. Tag
+  `v0.8.0-beta.6` on `5b15981` at 10:21. The public repo surface cleanup (#348) followed.
+
+## 2026-10-10 (Saturday): 0.8.0-beta.7 and 0.8.0-beta.8
+
+- 01:07 tag `v0.8.0-beta.7` on `a23942c` (release commit #352): Feeds select mode and folder delete (#350), downloads from any
+  browser (#351), maintainer docs moved.
+- Through the day: walkthrough fix batches for Feeds, Settings and the reader (#353, #355, #356), downloads made plain reads
+  (#354), redirect-to-existing-feed refused (#359, #363), 44 px touch targets (#362, #364), undo ordering (#361), Go CI
+  parallelised (#358), real-browser flows for Feeds and states in CI (#357), release-review findings (#366).
+- 15:23 tag `v0.8.0-beta.8` on `ebba457` (release commit #367, 21 fragments, schema 19). See [diary/2026-10-10.md](diary/2026-10-10.md).
+
+## 2026-10-11 (Sunday): 0.9.0-beta.1
+
+- Version path rewritten: 0.8.0 betas, then 0.9.0-beta.1, then 1.0.0-rc.N (#376). Single Tab stop for the list (#379), Mute
+  similar mutes its source article (#381), "Image not shown" (#380), site-wide lead images (#383), setup restore lock (#378),
+  undo never un-mutes (#391), stats on reload (#405).
+- 09:36 tag `v0.9.0-beta.1` on `ba007c3` (release commit #392, 13 fragments, schema 19). Signature verification fix for
+  release publishing (#399). The release walkthrough opened #393 to #398. See [diary/2026-10-11.md](diary/2026-10-11.md).
+
+## 2026-10-12 (Monday): shortcuts removed
+
+- 00:03 all single-key shortcuts removed (#408). 13:18 arrow keys from any row control, Esc back from Search (#412). CI:
+  Chromium-only UAT for non-browser changes, sharded fuzz (#411). 18:05 release commit for 0.9.0-beta.2 opened (#413), left
+  open. See [diary/2026-10-12.md](diary/2026-10-12.md).
+
+## 2026-10-13 to 2026-10-15
+
+- No commits, tags, pull requests or issue changes. See [diary/2026-10-13-to-15.md](diary/2026-10-13-to-15.md).
+
+## 2026-10-16 (Friday): the run to 1.0.0-rc.1
+
+- The owner asked for an unattended overnight run to reach `1.0.0-rc.1`. 0.9.0-beta.2 (#413) is folded into rc.1 instead of
+  shipping. From 23:56 to 00:01, four pull requests were opened: #414, #415, #416 (the remaining bugs #406, #407, #390, #397,
+  #398) and #417 (the docs audit, #248). The rc UAT, with a phone-size shakedown, is planned. See
+  [diary/2026-10-16.md](diary/2026-10-16.md).

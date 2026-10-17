@@ -419,3 +419,55 @@ closed 2026-10-05) shipped, and the roadmap items now live in issue #207 and mil
   screenshots refreshed (#319); the website shows the beta.5 version text and screenshots (website PR #13).
 - Merged for the next release (not in beta.5): Mute similar starts empty and skips common words (#320). See
   [diary/2026-10-07.md](diary/2026-10-07.md).
+
+## v0.8.0-beta.6 (2026-10-09, tag on `5b15981`, release commit #347, schema 18)
+
+- The hardening release. Shipped: Cloudflare Access signing keys fetched through the guarded transport (#333), one redirect rule
+  for every outbound request (#330, #337, #339), refusal of an unrequested content coding (#332, #346), a bound on feed nesting
+  depth and entries per fetch (#323, #329), plain-text item titles (#344), stored article HTML cleaned again after a restore or
+  a policy change (#345), `private, no-store` for responses with no cache policy (#342), a 64 KiB header limit and a cap of 64
+  open event streams (#343), image addresses that cannot be signed dropped (#341), cache validators kept only when well formed
+  (#334, #338), one time limit for the image proxy's retries (#331), the pre-migration snapshot name in the log (#318), and
+  Mute similar starting empty (#320). Built with Go 1.27.2 and `x/net` v0.60.0 (#322).
+- The release commit folds 14 fragments and supersedes #340, which predated the last six merges. No schema change.
+- Same day, not in the tag: the public repo surface cleanup (#348). See [diary/2026-10-09.md](diary/2026-10-09.md).
+
+## v0.8.0-beta.7 (2026-10-10, tag on `a23942c`, release commit #352, schema 18)
+
+- Shipped: Feeds select mode (a tap ticks, one progress bar), delete a folder with its feeds (type the folder's name), folders
+  emptied by a delete go with it (#350), downloads that work from any browser or download manager (#351), and the maintainer
+  documents and tools moved to `docs/maintainers/` and `scripts/maintainers/` (#348).
+- Both code PRs had a high-effort review and green CI on their own heads and touch disjoint files, so no whole-diff review ran
+  on the release commit.
+- It stood for about fourteen hours: the downloads rule was replaced in #354 and beta.8 followed.
+
+## v0.8.0-beta.8 (2026-10-10, tag on `ebba457`, release commit #367, schema 19)
+
+- Shipped: a redirect to a feed you already have is refused when adding and handled in Feed Health (schema 19, one column,
+  `feeds.redirect_ack`, one-way: rollback needs the pre-migration snapshot) (#359, #363), the Feeds, Settings and reader
+  walkthrough fixes (#353, #355, #356), plain downloads with one statistics export at a time (#354, #366), 44 px touch targets
+  (#362, #364), release-review findings (#366), and the undo ordering fix (#361).
+- The release folds 21 fragments. Gates named in the release PR: release gates, fuzz, Suite 1 and a migration rehearsal on the
+  merge commit.
+- Process work the same day: Go CI in parallel and the race job split in three (#358), Feeds and states flows in CI (#357).
+
+## v0.9.0-beta.1 (2026-10-11, tag on `ba007c3`, release commit #392, schema 19)
+
+- Shipped: a single Tab stop for the article list (#379), Mute similar mutes the article it started from and Restore keeps the
+  earlier read state (#381), "Image not shown" (#380), site-wide lead images treated as the site's (#383), the setup restore
+  lock fixed (#378), undo applies to the newest change and never un-mutes (#361, #391), saved searches say when they cannot be
+  loaded (#389), one phrase for a folder left with no feeds (#377, #402), and stats recorded on a full-page navigation (#405).
+- The version path changed to put this release before `1.0.0-rc.1` because two features landed after beta.8 (#376).
+- Gates: the release commit is docs-tier so CI was the gate; the code gates ran on `8a24004`: Go twice (one image-proxy timing
+  test flaked once and passed alone), fuzz, web, changelog, starter feeds, Browser UAT Suite 1 on #391. The Node script tests
+  failed once in the gate run and passed on rerun. Five low findings of the release review were fixed in #391.
+- Not in the tag: the walkthrough issues #393 to #398 (#393 and #394 were fixed the same day).
+
+## After 0.9.0-beta.1 (2026-10-12 to 2026-10-16): not released
+
+- Merged to main without a tag: all single-key shortcuts removed (#408), arrow keys from any row control and Esc back from
+  Search (#412), CI cost changes (#411).
+- `0.9.0-beta.2` (release commit #413, five fragments, schema 19) was prepared on 2026-10-12 and never merged. It is folded
+  into `1.0.0-rc.1` instead of shipping.
+- Open for rc.1 on 2026-10-17: #414, #415, #416 (bug fixes), #417 (docs audit). Planned: the full UAT with a phone-size
+  shakedown at iPhone 17, 17 Pro and 17 Pro Max sizes. See [diary/2026-10-16.md](diary/2026-10-16.md).

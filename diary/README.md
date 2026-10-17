@@ -45,3 +45,11 @@ it is mostly Saturday night; the second starts at the 08:32 Sunday morning meeti
 Update rule (revised 2026-09-29): update daily at the very least, and also at each milestone (decision, deploy, incident,
 review result).
 Each entry also records models used and token or plan usage where I can see it.
+- [2026-10-07](2026-10-07.md): the Gazette, stats and `v0.8.0-beta.5`.
+- [2026-10-08](2026-10-08.md): toolchain pin, parser bounds, one redirect rule.
+- [2026-10-09](2026-10-09.md): the hardening pass after beta.5 (`v0.8.0-beta.6`).
+- [2026-10-10](2026-10-10.md): `v0.8.0-beta.7` and `-beta.8`, walkthrough findings, downloads that saved an error.
+- [2026-10-11](2026-10-11.md): `v0.9.0-beta.1`, the red browser UAT, the single Tab stop, Mute similar.
+- [2026-10-12](2026-10-12.md): all single-key shortcuts removed, CI cost, the 0.9.0-beta.2 release commit left open.
+- [2026-10-13 to 15](2026-10-13-to-15.md): no public activity.
+- [2026-10-16](2026-10-16.md): the unattended run to `1.0.0-rc.1`, four open pull requests.

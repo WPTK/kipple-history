@@ -836,3 +836,14 @@ those not verified against the Kipple repo, the source is the diary. Related: [D
   the refs moved to commit time in #414 (open); two stay in render because their cleanup needs the new value first.
 - Unresolved: `node --test scripts/*.test.mjs` failed inside the release-gate run twice (on `8a24004` and `52c9ae1`) and passed
   standalone and on rerun. Cause not found.
+
+## 92. Harness bugs that looked like app bugs (2026-10-17)
+
+- Symptom: the phone-size shakedown reported empty picture boxes and a clipped title in Cards, Editorial and the list.
+- Cause: the test, not the app. WebKit does not load off-screen lazy pictures, so an unloaded picture looked like an empty box,
+  and two layouts put the aspect class on the `img` itself, so the check measured the wrong element. A separate title report (S8)
+  was real but its probe was right: the title link was inline inside a truncating heading.
+- Fix: the picture check counts only loaded pictures and wrapper boxes (#428); the title link became block and truncating (#427);
+  the S8 probe was left unchanged.
+- Lesson: when a new environment (here a different engine) reports many failures, read the screenshot and check what the probe
+  measures before changing the app. Review the image, not just the pass or fail.

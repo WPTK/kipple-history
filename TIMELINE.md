@@ -1,6 +1,6 @@
 # Timeline
 
-Dated chronology of building Kipple with an AI coding agent, 2026-09-24 to 2026-10-16.
+Dated chronology of building Kipple with an AI coding agent, 2026-09-24 to 2026-10-17.
 
 Sources: `git log --date=iso` in the Kipple repo (times are the author's local clock, US Eastern, UTC-4),
 annotated tags, the diary in [diary/](diary/), and the session transcripts. The diary and the transcripts
@@ -500,3 +500,10 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
   shipping. From 23:56 to 00:01, four pull requests were opened: #414, #415, #416 (the remaining bugs #406, #407, #390, #397,
   #398) and #417 (the docs audit, #248). The rc UAT, with a phone-size shakedown, is planned. See
   [diary/2026-10-16.md](diary/2026-10-16.md).
+
+## 2026-10-17 (Saturday): the candidate on main
+
+- 04:10 #418, the `1.0.0-rc.1` release commit, merged with #414 to #417 (supersedes #413; `0.9.0-beta.2` folded in).
+- 06:47 #426, 07:01 #427 and 07:15 #428: fixes from a phone-size shakedown (iPhone 17, 17 Pro and 17 Pro Max emulation) and the
+  changelog fold. `main` is at `6ada23b1`. Issues #419 to #425 filed for after 1.0.
+- Not tagged, released or deployed; those are pending. See [diary/2026-10-17.md](diary/2026-10-17.md).

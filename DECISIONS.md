@@ -1104,3 +1104,31 @@ the risk deserves. Revisit only if a real report appears.
   2026-10-06 for after rc.1, is done first as #417.
 - The full UAT, including a phone-size shakedown at iPhone 17, 17 Pro and 17 Pro Max sizes, is planned for the release candidate.
 - Review rounds stay capped at three per pull request.
+
+## 2026-10-18: a 1.1 bug-hunt release after 1.0.0
+
+- The owner asked for a refinement release after 1.0.0 that clears as many P0 to P4 bugs as possible. The version is ruled **1.1**
+  (milestone `1.1 - Bug hunt`, tag `v1.1.0`, release candidates `v1.1.0-rc.N`; the release tooling expects `X.Y.Z`). 1.0.0 is the
+  `1.0.0-rc.2` code unchanged, so baselines taken on rc.2 stay valid.
+- Priorities use the existing scale from the UAT plan (P0 blocker, P1 high, P2 medium, P3 low) plus P4 (lowest: polish, nits).
+  Every bug-type issue in any milestone carries exactly one.
+- Phases: install tools, tooling and baselines, automated sweeps, UI/UX/protocol sweep, triage and scope, fix rounds by theme,
+  release candidate and release. Plan: [plans/1.1-bug-hunt-plan.md](plans/1.1-bug-hunt-plan.md).
+- Why: the release candidate gates only smoke-fuzz each target for 60 seconds, and the dev machine had no C compiler, so `-race` never ran locally.
+- The campaign tools (long fuzz, race sweeps, mutation testing, load tests, ZAP and Nuclei, Semgrep, Lighthouse, benchstat,
+  screenshot diffs) are run by hand for this version only. They are not added to CI, the local CI script, the release gates or any
+  workflow; anything worth keeping becomes a `roadmap` issue for the owner to decide later.
+
+## 2026-10-18: a 1.1 bug-hunt release after 1.0.0
+
+- The owner asked for a refinement release after 1.0.0 that clears as many P0 to P4 bugs as possible. The version is ruled **1.1**
+  (milestone `1.1 - Bug hunt`, tag `v1.1.0`, release candidates `v1.1.0-rc.N`; the release tooling expects `X.Y.Z`). 1.0.0 is the
+  `1.0.0-rc.2` code unchanged, so baselines taken on rc.2 stay valid.
+- Priorities use the existing scale from the UAT plan (P0 blocker, P1 high, P2 medium, P3 low) plus P4 (lowest: polish, nits).
+  Every bug-type issue in any milestone carries exactly one.
+- Phases: install tools, tooling and baselines, automated sweeps, UI/UX/protocol sweep, triage and scope, fix rounds by theme,
+  release candidate and release. Plan: [plans/1.1-bug-hunt-plan.md](plans/1.1-bug-hunt-plan.md).
+- Why: the release candidate gates only smoke-fuzz each target for 60 seconds, and the dev machine had no C compiler, so `-race` never ran locally.
+- The campaign tools (long fuzz, race sweeps, mutation testing, load tests, ZAP and Nuclei, Semgrep, Lighthouse, benchstat,
+  screenshot diffs) are run by hand for this version only. They are not added to CI, the local CI script, the release gates or any
+  workflow; anything worth keeping becomes a `roadmap` issue for the owner to decide later.

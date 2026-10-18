@@ -514,3 +514,7 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
   new on a fresh install), 11:39 #437 (release checklist evidence), 11:57 #439 (comment and copy cleanup), 12:19 #438 (docs from a
   cold read), 12:32 #440 (restore command schema check), 12:46 #441 (accessibility fixes). `main` at `05700e9e`. None are in a tag.
 - Dependency update pull requests #442 to #445 opened. Next: rc.2. See [diary/2026-10-17.md](diary/2026-10-17.md).
+
+## 2026-10-18
+
+- Phase 1 of the 1.1 bug hunt started: version ruled 1.1, plan, research and decision recorded, priority labels created and applied to the 17 open bug-type issues. See [diary/2026-10-18.md](diary/2026-10-18.md).

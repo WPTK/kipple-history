@@ -633,3 +633,9 @@ Sources for decisions: [DECISIONS.md](DECISIONS.md), [plans/ui-decisions.md](pla
 | 52 Marketing and launch meeting | not counted |
 
 Estimates only. Rows are subsets of the session totals above and do not sum to them exactly.
+
+## 1.1 bug hunt triage ruling (2026-10-18)
+
+- Type: async ruling in chat at the end of the Phase 4 triage session. The owner's messages: 1.
+- Input: the agent's triage (47 candidate issues, a proposal to defer seven P3s pending his waiver).
+- Outcome: "don't defer the P3s". All seven are in scope; scope in [plans/1.1-bug-hunt-scope.md](plans/1.1-bug-hunt-scope.md), decision in [DECISIONS.md](DECISIONS.md).

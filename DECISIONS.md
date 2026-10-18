@@ -1140,3 +1140,8 @@ the risk deserves. Revisit only if a real report appears.
 - Proposed deferrals, **pending the owner's waiver** (the triage rule requires one for P2 and P3): the phone navigation and header redesign (#420 to #424), #316 and #286. #409 and #410 (P4) go to the Roadmap because they change the Fuzz workflow.
 - Closed: #396, #406 and #398 were fixed before the hunt; #397 and #496 did not reproduce on main; #432 is a duplicate of six narrower issues. Priority changes: #465 P3 to P4, #482 P4 to P3.
 - Why: one issue per root cause, and the redesign items are design decisions for the owner, not defects.
+
+## 2026-10-18: no P3 deferred from 1.1 (owner)
+
+- The owner ruled that no P3 is deferred. #420 to #424 (phone header, tabs, menus and back pattern) and #286 (non-standard controls) form a new round 7, phone navigation and controls, designed twice with screenshots shown to the owner before merge; #316 joins round 4 (backend checks, high review).
+- In scope: 47 (P2 4, P3 32, P4 11). Still deferred: #409 and #410 (P4, Fuzz workflow).

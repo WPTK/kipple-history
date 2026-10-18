@@ -1132,3 +1132,11 @@ the risk deserves. Revisit only if a real report appears.
 - The campaign tools (long fuzz, race sweeps, mutation testing, load tests, ZAP and Nuclei, Semgrep, Lighthouse, benchstat,
   screenshot diffs) are run by hand for this version only. They are not added to CI, the local CI script, the release gates or any
   workflow; anything worth keeping becomes a `roadmap` issue for the owner to decide later.
+
+## 2026-10-18: 1.1 bug-hunt scope (Phase 4 triage)
+
+- Decided by the agent under the triage rules, with no owner meeting yet. Scope and order: [plans/1.1-bug-hunt-scope.md](plans/1.1-bug-hunt-scope.md).
+- 40 issues go in `1.1 - Bug hunt` (P2 4, P3 25, P4 11), in six fix rounds: focus and announcements; phone layout and reading; import, feeds and setup; backend checks; docs and first run; tests and tooling. Different root causes get separate pull requests inside a round. Review is high for auth, setup, bulk delete and the fetcher, medium otherwise.
+- Proposed deferrals, **pending the owner's waiver** (the triage rule requires one for P2 and P3): the phone navigation and header redesign (#420 to #424), #316 and #286. #409 and #410 (P4) go to the Roadmap because they change the Fuzz workflow.
+- Closed: #396, #406 and #398 were fixed before the hunt; #397 and #496 did not reproduce on main; #432 is a duplicate of six narrower issues. Priority changes: #465 P3 to P4, #482 P4 to P3.
+- Why: one issue per root cause, and the redesign items are design decisions for the owner, not defects.

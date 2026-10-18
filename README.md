@@ -48,7 +48,7 @@ Primary sources:
 | [human-feedback/](human-feedback/) | the owner's testing notes and evidence (client A sync log) |
 | [audits/](audits/) | The 285-item docs-versus-code audit, the `CLAUDE.md` proposals, the local deep review with its second round, and later audits and reviews |
 | [research/](research/) | 26 research reports (plus two colour-scheme data files) and design-meeting prework (client behaviour, libraries, UI, colour) |
-| [plans/](plans/) | Current plans (`0.6-0.7-1.0-plan.md`, `0.8-1.0-plan.md`, `1.1-bug-hunt-plan.md`), the original plan, design, UI decisions, the setup wizard design, phase 3 and phase 4 handoffs, both kickoff briefs, `CLAUDE.md`, changelog; the documents that were removed from the Kipple repo carry a "historical snapshot" header |
+| [plans/](plans/) | Current plans (`0.6-0.7-1.0-plan.md`, `0.8-1.0-plan.md`, `1.1-bug-hunt-plan.md`, `1.1-bug-hunt-scope.md`), the original plan, design, UI decisions, the setup wizard design, phase 3 and phase 4 handoffs, both kickoff briefs, `CLAUDE.md`, changelog; the documents that were removed from the Kipple repo carry a "historical snapshot" header |
 | [plans/history/](plans/history/) | Earlier revisions of plan, design and `CLAUDE.md`, and the first kickoff prompt, named `<doc>-<date>-<shortsha>.md` |
 
 The documents in `plans/` and `plans/history/` are snapshots (most refreshed 2026-09-29, at `v0.3.0-beta.2` preparation; the plan, the handoffs and the setup wizard design were archived 2026-10-05 and are no longer in the Kipple repo; earlier revisions are in `plans/history/`); the

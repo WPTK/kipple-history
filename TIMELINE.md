@@ -519,3 +519,4 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
 
 - Phase 1 of the 1.1 bug hunt started: version ruled 1.1, plan, research and decision recorded, priority labels created and applied to the 17 open bug-type issues. See [diary/2026-10-18.md](diary/2026-10-18.md).
 - Phase 1 of the 1.1 bug hunt finished: tooling pull request #462 merged, baselines taken on the 1.0.0 code, eight new findings filed. See [diary/2026-10-18.md](diary/2026-10-18.md).
+- Phase 2 of the 1.1 bug hunt finished: fuzz, race, crash, restore, benchmark, load, ZAP, Nuclei and mutation sweeps run; four issues filed (#471, #472, #474, #475), fuzz targets and crash test merged in #473. See [audits/1.1-automated-sweeps-2026-10-18.md](audits/1.1-automated-sweeps-2026-10-18.md).

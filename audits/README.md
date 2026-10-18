@@ -21,5 +21,7 @@ Eastern.
 | [overnight-2026-09-30.md](overnight-2026-09-30.md) | 2026-09-30 | Overnight audit of the setup wizard stack: issues #124 to #135, the migration 0010 rehearsal, fix PRs pending |
 | [0.7-pre-tag-review-2026-10-03.md](0.7-pre-tag-review-2026-10-03.md) | 2026-10-03 | Gates, Opus review and Suite 5 for v0.7.0-beta.1 |
 
+| [1.1-automated-sweeps-2026-10-18.md](1.1-automated-sweeps-2026-10-18.md) | 2026-10-18 | 1.1 bug hunt Phase 2: race, fuzz, crash test, restore, benchmarks, load, ZAP, Nuclei, mutation; issues #471 to #475 |
+
 A proposed `CLAUDE.md` edits file that used to sit here was removed on 2026-09-27 at the owner's request (it is in
 this repository's git history).

@@ -532,3 +532,4 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
 - Phase 5 round 3c (OPML import) merged: #520 closes #467, #470, #485, #487, #464; leftovers #517, #518, #519. See [diary/2026-10-18.md](diary/2026-10-18.md).
 - Phase 5 round 3e (setup state) merged: #522 closes #489, #488. Browser UAT device-slot exhaustion fixed in #523. See [diary/2026-10-18.md](diary/2026-10-18.md).
 - Phase 5 round 3d (bulk delete) merged: #521 closes #486. Round 3 complete. See [diary/2026-10-18.md](diary/2026-10-18.md).
+- Phase 5 round 4a (stored password hash checks) merged: #524 closes #471; the fuzz reproducers are committed. See [diary/2026-10-19.md](diary/2026-10-19.md).

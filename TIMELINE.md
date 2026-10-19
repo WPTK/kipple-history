@@ -525,3 +525,4 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
 - The owner ruled no P3 is deferred: #420 to #424, #316 and #286 back in 1.1; 47 issues in scope in seven rounds; Phase 4 issue #457 closed.
 - Phase 5 round 1 (focus and announcements) finished: #501 and #503 merged (11 issues closed, #492 P2 among them); #474 fixed early in #502 because it blocked CI. See [diary/2026-10-18.md](diary/2026-10-18.md).
 - Phase 5 round 2a (phone tables) merged: #506 closes #477 (P2) and #478. See [diary/2026-10-18.md](diary/2026-10-18.md).
+- Phase 5 round 2b (phone chrome) merged: #509 closes #480, #479, #483 and #425. See [diary/2026-10-18.md](diary/2026-10-18.md).

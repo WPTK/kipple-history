@@ -527,3 +527,4 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
 - Phase 5 round 2a (phone tables) merged: #506 closes #477 (P2) and #478. See [diary/2026-10-18.md](diary/2026-10-18.md).
 - Phase 5 round 2b (phone chrome) merged: #509 closes #480, #479, #483 and #425. See [diary/2026-10-18.md](diary/2026-10-18.md).
 - Phase 5 round 2c (list place) merged: #510 closes #481. Round 2 (phone layout) finished. See [diary/2026-10-18.md](diary/2026-10-18.md).
+- Phase 5 round 3a (failing feed says why) merged: #512 closes #476; leftover #511. See [diary/2026-10-18.md](diary/2026-10-18.md).

@@ -16,12 +16,22 @@ decision as the spec, a browser-driven check at phone and desktop sizes, and a c
 - STATS: sources, share image, Your year, heat levels by rank (#733)
 - Test fix after the Unread mark became unread-only (#734)
 
-## Held or waiting
-- Row package: waits on the layouts session's list work.
-- Setup wizard (two steps: account, feeds): in progress.
+## Wave 3 (merged 2026-10-24 to 2026-10-25)
+- KIT remainders: sheet focus, menu rows, number presets, field names (#751)
+- STATE remainders: Stats add-a-feed in place, one offline message, row menu Undo (#750)
+- Setup wizard: two steps, OPML restore, rerun keeps the account (#744)
+- ROW: one row anatomy across layouts, search rows, header count beside the title (#746)
+
+## Closed out
+Phase 4 ended on a scope line. Every issue still open moved to the milestone "1.5 - Design review follow-ups"
+(54 issues; the review milestone closed with 72 done). Phase 5 recaptures against the phase 0 baseline instead of chasing
+the remainder.
 
 ## Lessons
 - Browser UAT is not a required check but failed for real three times (tab labels clipped at Largest text, a stale
   test, tiles wider than their box with the CI font). Wait for it before merging a UI PR.
 - A guessed character width is not a layout: size from the box.
 - Review loop held to one review, one fix push, one delta review; leftovers became issues (#727-#730, #735, #736, #741, #743).
+- The conflict churn came from lists every PR appended to. flows.json is one flow per line and merged by union, the
+  eslint file list is one glob, and a new flow gets no npm script.
+- A "moved N issues" count from a loop that hides errors proved nothing; check the milestone counts afterwards.

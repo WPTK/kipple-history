@@ -538,3 +538,4 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
 - Phase C finished: the Digest, the New page, the Feed index and the Coffee break (reading-time sections) are merged on main. See [diary/2026-10-24.md](diary/2026-10-24.md).
 - 1.5.0 released (no release candidate): tag `v1.5.0` on `8a6cf84a`, deployed by image digest, no schema change since 1.0.0. See [diary/2026-10-25.md](diary/2026-10-25.md).
 - 1.6 follow-ups begin: the tracker lines cited by 1.5.0 reconciled; the article end footer and up and down arrows merged (Kipple #775); the Dependabot test failures traced to a virtual-list measuring change (Kipple #776). See [diary/2026-10-25.md](diary/2026-10-25.md).
+- Stats tracker (#761): the Year range chart fixed by folding into weeks past 120 days (Kipple #782, closes #779); merged with an unrelated WebKit UAT failure filed as #783. See [diary/2026-10-25.md](diary/2026-10-25.md).

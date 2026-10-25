@@ -535,3 +535,4 @@ converted to ET). Times ET. Where a time is not in GitHub or git, a part of the 
 - Phase 5 round 4a (stored password hash checks) merged: #524 closes #471; the fuzz reproducers are committed. See [diary/2026-10-19.md](diary/2026-10-19.md).
 - Phase 5 round 4b (feed host twin rule) merged: #525 closes #472. See [diary/2026-10-19.md](diary/2026-10-19.md).
 - Phase 5 round 4c (chunked trim rule) merged: #526 closes #316; leftover #527. Round 4 complete. See [diary/2026-10-19.md](diary/2026-10-19.md).
+- Phase C finished: the Digest, the New page, the Feed index and the Coffee break (reading-time sections) are merged on main. See [diary/2026-10-24.md](diary/2026-10-24.md).

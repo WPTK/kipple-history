@@ -189,3 +189,16 @@ if the numbering changes; an exception to "beta adds no features", soak clock re
   screenshots (#319); Mute similar without a pre-fill (#320).
 - **Parked:** the stop-word list is English-only; other languages get no common-word filter. Revisit if a reader asks.
 - **Open for 1.0:** soak beta.5, then rc.1 (bugs only).
+
+## Update 2026-10-26 (Build 10 closing pass)
+
+- **#39 closed as won't-do.** Three parked layout ideas, kept here with the reasons so they are not lost. Reopen only on a
+  measured gap that the eight existing layouts do not cover.
+  - *Columns:* overlaps the Gazette's multi-column pages.
+  - *Reader list:* is Compact or Inbox beside the reader pane the app already has.
+  - *Expanded stream:* is Cards with more text; it "may return later" per the 2026-10-06 note above.
+  The other ideas on #39 (source rows, triage stack, daily edition, mail-look Inbox) were either built, replaced or stay
+  parked above.
+- **#592 same-story grouping closed as won't-do.** Cross-feed duplicates stay visible. Reopen if the owner measures
+  duplicates on their own library.
+- **Low-disk warning and a scheduled `quick_check`:** only worth building if a user reports a full volume.

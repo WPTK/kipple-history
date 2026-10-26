@@ -4,7 +4,7 @@ Raw logs captured from the Host-A deployment so questions about real client beha
 data. Logs are redacted: no cookies, tokens or addresses (the request logger already redacts the token
 `T`; a scan for hostnames, IPs and credentials found nothing).
 
-## client-a-alpha2-2026-09-26.log
+## client-a-alpha2-2026-09-26.txt
 
 Kipple `v0.2.0-alpha.2`, `KIPPLE_LOG_LEVEL=debug` and `KIPPLE_LOG_GREADER_FORMS=1`. Captured 2026-09-26 after
 The owner pulled to refresh in client A several times and marked the "aviation" category as read.

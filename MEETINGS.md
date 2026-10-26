@@ -639,3 +639,9 @@ Estimates only. Rows are subsets of the session totals above and do not sum to t
 - Type: async ruling in chat at the end of the Phase 4 triage session. The owner's messages: 1.
 - Input: the agent's triage (47 candidate issues, a proposal to defer seven P3s pending the owner's waiver).
 - Outcome: "don't defer the P3s". All seven are in scope; scope in [plans/1.1-bug-hunt-scope.md](plans/1.1-bug-hunt-scope.md), decision in [DECISIONS.md](DECISIONS.md).
+
+## Meeting 11 / Build 11: git hygiene (2026-10-26)
+
+- Type: read-only audit, then a build session carrying out every recommendation the owner approved.
+- Done: closed 3 finished issues and 1 mostly-done issue, retitled/commented the layouts issue, closed 7 empty milestones, removed 3 unused labels, dismissed 2 code-scanning alerts with written reasons, set three releases to pre-release. Both repos are squash-only; the Kipple squash commit now uses the PR title and body (it had copied every branch commit trailer into main). Kipple `.dockerignore` is an allow-list (build context 10.02 MB to 9.17 MB) and `.gitignore` covers project artifacts. PR template gained a `Closes #N` line. This repo: auto-delete branches, a `main` ruleset, six scrub hits fixed.
+- Waiting on the owner: stale remote branches, old stashes, immutable releases (yes/no), and a few commands the automation was not allowed to run.

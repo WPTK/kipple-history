@@ -6,7 +6,7 @@
 # Handoff: phase 3 (local, private notes; git-ignored, copy kept in WPTK/kipple-history)
 
 Written 2026-09-26 at the end of the phase 2 session. Read this, `CLAUDE.md`, and the memory index
-(`C:\Users\user\.claude\projects\C--kipple\memory\MEMORY.md`) before doing anything.
+(`%USERPROFILE%\.claude\projects\C--kipple\memory\MEMORY.md`) before doing anything.
 
 ## State (updated 2026-09-26, after going public)
 

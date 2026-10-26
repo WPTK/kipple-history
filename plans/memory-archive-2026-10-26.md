@@ -235,7 +235,7 @@ unaddressed ,  still his to close, not phase 5 work.
 **Why:** the owner explicitly said he wants to be involved as little as possible in phase 5.
 **How to apply:** batch phase 5 work into branches/PRs; interrupt him only for what CLAUDE.md already reserves
 (deploys, Cloudflare changes, the final go/no-go) ,  not for routine build decisions in between. Use subagents
-freely for the audit and doc work; keep one writer at a time on the Kipple repo per [[gilead-gh-cli-missing]]-style
+freely for the audit and doc work; keep one writer at a time on the Kipple repo per [[gh-cli-notes]]-style
 process norms. See the kipple-history repo and the kipple-history repo for prior-phase context.
 
 **Update 2026-09-27, later ,  UAT and SQA plans added.** Declined installing the third-party Claude Code skill

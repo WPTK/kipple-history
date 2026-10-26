@@ -881,7 +881,7 @@ Verified as matching (not listed): caps, TTLs, budgets, CSP string, key and sign
   - Fix: change "user_version=1" to "user_version = latest (5)"; mark each missing item "TODO" (or write the tests).
 
 - [ ] **STALE** design.md §10 (lines 2134-2143, 2160-2166, 2252, 2263-2274): other promised tests missing or partial
-  - Code does: **absolutize:** inline, not golden (internal/sanitize/absolutize_test.go); no `xml:base` test and no code for xml:base; the end-to-end `/wp-content/x.jpg` fixture through `stream/items/contents` and `GET /api/items/{id}` does not exist. **Shutdown:** TestShutdownDuringLargeRun (internal/sched/sched_test.go:616) covers < 15 s, fetch_log commits, waiting handlers returning; not "SSE subscribers return before Shutdown" (partly internal/api/api_test.go:592) or "`wal_checkpoint` runs"; waiters get `ErrStopped` -> 503 "shutting_down" (internal/api/feeds.go:147). **Phase-1 gate:** no captured-traffic golden sequences under internal/greader (only docs/HF/evidence/client-a-alpha2-2026-09-26.log). **Stats:** no Recorder-error rollback test, no concurrent-batch cap test, no stats DST test, no views/CSV tests (not built).
+  - Code does: **absolutize:** inline, not golden (internal/sanitize/absolutize_test.go); no `xml:base` test and no code for xml:base; the end-to-end `/wp-content/x.jpg` fixture through `stream/items/contents` and `GET /api/items/{id}` does not exist. **Shutdown:** TestShutdownDuringLargeRun (internal/sched/sched_test.go:616) covers < 15 s, fetch_log commits, waiting handlers returning; not "SSE subscribers return before Shutdown" (partly internal/api/api_test.go:592) or "`wal_checkpoint` runs"; waiters get `ErrStopped` -> 503 "shutting_down" (internal/api/feeds.go:147). **Phase-1 gate:** no captured-traffic golden sequences under internal/greader (only docs/HF/evidence/client-a-alpha2-2026-09-26.txt). **Stats:** no Recorder-error rollback test, no concurrent-batch cap test, no stats DST test, no views/CSV tests (not built).
   - Fix: mark each "TODO" (views/CSV "phase 4"); state the Phase-1 gate status.
 
 - [ ] **MISSING** design.md §2.6 (lines 716-718), §9: CLI subcommands `import`, `api-password`, `version`
@@ -1337,7 +1337,7 @@ Verified: env var list at lines 211-215 matches config.go (13 vars); lockout 10/
   - Fix: "Decided: Kipple is HTTP-only on 7080; HTTPS comes from the tunnel. LAN tests use client B over http (ATS allows it); client A is tested through the tunnel."
 
 - [ ] **STALE** open-questions.md #2 and #6 (lines 19, 23): the alpha.2 log answers them
-  - Evidence: `client A/5060003` calls `GET /reader/api/0/token` and sends `T` on `edit-tag` (keys T,a,i) and on `POST stream/items/contents` (keys T,i,output) (docs/HF/evidence/client-a-alpha2-2026-09-26.log:23; docs/HF/evidence/README.md:25-28).
+  - Evidence: `client A/5060003` calls `GET /reader/api/0/token` and sends `T` on `edit-tag` (keys T,a,i) and on `POST stream/items/contents` (keys T,i,output) (docs/HF/evidence/client-a-alpha2-2026-09-26.txt:23; docs/HF/evidence/README.md:25-28).
   - Fix: #2 -> "Answered (2026-09-26): client A (UA client A/5060003) fetches `/token` and sends a real `T` on POSTs; the header-or-T rule stays for other clients." #6 -> note "client A sends `output=json` and `T` on the contents POST (same log)".
 
 - [ ] **STALE** open-questions.md #27 (line 49): the ledger is now purged

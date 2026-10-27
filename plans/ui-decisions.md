@@ -1,5 +1,7 @@
 # UI design meeting: decision log
 
+> Snapshot from October 2026. The live version is `docs/maintainers/ui-decisions.md` in the Kipple repo.
+
 Round 1, 2026-09-25 (the owner and Claude). Inputs: `docs/research/ui-principles-and-accessibility.md`,
 `ui-color-schemes.md` (+ `.json`), `ui-gestures-and-layouts.md`, `design-audit-2026-09-25.md`.
 This file records what the owner decided. It is the authority where the research files differ. Round-1 TODOs

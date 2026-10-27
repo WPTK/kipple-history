@@ -1,5 +1,7 @@
 # Kipple
 
+> Snapshot from October 2026. The live version is `CLAUDE.md` in the Kipple repo.
+
 Self-hosted RSS reader for the owner. Replaces yarr on Host-A. Single user. The global Host-B
 CLAUDE.md also loads here and its rules apply (never Haiku, docker via PowerShell, 127.0.0.1
 not localhost, name compose services explicitly).

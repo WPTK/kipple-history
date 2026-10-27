@@ -1,5 +1,7 @@
 # Kipple design (2026-09-24, revision 2: after red-team review)
 
+> Snapshot from October 2026. The live version is `docs/design.md` in the Kipple repo.
+
 This is the source of truth for how Kipple works today; it was first written as a design and has been kept up to date as the code changed. Files it cites by name without a path in this repository (`greader-server-a.md`, `client-b.md`, `go-libraries.md`, the round-2 research) are research notes kept outside the public repository.
 
 This design starts from **fetch-first**, which two of the three judges picked. It adds the grafts the judges named and fixes every defect they found. Revision 2 applies the red-team review; §12 gives the disposition of every issue. Where the judges disagreed, the resolution is stated in §1. Three points also correct the brief and all three input designs, based on primary sources in the research files:

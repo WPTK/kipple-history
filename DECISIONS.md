@@ -1,25 +1,10 @@
 # Decisions
 
 Standing decisions and the later ones, with date, who made them and where the source is. "the owner" decided unless
-stated. The Kipple repo's `CLAUDE.md` holds the "do not relitigate" list; the current copy is
-[plans/CLAUDE.md](plans/CLAUDE.md) and earlier versions are in [plans/history/](plans/history/). UI decisions
-are in [plans/ui-decisions.md](plans/ui-decisions.md). Meeting context: [MEETINGS.md](MEETINGS.md).
+stated. The live rules are in the Kipple repo: `CLAUDE.md` (decisions and non-goals), `docs/design.md` (how it works) and
+`docs/maintainers/ui-decisions.md` (UI rulings). The copies under [plans/](plans/) are snapshots. Meeting context:
+[MEETINGS.md](MEETINGS.md).
 
-## Standing ("do not relitigate"), set 2026-09-24
-
-| Decision | Detail | Source |
-|---|---|---|
-| Stack | Go backend; React, TypeScript, Vite, Tailwind, shadcn frontend; SQLite in WAL mode; frontend embedded in the Go binary; one image, one container, one port | [CLAUDE.md](plans/CLAUDE.md) |
-| Sync API | Google Reader API (server A and server B flavour) only; no Fever; client A primary client, client B secondary; test both | [CLAUDE.md](plans/CLAUDE.md), [research/client-a.md](research/client-a.md), [research/client-b.md](research/client-b.md) |
-| Refresh | Background poll every 30 minutes (global and per-feed override), conditional requests, exponential backoff; API clients never trigger fetches | [CLAUDE.md](plans/CLAUDE.md), [research/fetch-prior-art.md](research/fetch-prior-art.md) |
-| Retention | Newest N per feed (50, 100, 250, 500, 1000, unlimited), starred never trimmed, trimmed ids and read state kept, trim after fetch | [CLAUDE.md](plans/CLAUDE.md), [plans/design.md](plans/design.md) |
-| Stats | Bulk mark-as-read and mark-read-on-scroll are not reads; active reading time is tab visible and focused; stats events never trimmed | [CLAUDE.md](plans/CLAUDE.md) |
-| Fonts | Bundled and self-hosted, no CDN; system fonts when present | [CLAUDE.md](plans/CLAUDE.md), [research/pwa-ui-fonts.md](research/pwa-ui-fonts.md) |
-| Themes | White, off-white, sepia, soft green, brown, dark, OLED, follow-system (later expanded to 20 schemes, see below) | [CLAUDE.md](plans/CLAUDE.md) |
-| Look | Feedly is the reference (magazine and cards with images up front); not NewsBlur, server A or server B | [CLAUDE.md](plans/CLAUDE.md) |
-| Non-goals | No AI features, no notifications, no social, no monitoring, no multi-user | [CLAUDE.md](plans/CLAUDE.md) |
-| Build | The image must build with Docker alone (the deployment host has no Go or Node) | [CLAUDE.md](plans/CLAUDE.md) |
-| No secrets or hostnames committed | `.env.example` documents every variable (in practice some hostnames were committed in docs; see the scrub below) | [CLAUDE.md](plans/CLAUDE.md) |
 
 ## Design and planning decisions
 
@@ -150,7 +135,7 @@ Source: memory note `parking-lot` (summarised here, not copied), [MEETINGS.md](M
 - **ClientLogin never answers 429 and never refuses a password it did not check:** only failures count; after five
   in ten minutes each attempt waits two seconds and is then verified; IPv6 clients are grouped by /64; chosen Reader
   API passwords need 16 characters.
-- **`greader.subscribe_fetch_now` is an opt-in exception** to "clients never trigger fetches" (default off, 8 s per
+- **`greader.subscribe_fetch_now` is an opt-in exception** to "clients never trigger fetches" (default off, 8 s per (This replaces the earlier rule that API clients never trigger fetches.)
   request); `greader.ot_includes_user_changes` is built (default off) and needs migration 0007.
 - **Offline scope** (from the UI decisions): read what is on the device, queue star and read changes, nothing else;
   only an explicit sign-out clears the queue and the cached data; an expired session keeps them.
@@ -1001,7 +986,7 @@ the risk deserves. Revisit only if a real report appears.
 - The auto-fix monitor is only for pull requests that touch code, workflows or dependencies.
 - One task or release per session. Reviewers (Opus, read-only) work alone and hand back at most 15 lines; authors (Sonnet)
   stop at a pushed branch.
-- Models: Opus for review, root-causing and design; Sonnet for the rest; never Haiku. Unused connectors are off by default.
+- Models: Opus for review, root-causing and design; Sonnet for the rest; never Haiku. Unused connectors are off by default. *(Superseded: Haiku is allowed for read-only helper work; edits, reviews and root-causing stay on larger models.)*
 - Owner-specific values stay in untracked files (`scripts/local/`, `.scrub-terms.local`); tooling must be repairable by a
   session that did not write it.
 - CI skips the heavy jobs for prose-only pull requests, fail closed, with the prose files deleted before the code jobs run.
@@ -1094,7 +1079,7 @@ the risk deserves. Revisit only if a real report appears.
   group and cancels older runs; any other run gets its own group (#411).
 - Not done, left for the owner: skipping the `main` re-run after a green pull request and CI's re-run on release. They would
   save about 41 and about 29 job-minutes but conflict with "CI green on the exact commit".
-- Review rounds are capped at three per pull request (#411 went the full three).
+- Review rounds are capped at three per pull request (#411 went the full three). *(Superseded: one review pass, one fix push, at most one delta review; a third round goes to the owner.)*
 
 ## 2026-10-16: the run to 1.0.0-rc.1
 
@@ -1103,7 +1088,7 @@ the risk deserves. Revisit only if a real report appears.
 - The remaining bugs #406, #407, #390, #397 and #398 are fixed in #414, #415 and #416. The documentation audit #248, planned on
   2026-10-06 for after rc.1, is done first as #417.
 - The full UAT, including a phone-size shakedown at iPhone 17, 17 Pro and 17 Pro Max sizes, is planned for the release candidate.
-- Review rounds stay capped at three per pull request.
+- Review rounds stay capped at three per pull request. *(Superseded: see the entry above.)*
 
 ## 2026-10-18: a 1.1 bug-hunt release after 1.0.0
 

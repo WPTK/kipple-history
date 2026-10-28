@@ -487,3 +487,10 @@ closed 2026-10-05) shipped, and the roadmap items now live in issue #207 and mil
   install, release checklist evidence, docs from a cold read, comment and copy cleanup, restore command schema check,
   accessibility fixes). `main` is at `05700e9e`.
 - Next, not done: `rc.2`. See [diary/2026-10-17.md](diary/2026-10-17.md).
+
+## `v1.6.0` (2026-10-27 about 23:44 ET, `79c47196`, release commit #868, schema 21)
+
+- What shipped: 45 `changes/` fragments folded into the 1.6.0 section of the Kipple CHANGELOG; GitHub release published 23:45. Deployed to the Kipple server by signed image digest: healthy, migrations 0020 and 0021 applied, 0 WARN and 0 ERROR, memory about 70 MiB.
+- What shaped it: #860 (Browser UAT gazette-place G4 setup) was a flawed test premise, fixed in #867; `/code-review high` on `v1.5.1..main` found no blockers (two nits: an unreachable `us != 0` branch in `normalizeTS`, two over-long comments).
+- Gates on the tagged commit: Go tests twice, fuzz (local and CI), web tests, changelog check, starter feeds, Browser UAT in three engines, all green. Migration rehearsal on a copy of the live snapshot: schema 19 to 21 in about 0.3 s, `integrity_check` ok. By-hand screen walk at 375 and 1280 px found one defect (#869, Your year says "Nothing read" when the browser date is behind the stats time zone; pre-existing, not a blocker). The phone-size shakedown (Suite 6) was not run.
+- See [diary/2026-10-27.md](diary/2026-10-27.md).

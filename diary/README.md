@@ -55,3 +55,4 @@ Each entry also records models used and token or plan usage where I can see it.
 - [2026-10-16](2026-10-16.md): the unattended run to `1.0.0-rc.1`, four open pull requests.
 - [2026-10-17](2026-10-17.md): the `1.0.0-rc.1` candidate merged to main, the phone-size shakedown, issues #419 to #425. Tag, release and deploy pending.
 - [2026-10-20](2026-10-20.md): the 1.1 bug hunt finished Phase 5; #286 closed.
+- [2026-10-27](2026-10-27.md): the G4 UAT failure traced to a flawed test premise, the 1.6.0 gates, 1.6.0 tagged and deployed.
